@@ -16,5 +16,10 @@ export const loginSchema = z.object({
   password: z.string().min(1),
 })
 
+export const googleLoginSchema = z.object({
+  idToken: z.string().min(20, 'idToken talab etiladi'),
+})
+
 export type RegisterInput = z.infer<typeof registerSchema>
 export type LoginInput = z.infer<typeof loginSchema>
+export type GoogleLoginInput = z.infer<typeof googleLoginSchema>

@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client'
+import { UZ_EN_BASICS } from './content/uz-en-basics'
 
 const prisma = new PrismaClient()
 
@@ -60,7 +61,105 @@ async function main() {
     })
   }
 
-  console.log('✅ Tugadi:', { languages: [uz.code, en.code, ru.code], leagues: leagues.length, achievements: achievements.length })
+  // ─── Kurs: O'zbek → Ingliz ─────────────────────
+  const uzEn = await prisma.course.upsert({
+    where: { fromLanguageId_toLanguageId: { fromLanguageId: uz.id, toLanguageId: en.id } },
+    update: {},
+    create: { fromLanguageId: uz.id, toLanguageId: en.id },
+  })
+
+  // Unit 1: The Basics
+  const existingUnit = await prisma.unit.findFirst({
+    where: { courseId: uzEn.id, order: 1 },
+  })
+  const unit = existingUnit ?? await prisma.unit.create({
+    data: {
+      courseId: uzEn.id,
+      order: 1,
+      title: UZ_EN_BASICS.unitTitle,
+      description: 'Common greetings and introductions',
+      color: UZ_EN_BASICS.unitColor,
+      icon: UZ_EN_BASICS.unitIcon,
+    },
+  })
+
+  let lessonsCreated = 0
+  let exercisesCreated = 0
+  let wordsCreated = 0
+
+  for (const lessonSeed of UZ_EN_BASICS.lessons) {
+    const existingLesson = await prisma.lesson.findFirst({
+      where: { unitId: unit.id, order: lessonSeed.order },
+    })
+
+    const lesson = existingLesson ?? await prisma.lesson.create({
+      data: {
+        unitId: unit.id,
+        order: lessonSeed.order,
+        type: 'REGULAR',
+        xpReward: 10,
+      },
+    })
+    if (!existingLesson) lessonsCreated++
+
+    // Mavjud lesson'da mashqlar borligini tekshiramiz
+    const linkedExisting = await prisma.lessonExercise.count({ where: { lessonId: lesson.id } })
+    if (linkedExisting > 0) continue // bu darsda mashqlar bor — qayta qo'ymaymiz
+
+    for (let idx = 0; idx < lessonSeed.exercises.length; idx++) {
+      const ex = lessonSeed.exercises[idx]
+
+      const exercise = await prisma.exercise.create({
+        data: {
+          type: ex.type,
+          question: ex.question,
+          correctAnswer: ex.correctAnswer,
+          wrongAnswers: ex.wrongAnswers,
+          explanation: ex.explanation,
+          difficulty: ex.difficulty ?? 1,
+          targetLangCode: en.code,
+        },
+      })
+      exercisesCreated++
+
+      await prisma.lessonExercise.create({
+        data: { lessonId: lesson.id, exerciseId: exercise.id, order: idx + 1 },
+      })
+
+      // So'zlar (vocabulary)
+      for (const w of ex.words ?? []) {
+        const word = await prisma.word.upsert({
+          where: { id: `${en.code}-${w.text.toLowerCase()}` },
+          update: {},
+          create: {
+            id: `${en.code}-${w.text.toLowerCase()}`,
+            languageId: en.id,
+            text: w.text,
+            translation: w.translation,
+            category: w.category ?? 'General',
+            level: w.level ?? 'A1',
+          },
+        })
+        wordsCreated++
+
+        await prisma.exerciseWord.upsert({
+          where: { exerciseId_wordId: { exerciseId: exercise.id, wordId: word.id } },
+          update: {},
+          create: { exerciseId: exercise.id, wordId: word.id },
+        })
+      }
+    }
+  }
+
+  console.log('✅ Tugadi:', {
+    languages: [uz.code, en.code, ru.code],
+    leagues: leagues.length,
+    achievements: achievements.length,
+    courses: 1,
+    lessons: lessonsCreated,
+    exercises: exercisesCreated,
+    words: wordsCreated,
+  })
 }
 
 main()
