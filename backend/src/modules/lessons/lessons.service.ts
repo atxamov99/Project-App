@@ -73,18 +73,21 @@ export async function completeLesson(userId: string, lessonId: string, input: Co
     data: { totalXP: { increment: xpEarned } },
   })
 
+  // Keyingi yakunlanmagan darsni topish
+  const nextLessonId = await findNextLessonId(userId, lesson.unit.courseId, lessonId)
+
   await prisma.courseProgress.upsert({
     where: { userId_courseId: { userId, courseId: lesson.unit.courseId } },
     update: {
       totalXP: { increment: xpEarned },
-      currentLessonId: lessonId,
+      currentLessonId: nextLessonId,
       lastStudiedAt: new Date(),
     },
     create: {
       userId,
       courseId: lesson.unit.courseId,
       totalXP: xpEarned,
-      currentLessonId: lessonId,
+      currentLessonId: nextLessonId,
       lastStudiedAt: new Date(),
     },
   })
@@ -101,4 +104,23 @@ export async function completeLesson(userId: string, lessonId: string, input: Co
     achievements: newAchievements,
     resultId: result.id,
   }
+}
+
+async function findNextLessonId(userId: string, courseId: string, justCompletedLessonId: string): Promise<string | null> {
+  const units = await prisma.unit.findMany({
+    where: { courseId },
+    orderBy: { order: 'asc' },
+    include: { lessons: { orderBy: { order: 'asc' }, select: { id: true } } },
+  })
+  const allLessonIds = units.flatMap((u) => u.lessons.map((l) => l.id))
+  const completedResults = await prisma.lessonResult.findMany({
+    where: { userId, lessonId: { in: allLessonIds } },
+    select: { lessonId: true },
+  })
+  const completed = new Set(completedResults.map((r) => r.lessonId))
+  completed.add(justCompletedLessonId)
+  for (const lessonId of allLessonIds) {
+    if (!completed.has(lessonId)) return lessonId
+  }
+  return null
 }

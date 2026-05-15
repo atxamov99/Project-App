@@ -54,11 +54,14 @@ export async function getCourse(courseId: string, userId?: string) {
     where: { userId_courseId: { userId, courseId } },
   })
 
+  // Agar saqlangan currentLessonId yakunlangan bo'lsa yoki yo'q bo'lsa — keyingi yakunlanmagan darsni topish
   let currentLessonId = progress?.currentLessonId ?? null
-  if (!currentLessonId) {
+  const completedSet = new Set(completed)
+  if (!currentLessonId || completedSet.has(currentLessonId)) {
+    currentLessonId = null
     for (const u of course.units) {
       for (const l of u.lessons) {
-        if (!completed.includes(l.id)) {
+        if (!completedSet.has(l.id)) {
           currentLessonId = l.id
           break
         }

@@ -16,6 +16,7 @@ import livesRoutes from './modules/lives/lives.routes'
 import leagueRoutes from './modules/league/league.routes'
 import wordsRoutes from './modules/words/words.routes'
 import friendsRoutes from './modules/friends/friends.routes'
+import practiceRoutes from './modules/practice/practice.routes'
 import adminUsersRoutes from './modules/admin/users/admin-users.routes'
 import adminLanguagesRoutes from './modules/admin/content/languages.routes'
 import adminCoursesRoutes from './modules/admin/content/courses.routes'
@@ -52,6 +53,7 @@ export function createApp() {
   app.use('/api/league', leagueRoutes)
   app.use('/api/words', wordsRoutes)
   app.use('/api/friends', friendsRoutes)
+  app.use('/api/practice', practiceRoutes)
   app.use('/api/admin/users', adminUsersRoutes)
   app.use('/api/admin/languages', adminLanguagesRoutes)
   app.use('/api/admin/courses', adminCoursesRoutes)

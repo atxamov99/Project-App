@@ -48,7 +48,17 @@ export async function getStreak(userId: string) {
     select: { streak: true, longestStreak: true, lastActiveAt: true, streakFreezes: true },
   })
   if (!user) throw new Error('Foydalanuvchi topilmadi')
-  return user
+
+  const todayStart = new Date()
+  todayStart.setUTCHours(0, 0, 0, 0)
+  const todayResults = await prisma.lessonResult.findMany({
+    where: { userId, completedAt: { gte: todayStart } },
+    select: { xpEarned: true },
+  })
+  const dailyXP = todayResults.reduce((sum, r) => sum + r.xpEarned, 0)
+  const dailyGoal = 50
+
+  return { ...user, dailyXP, dailyGoal }
 }
 
 export async function buyStreakFreeze(userId: string, cost = 50) {
