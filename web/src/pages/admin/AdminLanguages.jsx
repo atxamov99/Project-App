@@ -1,30 +1,28 @@
-import { useEffect, useState } from 'react'
-import { adminApi } from '../../lib/api'
+import { useState } from 'react'
+import {
+  useAdminLanguagesQuery,
+  useAdminCreateLanguageMutation,
+  useAdminUpdateLanguageMutation,
+  useAdminRemoveLanguageMutation,
+} from '../../store/apiSlice'
 import DataTable from '../../components/admin/DataTable'
 import Modal, { ModalActions } from '../../components/admin/Modal'
 import FormField, { FormInput } from '../../components/admin/FormField'
 
 export default function AdminLanguages() {
-  const [items, setItems] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState('')
-  const [editing, setEditing] = useState(null) // null | { id?, code, name, ... }
-  const [busy, setBusy] = useState(false)
+  const { data, isLoading: loading } = useAdminLanguagesQuery()
+  const [createLanguage] = useAdminCreateLanguageMutation()
+  const [updateLanguage] = useAdminUpdateLanguageMutation()
+  const [removeLanguage] = useAdminRemoveLanguageMutation()
 
-  function refresh() {
-    setLoading(true)
-    adminApi.languages.list()
-      .then((d) => setItems(d.languages))
-      .catch((e) => setError(e.message))
-      .finally(() => setLoading(false))
-  }
-  useEffect(refresh, [])
+  const items = data?.languages ?? []
+
+  const [editing, setEditing] = useState(null)
+  const [busy, setBusy] = useState(false)
+  const [error, setError] = useState('')
 
   function startCreate() {
     setEditing({ code: '', name: '', nativeName: '', flag: '', isActive: true })
-  }
-  function startEdit(row) {
-    setEditing({ ...row })
   }
 
   async function save() {
@@ -32,23 +30,21 @@ export default function AdminLanguages() {
     setError('')
     try {
       if (editing.id) {
-        const { id, ...data } = editing
-        await adminApi.languages.update(id, data)
+        const { id, ...d } = editing
+        await updateLanguage({ id, data: d }).unwrap()
       } else {
-        await adminApi.languages.create(editing)
+        await createLanguage(editing).unwrap()
       }
       setEditing(null)
-      refresh()
-    } catch (e) { setError(e.message) }
+    } catch (e) { setError(e.data?.error || e.message) }
     finally { setBusy(false) }
   }
 
   async function remove(row) {
     if (!confirm(`"${row.name}" tilini o'chirasizmi?`)) return
     try {
-      await adminApi.languages.remove(row.id)
-      refresh()
-    } catch (e) { setError(e.message) }
+      await removeLanguage(row.id).unwrap()
+    } catch (e) { setError(e.data?.error || e.message) }
   }
 
   return (
@@ -71,7 +67,7 @@ export default function AdminLanguages() {
           { key: 'isActive',   label: 'Aktiv',  render: (r) => r.isActive ? '✓' : '—', width: 80 },
           { key: 'actions',    label: '', render: (r) => (
             <div className="flex gap-2 justify-end">
-              <button onClick={() => startEdit(r)} className="text-sm text-secondary font-bold hover:underline">Tahrir</button>
+              <button onClick={() => setEditing({ ...r })} className="text-sm text-secondary font-bold hover:underline">Tahrir</button>
               <button onClick={() => remove(r)} className="text-sm text-error font-bold hover:underline">O'chir</button>
             </div>
           ), width: 140 },

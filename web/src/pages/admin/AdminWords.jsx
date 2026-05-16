@@ -1,35 +1,35 @@
-import { useEffect, useState } from 'react'
-import { adminApi } from '../../lib/api'
+import { useState } from 'react'
+import {
+  useAdminWordsQuery,
+  useAdminLanguagesQuery,
+  useAdminCreateWordMutation,
+  useAdminUpdateWordMutation,
+  useAdminRemoveWordMutation,
+} from '../../store/apiSlice'
 import DataTable from '../../components/admin/DataTable'
 import Modal, { ModalActions } from '../../components/admin/Modal'
 import FormField, { FormInput, FormSelect } from '../../components/admin/FormField'
 
 export default function AdminWords() {
-  const [data, setData] = useState({ words: [], total: 0, limit: 50 })
-  const [languages, setLanguages] = useState([])
   const [filters, setFilters] = useState({ languageId: '', search: '', level: '' })
   const [page, setPage] = useState(1)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState('')
+
+  const params = { page, limit: 50 }
+  if (filters.languageId) params.languageId = filters.languageId
+  if (filters.search) params.search = filters.search
+  if (filters.level) params.level = filters.level
+
+  const { data = { words: [], total: 0, limit: 50 }, isLoading: loading, error } = useAdminWordsQuery(params)
+  const { data: langsData } = useAdminLanguagesQuery()
+  const [createWord] = useAdminCreateWordMutation()
+  const [updateWord] = useAdminUpdateWordMutation()
+  const [removeWord] = useAdminRemoveWordMutation()
+
+  const languages = langsData?.languages ?? []
+
   const [editing, setEditing] = useState(null)
   const [busy, setBusy] = useState(false)
-
-  useEffect(() => {
-    adminApi.languages.list().then((d) => setLanguages(d.languages)).catch(() => {})
-  }, [])
-
-  function refresh() {
-    setLoading(true)
-    const params = { page, limit: 50 }
-    if (filters.languageId) params.languageId = filters.languageId
-    if (filters.search) params.search = filters.search
-    if (filters.level) params.level = filters.level
-    adminApi.words.list(params)
-      .then(setData)
-      .catch((e) => setError(e.message))
-      .finally(() => setLoading(false))
-  }
-  useEffect(refresh, [page, filters])
+  const [mutError, setMutError] = useState('')
 
   function startCreate() {
     setEditing({ languageId: filters.languageId || '', text: '', translation: '', category: 'General', level: 'A1' })
@@ -37,24 +37,23 @@ export default function AdminWords() {
 
   async function save() {
     setBusy(true)
-    setError('')
+    setMutError('')
     try {
       if (editing.id) {
         const { id, ...d } = editing
-        await adminApi.words.update(id, d)
+        await updateWord({ id, data: d }).unwrap()
       } else {
-        await adminApi.words.create(editing)
+        await createWord(editing).unwrap()
       }
       setEditing(null)
-      refresh()
-    } catch (e) { setError(e.message) }
+    } catch (e) { setMutError(e.data?.error || e.message) }
     finally { setBusy(false) }
   }
 
   async function remove(w) {
     if (!confirm(`"${w.text}" ni o'chirasizmi?`)) return
-    try { await adminApi.words.remove(w.id); refresh() }
-    catch (e) { setError(e.message) }
+    try { await removeWord(w.id).unwrap() }
+    catch (e) { setMutError(e.data?.error || e.message) }
   }
 
   return (
@@ -66,7 +65,11 @@ export default function AdminWords() {
         </button>
       </div>
 
-      {error && <div className="bg-error-container text-on-error-container px-4 py-3 rounded-xl">{error}</div>}
+      {(error || mutError) && (
+        <div className="bg-error-container text-on-error-container px-4 py-3 rounded-xl">
+          {mutError || error?.data?.error || 'Xatolik'}
+        </div>
+      )}
 
       <div className="bg-surface-container-lowest border border-outline-variant rounded-xl p-4 grid grid-cols-1 md:grid-cols-3 gap-3">
         <FormInput
@@ -91,7 +94,7 @@ export default function AdminWords() {
       <DataTable
         columns={[
           { key: 'language', label: 'Til', render: (r) => <span className="text-xl">{r.language?.flag}</span>, width: 60 },
-          { key: 'text', label: 'So\'z', render: (r) => <strong>{r.text}</strong> },
+          { key: 'text', label: "So'z", render: (r) => <strong>{r.text}</strong> },
           { key: 'translation', label: 'Tarjima' },
           { key: 'category', label: 'Toifa' },
           { key: 'level', label: 'Daraja', width: 80 },

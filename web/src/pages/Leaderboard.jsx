@@ -1,7 +1,5 @@
-import { useEffect, useState } from 'react'
-import { useNavigate, useOutletContext } from 'react-router-dom'
-import { api } from '../lib/api'
-import Icon from '../components/shared/Icon'
+import { useNavigate } from 'react-router-dom'
+import { useGetLeagueQuery } from '../store/apiSlice'
 
 const LEAGUE_EMOJI = {
   Bronze: '🥉', Silver: '🥈', Gold: '🥇',
@@ -11,20 +9,7 @@ const LEAGUE_EMOJI = {
 
 export default function Leaderboard() {
   const navigate = useNavigate()
-  const { user } = useOutletContext() ?? {}
-  const [data, setData] = useState(null)
-  const [error, setError] = useState('')
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    api.league.get()
-      .then(setData)
-      .catch((e) => {
-        if (e.status === 401) navigate('/login')
-        else setError(e.message)
-      })
-      .finally(() => setLoading(false))
-  }, [navigate])
+  const { data, error, isLoading: loading } = useGetLeagueQuery()
 
   if (loading) {
     return (
@@ -35,9 +20,12 @@ export default function Leaderboard() {
   }
 
   if (error) {
+    if (error.status === 401) { navigate('/login'); return null }
     return (
       <div className="px-4 sm:px-6 py-12 mx-auto max-w-md">
-        <div className="bg-error-container text-on-error-container px-4 py-3 rounded-xl text-center">{error}</div>
+        <div className="bg-error-container text-on-error-container px-4 py-3 rounded-xl text-center">
+          {error.data?.error || 'Ligani yuklashda xatolik'}
+        </div>
       </div>
     )
   }
@@ -49,7 +37,6 @@ export default function Leaderboard() {
 
   // Hisoblar
   const totalUsers = leaderboard.length
-  const topThird = totalUsers > 0 ? Math.max(1, Math.round(totalUsers / 3)) : 0
   const inPromotionZone = rank && rank <= 10
   const dailyGoalXP = 50  // hozircha hardcoded, kelajakda /api/streak dan
   const dailyXP = Math.min(dailyGoalXP, weeklyXP) // proxy: haftalik XP'ning bir qismi

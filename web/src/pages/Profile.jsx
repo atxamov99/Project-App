@@ -1,7 +1,14 @@
 import { useEffect, useState } from 'react'
-import { useNavigate, useOutletContext } from 'react-router-dom'
-import { api } from '../lib/api'
-import { clearSession, getUser, saveSession } from '../lib/auth'
+import { useNavigate } from 'react-router-dom'
+import { useAppDispatch, useAppSelector } from '../store/hooks'
+import { logout as logoutAction, setCredentials } from '../store/slices/authSlice'
+import {
+  useMeQuery,
+  useGetFollowingQuery,
+  useFollowUserMutation,
+  useUnfollowUserMutation,
+  useSearchFriendsQuery,
+} from '../store/apiSlice'
 import Icon from '../components/shared/Icon'
 import Modal, { ModalActions } from '../components/admin/Modal'
 
@@ -14,32 +21,34 @@ const ACHIEVEMENTS = [
 
 export default function Profile() {
   const navigate = useNavigate()
-  const { user, setUser } = useOutletContext() ?? {}
+  const dispatch = useAppDispatch()
+  const storedUser = useAppSelector((state) => state.auth.user)
 
-  const [friends, setFriends] = useState([])
-  const [friendsLoading, setFriendsLoading] = useState(true)
-  const [friendsError, setFriendsError] = useState('')
+  // Tezroq render uchun Redux'dagi user'ni ko'rsatamiz, server'dan yangilangan ma'lumotni sinxron qilamiz
+  const { data: meData } = useMeQuery(undefined, { skip: !localStorage.getItem('token') })
+  const user = meData?.user ?? storedUser
+
+  useEffect(() => {
+    if (meData?.user) {
+      dispatch(setCredentials({ user: meData.user, token: localStorage.getItem('token') }))
+    }
+  }, [meData?.user, dispatch])
+
+  const { data: friendsData, isLoading: friendsLoading, error: friendsError } = useGetFollowingQuery()
+  const [unfollowUser] = useUnfollowUserMutation()
 
   const [addModal, setAddModal] = useState(false)
-  const [activeAccountModal, setActiveAccountModal] = useState(null) // 'settings' | 'notifications' | 'privacy' | 'help'
+  const [activeAccountModal, setActiveAccountModal] = useState(null)
 
-  function refreshFriends() {
-    setFriendsLoading(true)
-    api.friends.following()
-      .then((d) => setFriends(d.items))
-      .catch((e) => setFriendsError(e.message))
-      .finally(() => setFriendsLoading(false))
-  }
-  useEffect(refreshFriends, [])
-
-  function logout() {
-    clearSession()
+  function handleLogout() {
+    dispatch(logoutAction())
     navigate('/')
   }
 
   if (!user) return <div className="p-8 text-center text-on-surface-variant">Yuklanmoqda…</div>
 
   const initial = (user.displayName || user.username || '?').slice(0, 1).toUpperCase()
+  const friends = friendsData?.items ?? []
 
   return (
     <div className="px-4 sm:px-6 py-6 md:py-10 mx-auto max-w-md md:max-w-5xl lg:max-w-6xl">
@@ -53,9 +62,9 @@ export default function Profile() {
           </div>
         </div>
 
-        <div className="text-center md:text-left grow mt-4 md:mt-0">
-          <h1 className="text-2xl md:text-3xl font-extrabold text-on-surface">{user.displayName}</h1>
-          <p className="text-on-surface-variant text-sm">@{user.username} · {user.email}</p>
+        <div className="text-center md:text-left grow mt-4 md:mt-0 min-w-0">
+          <h1 className="text-2xl md:text-3xl font-extrabold text-on-surface break-words">{user.displayName}</h1>
+          <p className="text-on-surface-variant text-sm break-all">@{user.username} · {user.email}</p>
           <div className="flex flex-wrap justify-center md:justify-start gap-2 mt-3">
             <span className="text-xs font-bold uppercase tracking-widest bg-surface-container-high text-on-surface-variant px-3 py-1 rounded-full">
               Level {Math.max(1, Math.floor((user.totalXP ?? 0) / 100))}
@@ -96,19 +105,15 @@ export default function Profile() {
 
       <div className="md:grid md:grid-cols-[1fr_320px] md:gap-8 space-y-8 md:space-y-0">
         <div className="space-y-8">
-          {/* Achievements */}
           <section>
             <div className="flex items-center justify-between mb-3 px-1">
               <h2 className="text-xl font-bold text-on-surface">Yutuqlar</h2>
             </div>
             <div className="space-y-3 md:grid md:grid-cols-2 md:gap-3 md:space-y-0">
-              {ACHIEVEMENTS.map((a) => (
-                <AchievementRow key={a.key} a={a} />
-              ))}
+              {ACHIEVEMENTS.map((a) => <AchievementRow key={a.key} a={a} />)}
             </div>
           </section>
 
-          {/* Friends — REAL API */}
           <section>
             <div className="flex items-center justify-between mb-3 px-1">
               <h2 className="text-xl font-bold text-on-surface">Do'stlar</h2>
@@ -121,7 +126,9 @@ export default function Profile() {
             </div>
 
             {friendsError && (
-              <div className="bg-error-container text-on-error-container px-4 py-3 rounded-xl text-sm mb-3">{friendsError}</div>
+              <div className="bg-error-container text-on-error-container px-4 py-3 rounded-xl text-sm mb-3">
+                {friendsError?.data?.error || friendsError?.message || 'Xatolik yuz berdi'}
+              </div>
             )}
 
             {friendsLoading ? (
@@ -144,10 +151,8 @@ export default function Profile() {
                     key={f.id}
                     friend={f}
                     onUnfollow={async () => {
-                      try {
-                        await api.friends.unfollow(f.id)
-                        refreshFriends()
-                      } catch (e) { setFriendsError(e.message) }
+                      try { await unfollowUser(f.id).unwrap() }
+                      catch (e) { console.error(e) }
                     }}
                   />
                 ))}
@@ -156,16 +161,15 @@ export default function Profile() {
           </section>
         </div>
 
-        {/* Right column: account */}
         <aside className="md:sticky md:top-6 md:self-start">
           <h2 className="text-xl font-bold text-on-surface mb-3 px-1">Hisob</h2>
           <div className="bg-surface-container-lowest border border-outline-variant rounded-2xl divide-y divide-outline-variant/40 overflow-hidden">
-            <AccountRow icon="settings"      label="Sozlamalar"      onClick={() => setActiveAccountModal('settings')} />
+            <AccountRow icon="settings"      label="Sozlamalar"       onClick={() => setActiveAccountModal('settings')} />
             <AccountRow icon="notifications" label="Bildirishnomalar" onClick={() => setActiveAccountModal('notifications')} />
             <AccountRow icon="shield"        label="Maxfiylik"        onClick={() => setActiveAccountModal('privacy')} />
             <AccountRow icon="help"          label="Yordam"           onClick={() => setActiveAccountModal('help')} />
             <button
-              onClick={logout}
+              onClick={handleLogout}
               className="w-full flex items-center gap-3 px-4 py-4 text-error hover:bg-error-container/40 transition-colors"
             >
               <Icon name="logout" className="text-error" />
@@ -182,42 +186,21 @@ export default function Profile() {
         </aside>
       </div>
 
-      {/* Add friend modal */}
-      <AddFriendModal
-        isOpen={addModal}
-        onClose={() => setAddModal(false)}
-        onAdded={() => { setAddModal(false); refreshFriends() }}
-      />
+      <AddFriendModal isOpen={addModal} onClose={() => setAddModal(false)} />
 
-      {/* Account modals */}
       <SettingsModal
         isOpen={activeAccountModal === 'settings'}
         onClose={() => setActiveAccountModal(null)}
         user={user}
-        onUpdated={(u) => setUser?.(u)}
+        onUpdated={(u) => dispatch(setCredentials({ user: u, token: localStorage.getItem('token') }))}
       />
-      <SimpleModal
-        isOpen={activeAccountModal === 'notifications'}
-        onClose={() => setActiveAccountModal(null)}
-        title="Bildirishnomalar"
-        icon="notifications"
-      >
+      <SimpleModal isOpen={activeAccountModal === 'notifications'} onClose={() => setActiveAccountModal(null)} title="Bildirishnomalar">
         <NotificationsContent />
       </SimpleModal>
-      <SimpleModal
-        isOpen={activeAccountModal === 'privacy'}
-        onClose={() => setActiveAccountModal(null)}
-        title="Maxfiylik"
-        icon="shield"
-      >
+      <SimpleModal isOpen={activeAccountModal === 'privacy'} onClose={() => setActiveAccountModal(null)} title="Maxfiylik">
         <PrivacyContent email={user.email} />
       </SimpleModal>
-      <SimpleModal
-        isOpen={activeAccountModal === 'help'}
-        onClose={() => setActiveAccountModal(null)}
-        title="Yordam"
-        icon="help"
-      >
+      <SimpleModal isOpen={activeAccountModal === 'help'} onClose={() => setActiveAccountModal(null)} title="Yordam">
         <HelpContent />
       </SimpleModal>
     </div>
@@ -257,16 +240,8 @@ function AchievementRow({ a }) {
           </div>
         )}
       </div>
-      {a.locked && (
-        <span className="text-[10px] font-bold uppercase tracking-widest bg-surface-container-high text-on-surface-variant px-2 py-1 rounded shrink-0">
-          Locked
-        </span>
-      )}
-      {a.completed && (
-        <span className="text-[10px] font-bold uppercase tracking-widest bg-secondary text-white px-2 py-1 rounded shrink-0">
-          Done
-        </span>
-      )}
+      {a.locked && <span className="text-[10px] font-bold uppercase tracking-widest bg-surface-container-high text-on-surface-variant px-2 py-1 rounded shrink-0">Locked</span>}
+      {a.completed && <span className="text-[10px] font-bold uppercase tracking-widest bg-secondary text-white px-2 py-1 rounded shrink-0">Done</span>}
     </div>
   )
 }
@@ -307,34 +282,30 @@ function AccountRow({ icon, label, onClick }) {
   )
 }
 
-/* ─── Modal: Add friend (search + follow) ──── */
+/* ─── Add friend modal ─── */
 
-function AddFriendModal({ isOpen, onClose, onAdded }) {
+function AddFriendModal({ isOpen, onClose }) {
   const [q, setQ] = useState('')
-  const [results, setResults] = useState([])
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState('')
+  const [debounced, setDebounced] = useState('')
 
   useEffect(() => {
-    if (!isOpen || q.length < 2) { setResults([]); return }
-    setLoading(true)
-    setError('')
-    const timer = setTimeout(() => {
-      api.friends.search(q)
-        .then((d) => setResults(d.items))
-        .catch((e) => setError(e.message))
-        .finally(() => setLoading(false))
-    }, 250)
-    return () => clearTimeout(timer)
+    if (!isOpen) { setQ(''); setDebounced(''); return }
+    const t = setTimeout(() => setDebounced(q), 250)
+    return () => clearTimeout(t)
   }, [q, isOpen])
 
+  const { data, isFetching, error } = useSearchFriendsQuery(debounced, {
+    skip: !isOpen || debounced.length < 2,
+  })
+  const [followUser, { isLoading: followBusy }] = useFollowUserMutation()
+  const [followError, setFollowError] = useState('')
+
+  const results = data?.items ?? []
+
   async function follow(username) {
-    setError('')
-    try {
-      await api.friends.follow(username)
-      setResults((prev) => prev.map((u) => u.username === username ? { ...u, isFollowing: true } : u))
-      onAdded()
-    } catch (e) { setError(e.message) }
+    setFollowError('')
+    try { await followUser(username).unwrap() }
+    catch (e) { setFollowError(e?.data?.error || e?.message || 'Xatolik') }
   }
 
   return (
@@ -351,13 +322,15 @@ function AddFriendModal({ isOpen, onClose, onAdded }) {
           <Icon name="search" className="absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant" />
         </div>
 
-        {error && <div className="text-error text-sm bg-error-container/40 px-3 py-2 rounded-lg">{error}</div>}
-
-        {q.length < 2 && (
-          <p className="text-xs text-on-surface-variant text-center py-4">Kamida 2 ta belgi yozing</p>
+        {(error || followError) && (
+          <div className="text-error text-sm bg-error-container/40 px-3 py-2 rounded-lg">
+            {followError || error?.data?.error || error?.message || 'Xatolik'}
+          </div>
         )}
-        {loading && <p className="text-xs text-on-surface-variant text-center py-2">Qidirilmoqda…</p>}
-        {!loading && q.length >= 2 && results.length === 0 && (
+
+        {debounced.length < 2 && <p className="text-xs text-on-surface-variant text-center py-4">Kamida 2 ta belgi yozing</p>}
+        {isFetching && debounced.length >= 2 && <p className="text-xs text-on-surface-variant text-center py-2">Qidirilmoqda…</p>}
+        {!isFetching && debounced.length >= 2 && results.length === 0 && (
           <p className="text-xs text-on-surface-variant text-center py-4">Hech kim topilmadi</p>
         )}
 
@@ -378,7 +351,8 @@ function AddFriendModal({ isOpen, onClose, onAdded }) {
               ) : (
                 <button
                   onClick={() => follow(u.username)}
-                  className="bg-secondary text-on-secondary px-3 py-1.5 rounded-lg text-xs font-bold"
+                  disabled={followBusy}
+                  className="bg-secondary text-on-secondary px-3 py-1.5 rounded-lg text-xs font-bold disabled:opacity-60"
                 >
                   Qo'shish
                 </button>
@@ -391,38 +365,31 @@ function AddFriendModal({ isOpen, onClose, onAdded }) {
   )
 }
 
-/* ─── Modal: Settings (real display name change) ─── */
+/* ─── Settings ─── */
 
 function SettingsModal({ isOpen, onClose, user, onUpdated }) {
   const [displayName, setDisplayName] = useState(user.displayName)
   const [busy, setBusy] = useState(false)
-  const [error, setError] = useState('')
 
-  useEffect(() => { if (isOpen) { setDisplayName(user.displayName); setError('') } }, [isOpen, user])
+  useEffect(() => { if (isOpen) setDisplayName(user.displayName) }, [isOpen, user])
 
   async function save() {
     setBusy(true)
-    setError('')
     try {
-      // /api/auth/me endpoint hozirda PATCH'ni qo'llab-quvvatlamaydi.
-      // Hozircha localStorage-da yangilaymiz va backend yangilanishini kelajakka qoldiramiz.
       const updated = { ...user, displayName }
-      saveSession({ user: updated, token: localStorage.getItem('token') })
+      localStorage.setItem('user', JSON.stringify(updated))
       onUpdated(updated)
       onClose()
-    } catch (e) { setError(e.message) }
-    finally { setBusy(false) }
+    } finally {
+      setBusy(false)
+    }
   }
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} title="Sozlamalar" size="md">
       <div className="space-y-4">
-        {error && <div className="text-error text-sm">{error}</div>}
-
         <div>
-          <label className="text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-1.5 block">
-            Ism (display name)
-          </label>
+          <label className="text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-1.5 block">Ism</label>
           <input
             value={displayName}
             onChange={(e) => setDisplayName(e.target.value)}
@@ -433,7 +400,7 @@ function SettingsModal({ isOpen, onClose, user, onUpdated }) {
         <div className="bg-surface-container-low border border-outline-variant rounded-xl p-3 text-xs text-on-surface-variant">
           <p><strong>Email:</strong> {user.email}</p>
           <p><strong>Username:</strong> @{user.username}</p>
-          <p className="mt-1.5 italic">Email va username'ni o'zgartirish uchun qo'llab-quvvatlash bilan bog'laning.</p>
+          <p className="mt-1.5 italic">Email/username o'zgartirish uchun qo'llab-quvvatlash bilan bog'laning.</p>
         </div>
 
         <ModalActions>
@@ -450,8 +417,6 @@ function SettingsModal({ isOpen, onClose, user, onUpdated }) {
     </Modal>
   )
 }
-
-/* ─── Generic info modal wrapper ─── */
 
 function SimpleModal({ isOpen, onClose, title, children }) {
   return (
@@ -477,21 +442,16 @@ function NotificationsContent() {
     { key: 'streak', label: 'Streak eslatmasi', desc: 'Har kuni 20:00 da eslatib turamiz' },
     { key: 'push',   label: 'Push bildirishnomalari', desc: 'Brauzer push (kelajakka)' },
     { key: 'email',  label: 'Email bildirishnomalari', desc: 'Haftalik xulosa' },
-    { key: 'league', label: 'Liga yangiliklari', desc: 'Promotion / demotion sodir bo\'lganda' },
+    { key: 'league', label: 'Liga yangiliklari', desc: "Promotion / demotion sodir bo'lganda" },
   ]
 
   return (
     <>
-      <p className="text-sm text-on-surface-variant">Sozlamalar mahalliy saqlanadi. Server bilan sinxronizatsiya kelajakka.</p>
+      <p className="text-sm text-on-surface-variant">Sozlamalar mahalliy saqlanadi.</p>
       <div className="space-y-2">
         {items.map((it) => (
           <label key={it.key} className="flex items-start gap-3 bg-surface-container-low border border-outline-variant rounded-xl p-3 cursor-pointer hover:border-secondary/60 transition-colors">
-            <input
-              type="checkbox"
-              checked={prefs[it.key]}
-              onChange={() => toggle(it.key)}
-              className="mt-1 accent-secondary"
-            />
+            <input type="checkbox" checked={prefs[it.key]} onChange={() => toggle(it.key)} className="mt-1 accent-secondary" />
             <div>
               <p className="font-bold text-on-surface text-sm">{it.label}</p>
               <p className="text-xs text-on-surface-variant">{it.desc}</p>
@@ -506,21 +466,20 @@ function NotificationsContent() {
 function PrivacyContent({ email }) {
   return (
     <>
-      <p className="text-sm text-on-surface">Sizning ma'lumotlaringiz xavfsiz. LingvaUZ:</p>
+      <p className="text-sm text-on-surface">Sizning ma'lumotlaringiz xavfsiz.</p>
       <ul className="text-sm space-y-1.5 list-disc list-inside text-on-surface-variant">
-        <li>Faqat darslarni shaxsiylashtirish uchun ma'lumot to'playdi</li>
-        <li>Hech qanday uchinchi tomonga sotmaydi</li>
-        <li>HTTPS orqali shifrlangan ulanish</li>
-        <li>Parollar bcrypt bilan hash qilinadi (oddiy matn saqlanmaydi)</li>
+        <li>Faqat darslarni shaxsiylashtirish uchun ishlatamiz</li>
+        <li>Hech qanday uchinchi tomonga sotmaymiz</li>
+        <li>HTTPS orqali shifrlangan</li>
+        <li>Parollar bcrypt bilan hash qilinadi</li>
       </ul>
       <div className="bg-surface-container-low border border-outline-variant rounded-xl p-3 text-xs text-on-surface-variant mt-3">
         <p><strong>Akkauntingiz:</strong> {email}</p>
         <p className="mt-1.5">
-          Ma'lumotlarni eksport qilish yoki hisobni o'chirish uchun{' '}
-          <a href={`mailto:privacy@lingvauz.uz?subject=${encodeURIComponent('Ma\'lumotlar so\'rovi')}&body=${encodeURIComponent('Akkaunt: ' + email)}`} className="text-secondary font-bold underline">
+          Ma'lumotlarni eksport yoki hisobni o'chirish uchun{' '}
+          <a href={`mailto:privacy@lingvauz.uz?subject=Ma'lumotlar so'rovi&body=Akkaunt: ${email}`} className="text-secondary font-bold underline">
             privacy@lingvauz.uz
-          </a>{' '}
-          ga yozing.
+          </a>
         </p>
       </div>
     </>
@@ -529,14 +488,10 @@ function PrivacyContent({ email }) {
 
 function HelpContent() {
   const faqs = [
-    { q: "Streak'im uzilib qoldi, qaytarib bo'ladimi?",
-      a: 'Streak Freeze (gem bilan sotib olinadi) yoki Premium imkoniyati bilan saqlash mumkin. Aks holda yo\'qotilgan streak qayta tiklanmaydi.' },
-    { q: "Hayotim tugadi, nima qilaman?",
-      a: 'Har 30 daqiqada 1 ta hayot avtomatik qaytariladi. Yoki gem bilan to\'liq tiklash mumkin (Lives sahifasida).' },
-    { q: "Mashq xato deb topdim, qanday xabar berish mumkin?",
-      a: 'Hozircha bevosita xabar berish yo\'q. support@lingvauz.uz ga screenshot bilan jo\'nating.' },
-    { q: "Premium nima beradi?",
-      a: 'Cheksiz hayot, reklamasiz interfeys, AI suhbat va offline darslar.' },
+    { q: "Streak'im uzilib qoldi, qaytarib bo'ladimi?", a: 'Streak Freeze yoki Premium imkoniyati bilan saqlash mumkin.' },
+    { q: "Hayotim tugadi, nima qilaman?",                a: "Har 30 daqiqada 1 ta hayot avtomatik qaytariladi yoki gem bilan tiklang." },
+    { q: "Mashq xato deb topdim, qanday xabar berish mumkin?", a: 'support@lingvauz.uz ga screenshot bilan jo\'nating.' },
+    { q: "Premium nima beradi?",                         a: 'Cheksiz hayot, reklamasiz, AI suhbat, offline darslar.' },
   ]
   const [open, setOpen] = useState(null)
 
@@ -552,9 +507,7 @@ function HelpContent() {
               <span className="grow">{f.q}</span>
               <Icon name={open === i ? 'expand_less' : 'expand_more'} className="text-on-surface-variant" />
             </button>
-            {open === i && (
-              <p className="px-3 pb-3 text-xs text-on-surface-variant leading-relaxed">{f.a}</p>
-            )}
+            {open === i && <p className="px-3 pb-3 text-xs text-on-surface-variant leading-relaxed">{f.a}</p>}
           </div>
         ))}
       </div>

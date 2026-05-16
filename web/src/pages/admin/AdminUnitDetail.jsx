@@ -1,25 +1,26 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { adminApi } from '../../lib/api'
+import {
+  useAdminLessonsByUnitQuery,
+  useAdminCreateLessonMutation,
+  useAdminUpdateLessonMutation,
+  useAdminRemoveLessonMutation,
+} from '../../store/apiSlice'
 import Modal, { ModalActions } from '../../components/admin/Modal'
 import FormField, { FormInput, FormSelect } from '../../components/admin/FormField'
 
 export default function AdminUnitDetail() {
   const { unitId } = useParams()
-  const [lessons, setLessons] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState('')
+  const { data, isLoading: loading, error } = useAdminLessonsByUnitQuery(unitId)
+  const [createLesson] = useAdminCreateLessonMutation()
+  const [updateLesson] = useAdminUpdateLessonMutation()
+  const [removeLesson] = useAdminRemoveLessonMutation()
+
+  const lessons = data?.lessons ?? []
+
   const [editing, setEditing] = useState(null)
   const [busy, setBusy] = useState(false)
-
-  function refresh() {
-    setLoading(true)
-    adminApi.lessons.listByUnit(unitId)
-      .then((d) => setLessons(d.lessons))
-      .catch((e) => setError(e.message))
-      .finally(() => setLoading(false))
-  }
-  useEffect(refresh, [unitId])
+  const [mutError, setMutError] = useState('')
 
   function startCreate() {
     const nextOrder = lessons.length + 1
@@ -28,24 +29,23 @@ export default function AdminUnitDetail() {
 
   async function save() {
     setBusy(true)
-    setError('')
+    setMutError('')
     try {
       if (editing.id) {
-        const { id, unitId: _u, ...data } = editing
-        await adminApi.lessons.update(id, data)
+        const { id, unitId: _u, ...d } = editing
+        await updateLesson({ id, data: d }).unwrap()
       } else {
-        await adminApi.lessons.create(editing)
+        await createLesson(editing).unwrap()
       }
       setEditing(null)
-      refresh()
-    } catch (e) { setError(e.message) }
+    } catch (e) { setMutError(e.data?.error || e.message) }
     finally { setBusy(false) }
   }
 
   async function remove(lesson) {
     if (!confirm(`Dars #${lesson.order}'ni o'chirasizmi?`)) return
-    try { await adminApi.lessons.remove(lesson.id); refresh() }
-    catch (e) { setError(e.message) }
+    try { await removeLesson(lesson.id).unwrap() }
+    catch (e) { setMutError(e.data?.error || e.message) }
   }
 
   return (
@@ -59,7 +59,11 @@ export default function AdminUnitDetail() {
         </button>
       </div>
 
-      {error && <div className="bg-error-container text-on-error-container px-4 py-3 rounded-xl">{error}</div>}
+      {(error || mutError) && (
+        <div className="bg-error-container text-on-error-container px-4 py-3 rounded-xl">
+          {mutError || error?.data?.error || 'Xatolik'}
+        </div>
+      )}
 
       {loading ? (
         <div className="text-on-surface-variant">Yuklanmoqda…</div>

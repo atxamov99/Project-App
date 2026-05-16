@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { adminApi } from '../../lib/api'
+import { useAdminUsersQuery } from '../../store/apiSlice'
 import DataTable from '../../components/admin/DataTable'
 import RoleBadge from '../../components/admin/RoleBadge'
 import { FormInput, FormSelect } from '../../components/admin/FormField'
@@ -9,30 +9,20 @@ export default function AdminUsers() {
   const navigate = useNavigate()
   const [filters, setFilters] = useState({ role: '', suspended: '', premium: '', search: '' })
   const [page, setPage] = useState(1)
-  const [data, setData] = useState({ users: [], total: 0, limit: 20 })
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState('')
 
-  useEffect(() => {
-    setLoading(true)
-    setError('')
-    const params = { page, limit: 20 }
-    if (filters.role) params.role = filters.role
-    if (filters.suspended) params.suspended = filters.suspended
-    if (filters.premium) params.premium = filters.premium
-    if (filters.search) params.search = filters.search
+  const params = { page, limit: 20 }
+  if (filters.role) params.role = filters.role
+  if (filters.suspended) params.suspended = filters.suspended
+  if (filters.premium) params.premium = filters.premium
+  if (filters.search) params.search = filters.search
 
-    adminApi.users.list(params)
-      .then(setData)
-      .catch((e) => setError(e.message))
-      .finally(() => setLoading(false))
-  }, [page, filters])
+  const { data = { users: [], total: 0, limit: 20 }, isLoading: loading, error } = useAdminUsersQuery(params)
 
   return (
     <div className="space-y-6">
       <h1 className="text-2xl font-extrabold text-on-surface">Foydalanuvchilar</h1>
 
-      {error && <div className="bg-error-container text-on-error-container px-4 py-3 rounded-xl">{error}</div>}
+      {error && <div className="bg-error-container text-on-error-container px-4 py-3 rounded-xl">{error.data?.error || 'Xatolik'}</div>}
 
       <div className="bg-surface-container-lowest border border-outline-variant rounded-xl p-4 grid grid-cols-1 md:grid-cols-4 gap-3">
         <FormInput

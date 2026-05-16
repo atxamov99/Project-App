@@ -1,46 +1,31 @@
-import { useEffect, useState } from 'react'
-import { adminApi } from '../../lib/api'
+import { Link } from 'react-router-dom'
+import { useAdminStatsDashboardQuery, useAdminTroubledExercisesQuery } from '../../store/apiSlice'
 import StatCard from '../../components/admin/StatCard'
 import DataTable from '../../components/admin/DataTable'
-import { Link } from 'react-router-dom'
 
 export default function AdminDashboard() {
-  const [data, setData] = useState(null)
-  const [troubled, setTroubled] = useState([])
-  const [error, setError] = useState('')
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    Promise.all([
-      adminApi.stats.dashboard().catch((e) => { setError(e.message); return null }),
-      adminApi.stats.troubled(5).catch(() => ({ items: [] })),
-    ]).then(([d, t]) => {
-      setData(d)
-      setTroubled(t?.items ?? [])
-      setLoading(false)
-    })
-  }, [])
+  const { data, isLoading: loading, error } = useAdminStatsDashboardQuery()
+  const { data: troubledData } = useAdminTroubledExercisesQuery(5)
+  const troubled = troubledData?.items ?? []
 
   if (loading) return <div className="text-on-surface-variant">Yuklanmoqda…</div>
-  if (error) return <div className="text-error bg-error-container px-4 py-3 rounded-xl">{error}</div>
+  if (error) return <div className="text-error bg-error-container px-4 py-3 rounded-xl">{error.data?.error || 'Xatolik'}</div>
   if (!data) return null
 
   return (
     <div className="space-y-6">
       <h1 className="text-2xl font-extrabold text-on-surface">Dashboard</h1>
 
-      {/* Foydalanuvchi KPIlari */}
       <section>
         <h2 className="text-sm font-bold uppercase tracking-widest text-on-surface-variant mb-3">Foydalanuvchilar</h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           <StatCard icon="group"             label="Total Users" value={data.users.total} />
-          <StatCard icon="trending_up"       label="DAU"         value={data.users.dau} hint={`Bugun aktiv`} />
+          <StatCard icon="trending_up"       label="DAU"         value={data.users.dau} hint="Bugun aktiv" />
           <StatCard icon="workspace_premium" label="Premium"     value={data.users.premium} accent />
           <StatCard icon="person_add"        label="Yangi (kun)" value={data.users.newToday} />
         </div>
       </section>
 
-      {/* Engagement */}
       <section>
         <h2 className="text-sm font-bold uppercase tracking-widest text-on-surface-variant mb-3">Engagement</h2>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
@@ -50,7 +35,6 @@ export default function AdminDashboard() {
         </div>
       </section>
 
-      {/* Kontent */}
       <section>
         <h2 className="text-sm font-bold uppercase tracking-widest text-on-surface-variant mb-3">Kontent</h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
@@ -61,7 +45,6 @@ export default function AdminDashboard() {
         </div>
       </section>
 
-      {/* Troubled exercises */}
       <section>
         <div className="flex items-center justify-between mb-3">
           <h2 className="text-sm font-bold uppercase tracking-widest text-on-surface-variant">

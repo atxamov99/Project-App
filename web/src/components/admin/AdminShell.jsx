@@ -1,5 +1,6 @@
 import { NavLink, Outlet, useNavigate } from 'react-router-dom'
-import { clearSession, getUser } from '../../lib/auth'
+import { useAppDispatch, useAppSelector } from '../../store/hooks'
+import { logout } from '../../store/slices/authSlice'
 import Icon from '../shared/Icon'
 
 const NAV = [
@@ -13,12 +14,13 @@ const NAV = [
 ]
 
 export default function AdminShell() {
-  const user = getUser() ?? {}
   const navigate = useNavigate()
+  const dispatch = useAppDispatch()
+  const user = useAppSelector((state) => state.auth.user) ?? {}
   const isAdmin = user.role === 'ADMIN'
 
-  function logout() {
-    clearSession()
+  function handleLogout() {
+    dispatch(logout())
     navigate('/')
   }
 
@@ -71,7 +73,7 @@ export default function AdminShell() {
             {user.displayName} <span className="font-bold text-secondary uppercase tracking-widest text-[10px] ml-1">{user.role}</span>
           </div>
           <button
-            onClick={logout}
+            onClick={handleLogout}
             className="text-sm text-on-surface-variant hover:text-error font-semibold"
             aria-label="Logout"
           >

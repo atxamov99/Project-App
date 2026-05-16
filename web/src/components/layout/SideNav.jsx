@@ -1,7 +1,8 @@
 import { NavLink, Link, useNavigate } from 'react-router-dom'
 import Icon from '../shared/Icon'
 import Mascot from '../shared/Mascot'
-import { clearSession } from '../../lib/auth'
+import { useAppDispatch } from '../../store/hooks'
+import { logout } from '../../store/slices/authSlice'
 
 const ITEMS = [
   { to: '/learn',       label: "O'rgan",   icon: 'home',           end: true },
@@ -12,14 +13,15 @@ const ITEMS = [
 
 export default function SideNav({ user }) {
   const navigate = useNavigate()
+  const dispatch = useAppDispatch()
   const xp = user?.totalXP ?? 0
   const gems = user?.gems ?? 0
   const hearts = user?.lives?.current ?? 5
   const streak = user?.streak ?? 0
   const isElevated = user?.role === 'ADMIN' || user?.role === 'CONTENT_EDITOR'
 
-  function logout() {
-    clearSession()
+  function handleLogout() {
+    dispatch(logout())
     navigate('/')
   }
 
@@ -92,7 +94,7 @@ export default function SideNav({ user }) {
       <div className="px-4 py-3 border-t-2 border-outline-variant/40 flex items-center gap-3">
         <div className="text-3xl select-none drop-shadow-[0_4px_6px_rgba(160,63,46,0.2)]">🍉</div>
         <button
-          onClick={logout}
+          onClick={handleLogout}
           className="grow text-left text-xs uppercase tracking-widest font-bold text-on-surface-variant hover:text-error transition-colors"
         >
           Chiqish

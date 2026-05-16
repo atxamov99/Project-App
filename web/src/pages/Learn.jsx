@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react'
-import { useNavigate, useOutletContext } from 'react-router-dom'
-import { api } from '../lib/api'
+import { useNavigate } from 'react-router-dom'
+import { useGetCoursesQuery, useGetCourseQuery, useGetStreakQuery } from '../store/apiSlice'
+import { useAppSelector } from '../store/hooks'
 import Icon from '../components/shared/Icon'
 
 const LESSON_ICONS = ['chat_bubble', 'face', 'looks_one', 'family_restroom', 'palette', 'restaurant', 'directions_walk', 'translate']
@@ -8,43 +8,32 @@ const OFFSETS = [16, -24, 32, -8, 24, -16]
 
 export default function Learn() {
   const navigate = useNavigate()
-  const { user } = useOutletContext() ?? {}
+  const user = useAppSelector((state) => state.auth.user)
 
-  const [courses, setCourses] = useState([])
-  const [course, setCourse] = useState(null)
-  const [completed, setCompleted] = useState([])
-  const [currentLessonId, setCurrentLessonId] = useState(null)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState('')
+  const { data: coursesData, isLoading: coursesLoading, error: coursesError } = useGetCoursesQuery()
+  const firstCourseId = coursesData?.courses?.[0]?.id
+  const { data: courseData, isLoading: courseLoading } = useGetCourseQuery(firstCourseId, { skip: !firstCourseId })
+  const { data: streakData } = useGetStreakQuery()
 
-  useEffect(() => {
-    api.courses.list()
-      .then((d) => {
-        setCourses(d.courses)
-        if (d.courses.length === 0) {
-          setError("Hozircha kurs yo'q. Admin panelidan kurs yaratish kerak.")
-          setLoading(false)
-          return
-        }
-        // Default: birinchi kursni ochamiz
-        return api.courses.get(d.courses[0].id).then((data) => {
-          setCourse(data.course)
-          setCompleted(data.completed || [])
-          setCurrentLessonId(data.currentLessonId)
-        })
-      })
-      .catch((e) => setError(e.message))
-      .finally(() => setLoading(false))
-  }, [])
+  const dailyXP = streakData?.dailyXP ?? 0
+  const dailyGoal = streakData?.dailyGoal ?? 50
+  const streak = streakData?.streak ?? user?.streak ?? 0
+
+  const loading = coursesLoading || (!!firstCourseId && courseLoading)
+  const course = courseData?.course ?? null
+  const completed = courseData?.completed ?? []
+  const currentLessonId = courseData?.currentLessonId ?? null
 
   if (loading) {
     return <div className="p-12 text-center text-on-surface-variant">Yuklanmoqda…</div>
   }
 
-  if (error) {
+  if (coursesError || coursesData?.courses?.length === 0) {
     return (
       <div className="px-4 sm:px-6 py-8 max-w-md mx-auto">
-        <div className="bg-error-container text-on-error-container px-4 py-3 rounded-xl text-center">{error}</div>
+        <div className="bg-error-container text-on-error-container px-4 py-3 rounded-xl text-center">
+          {coursesError?.data?.error || "Hozircha kurs yo'q. Admin panelidan kurs yaratish kerak."}
+        </div>
       </div>
     )
   }
@@ -97,7 +86,9 @@ export default function Learn() {
               <div className="text-7xl drop-shadow-[0_8px_12px_rgba(160,63,46,0.25)]">🍉</div>
               <div className="bg-white border-2 border-outline-variant rounded-2xl rounded-bl-none px-3 py-2 mt-2 max-w-[160px]">
                 <p className="text-xs text-tertiary italic">
-                  {currentLessonId ? "Keyingi darsni boshlang!" : "Hammasi tugagan!"}
+                  {currentLessonId
+                    ? (completedCount === 0 ? "Boshlashga tayyormisiz?" : "Keyingi darsni boshlang!")
+                    : "Hammasi tugagan!"}
                 </p>
               </div>
             </div>
@@ -147,13 +138,15 @@ export default function Learn() {
               <Icon name="emoji_events" filled className="text-orange-500" />
             </div>
             <div className="flex items-end gap-1 mb-2">
-              <span className="text-3xl font-extrabold text-on-surface tabular-nums">{Math.min(50, user?.totalXP ?? 0)}</span>
-              <span className="text-sm font-bold text-on-surface-variant mb-1">/ 50 XP</span>
+              <span className="text-3xl font-extrabold text-on-surface tabular-nums">{Math.min(dailyGoal, dailyXP)}</span>
+              <span className="text-sm font-bold text-on-surface-variant mb-1">/ {dailyGoal} XP</span>
             </div>
             <div className="bg-surface-container-high h-2 rounded-full overflow-hidden">
-              <div className="h-full bg-secondary rounded-full transition-all" style={{ width: `${Math.min(100, ((user?.totalXP ?? 0) / 50) * 100)}%` }} />
+              <div className="h-full bg-secondary rounded-full transition-all" style={{ width: `${Math.min(100, (dailyXP / dailyGoal) * 100)}%` }} />
             </div>
-            <p className="text-xs text-on-surface-variant mt-3">Bugun o'qib XP yig'ing — har dars +10 XP</p>
+            <p className="text-xs text-on-surface-variant mt-3">
+              {dailyXP >= dailyGoal ? "🎉 Kunlik maqsadga yetdingiz!" : "Bugun o'qib XP yig'ing — har dars +10 XP"}
+            </p>
           </section>
 
           <section className="bg-surface-container-lowest border-2 border-outline-variant/60 rounded-2xl p-5 loft-shadow">
@@ -172,7 +165,7 @@ export default function Learn() {
           <section className="bg-primary-fixed border-2 border-primary-fixed-dim/60 rounded-2xl p-5">
             <div className="flex items-center gap-2 mb-2">
               <Icon name="local_fire_department" filled className="text-orange-500" style={{ fontSize: 28 }} />
-              <span className="text-2xl font-extrabold text-on-primary-fixed tabular-nums">{user?.streak ?? 0}</span>
+              <span className="text-2xl font-extrabold text-on-primary-fixed tabular-nums">{streak}</span>
               <span className="text-xs font-bold uppercase tracking-widest text-on-primary-fixed-variant">kun streak</span>
             </div>
             <p className="text-xs text-on-primary-fixed-variant">Streak'ni uzmaslik uchun bugun 1 ta dars yetarli.</p>

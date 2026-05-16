@@ -1,16 +1,18 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { api } from '../lib/api'
-import { saveSession } from '../lib/auth'
+import { useRegisterMutation } from '../store/apiSlice'
+import { useAppDispatch } from '../store/hooks'
+import { setCredentials } from '../store/slices/authSlice'
 import Mascot from '../components/shared/Mascot'
 import GoogleButton from '../components/shared/GoogleButton'
 
 export default function Register() {
   const navigate = useNavigate()
+  const dispatch = useAppDispatch()
+  const [register, { isLoading: loading }] = useRegisterMutation()
   const [form, setForm] = useState({ email: '', username: '', displayName: '', password: '' })
   const [errors, setErrors] = useState({})
   const [globalError, setGlobalError] = useState('')
-  const [loading, setLoading] = useState(false)
 
   function update(field, value) {
     setForm((f) => ({ ...f, [field]: value }))
@@ -21,23 +23,20 @@ export default function Register() {
     e.preventDefault()
     setErrors({})
     setGlobalError('')
-    setLoading(true)
     try {
-      const res = await api.register(form)
-      saveSession(res)
+      const res = await register(form).unwrap()
+      dispatch(setCredentials({ user: res.user, token: res.token }))
       navigate('/learn')
     } catch (err) {
-      if (err.details) {
+      if (err.data?.details) {
         const fieldErrors = {}
-        for (const [k, v] of Object.entries(err.details)) {
+        for (const [k, v] of Object.entries(err.data.details)) {
           fieldErrors[k] = Array.isArray(v) ? v[0] : v
         }
         setErrors(fieldErrors)
       } else {
-        setGlobalError(err.message)
+        setGlobalError(err.data?.error || err.message || 'Hisob yaratishda xatolik yuz berdi')
       }
-    } finally {
-      setLoading(false)
     }
   }
 

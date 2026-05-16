@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { api } from '../lib/api'
+import { useGetLessonQuery, useGetLivesQuery, useCheckExerciseMutation, useCompleteLessonMutation } from '../store/apiSlice'
 import Icon from '../components/shared/Icon'
 
 function shuffle(arr) {
@@ -16,9 +16,12 @@ export default function Lesson() {
   const navigate = useNavigate()
   const { lessonId } = useParams()
 
-  const [lesson, setLesson] = useState(null)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState('')
+  const { data: lessonData, isLoading: loading, error: lessonError } = useGetLessonQuery(lessonId)
+  const { data: livesData } = useGetLivesQuery()
+  const [checkExercise] = useCheckExerciseMutation()
+  const [completeLesson] = useCompleteLessonMutation()
+
+  const lesson = lessonData?.lesson ?? null
 
   const [index, setIndex] = useState(0)
   const [answer, setAnswer] = useState('')
@@ -27,22 +30,19 @@ export default function Lesson() {
   const [mistakes, setMistakes] = useState(0)
   const [startedAt] = useState(() => Date.now())
   const [busy, setBusy] = useState(false)
+  const [error, setError] = useState('')
 
   const [completed, setCompleted] = useState(false)
   const [completionData, setCompletionData] = useState(null)
 
   useEffect(() => {
-    api.lessons.get(lessonId)
-      .then((d) => {
-        setLesson(d.lesson)
-        api.lives.get().then((l) => setHearts(l.current ?? 5)).catch(() => {})
-      })
-      .catch((e) => {
-        if (e.status === 401) navigate('/login')
-        else setError(e.message)
-      })
-      .finally(() => setLoading(false))
-  }, [lessonId, navigate])
+    if (livesData?.current !== undefined) setHearts(livesData.current)
+  }, [livesData?.current])
+
+  useEffect(() => {
+    if (lessonError?.status === 401) navigate('/login')
+    else if (lessonError) setError(lessonError.data?.error || 'Darsni yuklashda xatolik')
+  }, [lessonError, navigate])
 
   const exercise = lesson?.exercises?.[index]
   const total = lesson?.exercises?.length ?? 0
@@ -54,7 +54,7 @@ export default function Lesson() {
     if (!answer.trim() || busy || result) return
     setBusy(true)
     try {
-      const res = await api.exercises.check(exercise.id, answer.trim())
+      const res = await checkExercise({ id: exercise.id, answer: answer.trim() }).unwrap()
       setResult(res)
       if (!res.isCorrect) {
         setMistakes((m) => m + 1)
@@ -63,7 +63,7 @@ export default function Lesson() {
         }
       }
     } catch (e) {
-      setError(e.message)
+      setError(e.data?.error || e.message)
     } finally {
       setBusy(false)
     }
@@ -77,11 +77,11 @@ export default function Lesson() {
     setBusy(true)
     try {
       const timeTaken = Math.floor((Date.now() - startedAt) / 1000)
-      const data = await api.lessons.complete(lessonId, { mistakes, timeTaken })
+      const data = await completeLesson({ id: lessonId, body: { mistakes, timeTaken } }).unwrap()
       setCompletionData(data)
       setCompleted(true)
     } catch (e) {
-      setError(e.message)
+      setError(e.data?.error || e.message)
     } finally {
       setBusy(false)
     }

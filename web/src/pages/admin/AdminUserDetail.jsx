@@ -1,7 +1,13 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
-import { adminApi } from '../../lib/api'
-import { getUser } from '../../lib/auth'
+import { useAppSelector } from '../../store/hooks'
+import {
+  useAdminUserDetailQuery,
+  useAdminChangeRoleMutation,
+  useAdminSuspendUserMutation,
+  useAdminUnsuspendUserMutation,
+  useAdminRemoveUserMutation,
+} from '../../store/apiSlice'
 import StatCard from '../../components/admin/StatCard'
 import RoleBadge from '../../components/admin/RoleBadge'
 import Modal, { ModalActions } from '../../components/admin/Modal'
@@ -11,11 +17,13 @@ import Icon from '../../components/shared/Icon'
 export default function AdminUserDetail() {
   const { id } = useParams()
   const navigate = useNavigate()
-  const me = getUser()
+  const me = useAppSelector((state) => state.auth.user)
 
-  const [user, setUser] = useState(null)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState('')
+  const { data, isLoading: loading, error } = useAdminUserDetailQuery(id)
+  const [changeRole] = useAdminChangeRoleMutation()
+  const [suspendUser] = useAdminSuspendUserMutation()
+  const [unsuspendUser] = useAdminUnsuspendUserMutation()
+  const [removeUser] = useAdminRemoveUserMutation()
 
   const [roleModal, setRoleModal] = useState(false)
   const [newRole, setNewRole] = useState('')
@@ -24,26 +32,14 @@ export default function AdminUserDetail() {
   const [busy, setBusy] = useState(false)
   const [actionError, setActionError] = useState('')
 
-  function refresh() {
-    setLoading(true)
-    setError('')
-    adminApi.users.get(id)
-      .then((d) => setUser(d.user))
-      .catch((e) => setError(e.message))
-      .finally(() => setLoading(false))
-  }
-
-  useEffect(refresh, [id])
-
   async function applyRole() {
     setActionError('')
     setBusy(true)
     try {
-      await adminApi.users.changeRole(id, newRole)
+      await changeRole({ id, role: newRole }).unwrap()
       setRoleModal(false)
-      refresh()
     } catch (e) {
-      setActionError(e.message)
+      setActionError(e.data?.error || e.message)
     } finally {
       setBusy(false)
     }
@@ -53,24 +49,22 @@ export default function AdminUserDetail() {
     setActionError('')
     setBusy(true)
     try {
-      await adminApi.users.suspend(id, suspendReason)
+      await suspendUser({ id, reason: suspendReason }).unwrap()
       setSuspendModal(false)
       setSuspendReason('')
-      refresh()
     } catch (e) {
-      setActionError(e.message)
+      setActionError(e.data?.error || e.message)
     } finally {
       setBusy(false)
     }
   }
 
-  async function unsuspendUser() {
+  async function handleUnsuspend() {
     setBusy(true)
     try {
-      await adminApi.users.unsuspend(id)
-      refresh()
+      await unsuspendUser(id).unwrap()
     } catch (e) {
-      setActionError(e.message)
+      setActionError(e.data?.error || e.message)
     } finally {
       setBusy(false)
     }
@@ -80,18 +74,19 @@ export default function AdminUserDetail() {
     if (!confirm("Foydalanuvchini o'chirishni tasdiqlaysizmi? Bu amalni bekor qila olmaysiz.")) return
     setBusy(true)
     try {
-      await adminApi.users.remove(id)
+      await removeUser(id).unwrap()
       navigate('/admin/users')
     } catch (e) {
-      setActionError(e.message)
+      setActionError(e.data?.error || e.message)
       setBusy(false)
     }
   }
 
   if (loading) return <div className="text-on-surface-variant">Yuklanmoqda…</div>
-  if (error) return <div className="text-error bg-error-container px-4 py-3 rounded-xl">{error}</div>
-  if (!user) return null
+  if (error) return <div className="text-error bg-error-container px-4 py-3 rounded-xl">{error.data?.error || 'Xatolik'}</div>
+  if (!data) return null
 
+  const user = data.user
   const isMe = me?.id === user.id
 
   return (
@@ -158,7 +153,7 @@ export default function AdminUserDetail() {
 
           {user.suspendedAt && (
             <button
-              onClick={unsuspendUser}
+              onClick={handleUnsuspend}
               disabled={busy}
               className="bg-secondary text-on-secondary px-4 py-2 rounded-lg text-sm font-bold disabled:opacity-50"
             >
@@ -178,7 +173,6 @@ export default function AdminUserDetail() {
         {isMe && <p className="text-xs text-on-surface-variant mt-2">O'z hisobingiz ustidan amal bajara olmaysiz.</p>}
       </section>
 
-      {/* Role change modal */}
       <Modal isOpen={roleModal} onClose={() => setRoleModal(false)} title="Rolni o'zgartirish">
         <FormSelect
           value={newRole}
@@ -201,7 +195,6 @@ export default function AdminUserDetail() {
         </ModalActions>
       </Modal>
 
-      {/* Suspend modal */}
       <Modal isOpen={suspendModal} onClose={() => setSuspendModal(false)} title="Foydalanuvchini suspend qilish">
         <p className="text-sm text-on-surface-variant mb-3">Sababini yozing — audit log'ga saqlanadi.</p>
         <FormInput

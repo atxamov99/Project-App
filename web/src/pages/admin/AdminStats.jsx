@@ -1,27 +1,15 @@
-import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { adminApi } from '../../lib/api'
+import { useAdminStatsDashboardQuery, useAdminTroubledExercisesQuery } from '../../store/apiSlice'
 import StatCard from '../../components/admin/StatCard'
 import DataTable from '../../components/admin/DataTable'
 
 export default function AdminStats() {
-  const [data, setData] = useState(null)
-  const [troubled, setTroubled] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState('')
-
-  useEffect(() => {
-    Promise.all([
-      adminApi.stats.dashboard(),
-      adminApi.stats.troubled(50),
-    ])
-      .then(([d, t]) => { setData(d); setTroubled(t.items) })
-      .catch((e) => setError(e.message))
-      .finally(() => setLoading(false))
-  }, [])
+  const { data, isLoading: loading, error } = useAdminStatsDashboardQuery()
+  const { data: troubledData } = useAdminTroubledExercisesQuery(50)
+  const troubled = troubledData?.items ?? []
 
   if (loading) return <div className="text-on-surface-variant">Yuklanmoqda…</div>
-  if (error) return <div className="bg-error-container text-on-error-container px-4 py-3 rounded-xl">{error}</div>
+  if (error) return <div className="bg-error-container text-on-error-container px-4 py-3 rounded-xl">{error.data?.error || 'Xatolik'}</div>
   if (!data) return null
 
   return (
@@ -33,7 +21,7 @@ export default function AdminStats() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           <StatCard icon="group"             label="Total"        value={data.users.total} />
           <StatCard icon="trending_up"       label="DAU"          value={data.users.dau} />
-          <StatCard icon="calendar_view_week" label="WAU"          value={data.users.wau} />
+          <StatCard icon="calendar_view_week" label="WAU"         value={data.users.wau} />
           <StatCard icon="calendar_month"    label="MAU"          value={data.users.mau} />
           <StatCard icon="person_add"        label="Yangi (kun)"  value={data.users.newToday} />
           <StatCard icon="event"             label="Yangi (hafta)" value={data.users.newThisWeek} />

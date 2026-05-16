@@ -1,52 +1,52 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { adminApi } from '../../lib/api'
+import {
+  useAdminCoursesQuery,
+  useAdminLanguagesQuery,
+  useAdminCreateCourseMutation,
+  useAdminUpdateCourseMutation,
+  useAdminRemoveCourseMutation,
+} from '../../store/apiSlice'
 import Modal, { ModalActions } from '../../components/admin/Modal'
 import FormField, { FormSelect } from '../../components/admin/FormField'
 
 export default function AdminCourses() {
-  const [courses, setCourses] = useState([])
-  const [languages, setLanguages] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState('')
+  const { data: coursesData, isLoading: loading, error } = useAdminCoursesQuery()
+  const { data: langsData } = useAdminLanguagesQuery()
+  const [createCourse] = useAdminCreateCourseMutation()
+  const [updateCourse] = useAdminUpdateCourseMutation()
+  const [removeCourse] = useAdminRemoveCourseMutation()
+
+  const courses = coursesData?.courses ?? []
+  const languages = langsData?.languages ?? []
+
   const [creating, setCreating] = useState(false)
   const [form, setForm] = useState({ fromLanguageId: '', toLanguageId: '' })
   const [busy, setBusy] = useState(false)
-
-  function refresh() {
-    setLoading(true)
-    Promise.all([adminApi.courses.list(), adminApi.languages.list()])
-      .then(([c, l]) => { setCourses(c.courses); setLanguages(l.languages) })
-      .catch((e) => setError(e.message))
-      .finally(() => setLoading(false))
-  }
-  useEffect(refresh, [])
+  const [mutError, setMutError] = useState('')
 
   async function create() {
     setBusy(true)
-    setError('')
+    setMutError('')
     try {
-      await adminApi.courses.create(form)
+      await createCourse(form).unwrap()
       setCreating(false)
       setForm({ fromLanguageId: '', toLanguageId: '' })
-      refresh()
-    } catch (e) { setError(e.message) }
+    } catch (e) { setMutError(e.data?.error || e.message) }
     finally { setBusy(false) }
   }
 
   async function toggle(course) {
     try {
-      await adminApi.courses.update(course.id, { isActive: !course.isActive })
-      refresh()
-    } catch (e) { setError(e.message) }
+      await updateCourse({ id: course.id, data: { isActive: !course.isActive } }).unwrap()
+    } catch (e) { setMutError(e.data?.error || e.message) }
   }
 
   async function remove(course) {
     if (!confirm(`Kursni o'chirasizmi? Barcha unitlari va darslari ham yo'qoladi.`)) return
     try {
-      await adminApi.courses.remove(course.id)
-      refresh()
-    } catch (e) { setError(e.message) }
+      await removeCourse(course.id).unwrap()
+    } catch (e) { setMutError(e.data?.error || e.message) }
   }
 
   return (
@@ -58,7 +58,11 @@ export default function AdminCourses() {
         </button>
       </div>
 
-      {error && <div className="bg-error-container text-on-error-container px-4 py-3 rounded-xl">{error}</div>}
+      {(error || mutError) && (
+        <div className="bg-error-container text-on-error-container px-4 py-3 rounded-xl">
+          {mutError || error?.data?.error || 'Xatolik'}
+        </div>
+      )}
 
       {loading ? (
         <div className="text-on-surface-variant">Yuklanmoqda…</div>

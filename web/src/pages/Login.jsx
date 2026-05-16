@@ -1,28 +1,27 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { api } from '../lib/api'
-import { saveSession } from '../lib/auth'
+import { useLoginMutation } from '../store/apiSlice'
+import { useAppDispatch } from '../store/hooks'
+import { setCredentials } from '../store/slices/authSlice'
 import Mascot from '../components/shared/Mascot'
 import GoogleButton from '../components/shared/GoogleButton'
 
 export default function Login() {
   const navigate = useNavigate()
+  const dispatch = useAppDispatch()
+  const [login, { isLoading: loading }] = useLoginMutation()
   const [form, setForm] = useState({ email: '', password: '' })
   const [error, setError] = useState('')
-  const [loading, setLoading] = useState(false)
 
   async function onSubmit(e) {
     e.preventDefault()
     setError('')
-    setLoading(true)
     try {
-      const res = await api.login(form)
-      saveSession(res)
+      const res = await login(form).unwrap()
+      dispatch(setCredentials({ user: res.user, token: res.token }))
       navigate('/learn')
     } catch (err) {
-      setError(err.message)
-    } finally {
-      setLoading(false)
+      setError(err.data?.error || err.message || 'Kirishda xatolik yuz berdi')
     }
   }
 

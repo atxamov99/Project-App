@@ -1,24 +1,25 @@
-import { useEffect, useState } from 'react'
-import { adminApi } from '../../lib/api'
+import { useState } from 'react'
+import {
+  useAdminAchievementsQuery,
+  useAdminCreateAchievementMutation,
+  useAdminUpdateAchievementMutation,
+  useAdminRemoveAchievementMutation,
+} from '../../store/apiSlice'
 import DataTable from '../../components/admin/DataTable'
 import Modal, { ModalActions } from '../../components/admin/Modal'
 import FormField, { FormInput, FormTextarea } from '../../components/admin/FormField'
 
 export default function AdminAchievements() {
-  const [items, setItems] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState('')
+  const { data, isLoading: loading, error } = useAdminAchievementsQuery()
+  const [createAchievement] = useAdminCreateAchievementMutation()
+  const [updateAchievement] = useAdminUpdateAchievementMutation()
+  const [removeAchievement] = useAdminRemoveAchievementMutation()
+
+  const items = data?.achievements ?? []
+
   const [editing, setEditing] = useState(null)
   const [busy, setBusy] = useState(false)
-
-  function refresh() {
-    setLoading(true)
-    adminApi.achievements.list()
-      .then((d) => setItems(d.achievements))
-      .catch((e) => setError(e.message))
-      .finally(() => setLoading(false))
-  }
-  useEffect(refresh, [])
+  const [mutError, setMutError] = useState('')
 
   function startCreate() {
     setEditing({ key: '', title: '', description: '', icon: '🏆', gemReward: 0, xpReward: 0 })
@@ -26,24 +27,23 @@ export default function AdminAchievements() {
 
   async function save() {
     setBusy(true)
-    setError('')
+    setMutError('')
     try {
       if (editing.id) {
         const { id, key, ...d } = editing
-        await adminApi.achievements.update(id, d)
+        await updateAchievement({ id, data: d }).unwrap()
       } else {
-        await adminApi.achievements.create(editing)
+        await createAchievement(editing).unwrap()
       }
       setEditing(null)
-      refresh()
-    } catch (e) { setError(e.message) }
+    } catch (e) { setMutError(e.data?.error || e.message) }
     finally { setBusy(false) }
   }
 
   async function remove(a) {
     if (!confirm(`"${a.title}" yutug'ini o'chirasizmi?`)) return
-    try { await adminApi.achievements.remove(a.id); refresh() }
-    catch (e) { setError(e.message) }
+    try { await removeAchievement(a.id).unwrap() }
+    catch (e) { setMutError(e.data?.error || e.message) }
   }
 
   return (
@@ -55,7 +55,11 @@ export default function AdminAchievements() {
         </button>
       </div>
 
-      {error && <div className="bg-error-container text-on-error-container px-4 py-3 rounded-xl">{error}</div>}
+      {(error || mutError) && (
+        <div className="bg-error-container text-on-error-container px-4 py-3 rounded-xl">
+          {mutError || error?.data?.error || 'Xatolik'}
+        </div>
+      )}
 
       <DataTable
         columns={[

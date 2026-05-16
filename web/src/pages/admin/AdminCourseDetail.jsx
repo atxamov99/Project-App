@@ -1,25 +1,26 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { adminApi } from '../../lib/api'
+import {
+  useAdminCourseDetailQuery,
+  useAdminCreateUnitMutation,
+  useAdminUpdateUnitMutation,
+  useAdminRemoveUnitMutation,
+} from '../../store/apiSlice'
 import Modal, { ModalActions } from '../../components/admin/Modal'
 import FormField, { FormInput, FormTextarea } from '../../components/admin/FormField'
 
 export default function AdminCourseDetail() {
   const { id } = useParams()
-  const [course, setCourse] = useState(null)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState('')
+  const { data, isLoading: loading, error } = useAdminCourseDetailQuery(id)
+  const [createUnit] = useAdminCreateUnitMutation()
+  const [updateUnit] = useAdminUpdateUnitMutation()
+  const [removeUnit] = useAdminRemoveUnitMutation()
+
+  const course = data?.course ?? null
+
   const [editing, setEditing] = useState(null)
   const [busy, setBusy] = useState(false)
-
-  function refresh() {
-    setLoading(true)
-    adminApi.courses.get(id)
-      .then((d) => setCourse(d.course))
-      .catch((e) => setError(e.message))
-      .finally(() => setLoading(false))
-  }
-  useEffect(refresh, [id])
+  const [mutError, setMutError] = useState('')
 
   function startCreate() {
     const nextOrder = (course?.units?.length ?? 0) + 1
@@ -28,30 +29,28 @@ export default function AdminCourseDetail() {
 
   async function save() {
     setBusy(true)
-    setError('')
+    setMutError('')
     try {
       if (editing.id) {
-        const { id: unitId, courseId, ...data } = editing
-        await adminApi.units.update(unitId, data)
+        const { id: unitId, courseId, ...d } = editing
+        await updateUnit({ id: unitId, data: d }).unwrap()
       } else {
-        await adminApi.units.create(editing)
+        await createUnit(editing).unwrap()
       }
       setEditing(null)
-      refresh()
-    } catch (e) { setError(e.message) }
+    } catch (e) { setMutError(e.data?.error || e.message) }
     finally { setBusy(false) }
   }
 
   async function remove(unit) {
     if (!confirm(`"${unit.title}" unitini o'chirasizmi? Darslar ham yo'qoladi.`)) return
     try {
-      await adminApi.units.remove(unit.id)
-      refresh()
-    } catch (e) { setError(e.message) }
+      await removeUnit(unit.id).unwrap()
+    } catch (e) { setMutError(e.data?.error || e.message) }
   }
 
   if (loading) return <div className="text-on-surface-variant">Yuklanmoqda…</div>
-  if (error) return <div className="bg-error-container text-on-error-container px-4 py-3 rounded-xl">{error}</div>
+  if (error) return <div className="bg-error-container text-on-error-container px-4 py-3 rounded-xl">{error.data?.error || 'Xatolik'}</div>
   if (!course) return null
 
   return (
@@ -69,6 +68,8 @@ export default function AdminCourseDetail() {
           + Yangi unit
         </button>
       </div>
+
+      {mutError && <div className="bg-error-container text-on-error-container px-4 py-3 rounded-xl">{mutError}</div>}
 
       <section>
         <div className="space-y-2">
