@@ -1,12 +1,15 @@
+import logo from '../../assets/LingvaUz_Logo_Shaffof.png'
+
 export default function Mascot({ size = 40, className = '' }) {
   return (
-    <div
-      className={`flex items-center justify-center rounded-full bg-secondary-container/30 border border-outline-variant ${className}`}
-      style={{ width: size, height: size, fontSize: size * 0.6 }}
-      role="img"
-      aria-label="Tarvuz mascot"
-    >
-      🍉
-    </div>
+    <img
+      src={logo}
+      alt="LingvaUZ logo"
+      width={size}
+      height={size}
+      className={`object-contain select-none ${className}`}
+      style={{ width: size, height: size }}
+      draggable={false}
+    />
   )
 }
