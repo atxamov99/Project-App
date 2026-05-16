@@ -4,7 +4,6 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
 }
 
 // ─── FOYDALANUVCHI ─────────────────────────────
@@ -13,10 +12,15 @@ model User {
   id            String    @id @default(cuid())
   email         String    @unique
   phone         String?   @unique
-  passwordHash  String
+  passwordHash  String?
+  googleId      String?   @unique
   username      String    @unique
   displayName   String
   avatar        String?
+  role          Role      @default(STUDENT)
+  suspendedAt   DateTime?
+  suspendReason String?
+  adminNote     String?
   gems          Int       @default(0)
   totalXP       Int       @default(0)
   streak        Int       @default(0)
@@ -35,8 +39,49 @@ model User {
   leagueEntry   LeagueEntry?
   achievements  UserAchievement[]
   sessions      Session[]
+  auditLogs     AuditLog[]   @relation("ActorAuditLogs")
+  following     Friendship[] @relation("Following")
+  followers     Friendship[] @relation("Followers")
 
+  @@index([role])
   @@map("users")
+}
+
+enum Role {
+  STUDENT
+  CONTENT_EDITOR
+  ADMIN
+}
+
+model Friendship {
+  followerId  String
+  follower    User     @relation("Following", fields: [followerId], references: [id], onDelete: Cascade)
+  followingId String
+  following   User     @relation("Followers", fields: [followingId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+
+  @@id([followerId, followingId])
+  @@index([followingId])
+  @@map("friendships")
+}
+
+model AuditLog {
+  id         String   @id @default(cuid())
+  actorId    String
+  actor      User     @relation("ActorAuditLogs", fields: [actorId], references: [id], onDelete: Restrict)
+  action     String
+  targetType String?
+  targetId   String?
+  metadata   Json?
+  ipAddress  String?
+  userAgent  String?
+  createdAt  DateTime @default(now())
+
+  @@index([actorId])
+  @@index([action])
+  @@index([targetType, targetId])
+  @@index([createdAt])
+  @@map("audit_logs")
 }
 
 model UserLives {

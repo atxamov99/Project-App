@@ -1,0 +1,40 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: lingva
+      POSTGRES_PASSWORD: lingva
+      POSTGRES_DB: lingvauz
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U lingva -d lingvauz"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  api:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://lingva:lingva@postgres:5432/lingvauz?schema=public
+      JWT_SECRET: ${JWT_SECRET:-change-me-in-production-please-use-long-random-string}
+      JWT_EXPIRES_IN: 30d
+      BCRYPT_ROUNDS: 10
+      PORT: 3001
+      NODE_ENV: production
+      CORS_ORIGIN: ${CORS_ORIGIN:-http://localhost:5173}
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID:-}
+    ports:
+      - "3001:3001"
+
+volumes:
+  postgres_data:

@@ -11,6 +11,11 @@ export const login: RequestHandler = async (req, res) => {
   res.json(result)
 }
 
+export const googleLogin: RequestHandler = async (req, res) => {
+  const result = await service.googleLogin(req.body)
+  res.json(result)
+}
+
 export const me: RequestHandler = async (req, res) => {
   const user = await service.me(req.userId!)
   res.json({ user })
