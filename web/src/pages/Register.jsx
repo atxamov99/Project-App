@@ -1,8 +1,8 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { useRegisterMutation } from '../store/apiSlice'
+import { apiSlice, useRegisterMutation } from '../store/apiSlice'
 import { useAppDispatch } from '../store/hooks'
-import { setCredentials } from '../store/slices/authSlice'
+import { logout, setCredentials } from '../store/slices/authSlice'
 import Mascot from '../components/shared/Mascot'
 import GoogleButton from '../components/shared/GoogleButton'
 
@@ -13,6 +13,12 @@ export default function Register() {
   const [form, setForm] = useState({ email: '', username: '', displayName: '', password: '' })
   const [errors, setErrors] = useState({})
   const [globalError, setGlobalError] = useState('')
+
+  // Eski sessiyani va cache'ni tozalash — yangi hisob yaratishda eski token bilan adashmaslik uchun
+  useEffect(() => {
+    dispatch(logout())
+    dispatch(apiSlice.util.resetApiState())
+  }, [dispatch])
 
   function update(field, value) {
     setForm((f) => ({ ...f, [field]: value }))

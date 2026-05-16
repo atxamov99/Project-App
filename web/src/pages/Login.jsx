@@ -1,8 +1,8 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { useLoginMutation } from '../store/apiSlice'
+import { apiSlice, useLoginMutation } from '../store/apiSlice'
 import { useAppDispatch } from '../store/hooks'
-import { setCredentials } from '../store/slices/authSlice'
+import { logout, setCredentials } from '../store/slices/authSlice'
 import Mascot from '../components/shared/Mascot'
 import GoogleButton from '../components/shared/GoogleButton'
 
@@ -12,6 +12,12 @@ export default function Login() {
   const [login, { isLoading: loading }] = useLoginMutation()
   const [form, setForm] = useState({ email: '', password: '' })
   const [error, setError] = useState('')
+
+  // Eski sessiyani va cache'ni tozalash — boshqa hisobga kirish uchun
+  useEffect(() => {
+    dispatch(logout())
+    dispatch(apiSlice.util.resetApiState())
+  }, [dispatch])
 
   async function onSubmit(e) {
     e.preventDefault()

@@ -3,6 +3,7 @@ import Icon from '../shared/Icon'
 import Mascot from '../shared/Mascot'
 import { useAppDispatch } from '../../store/hooks'
 import { logout } from '../../store/slices/authSlice'
+import { apiSlice } from '../../store/apiSlice'
 
 const ITEMS = [
   { to: '/learn',       label: "O'rgan",   icon: 'home',           end: true },
@@ -22,6 +23,7 @@ export default function SideNav({ user }) {
 
   function handleLogout() {
     dispatch(logout())
+    dispatch(apiSlice.util.resetApiState())
     navigate('/')
   }
 

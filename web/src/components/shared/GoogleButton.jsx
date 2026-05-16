@@ -26,7 +26,11 @@ export default function GoogleButton({ onSuccess, onError }) {
       window.google.accounts.id.initialize({
         client_id: CLIENT_ID,
         callback: handleCredential,
+        auto_select: false,
+        cancel_on_tap_outside: true,
       })
+      // One Tap kerakmas — faqat tugma bossa login bo'lsin
+      window.google.accounts.id.cancel()
 
       if (buttonRef.current) {
         window.google.accounts.id.renderButton(buttonRef.current, {

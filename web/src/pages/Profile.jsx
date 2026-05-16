@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '../store/hooks'
 import { logout as logoutAction, setCredentials } from '../store/slices/authSlice'
 import {
+  apiSlice,
   useMeQuery,
   useGetFollowingQuery,
   useFollowUserMutation,
@@ -42,6 +43,7 @@ export default function Profile() {
 
   function handleLogout() {
     dispatch(logoutAction())
+    dispatch(apiSlice.util.resetApiState())
     navigate('/')
   }
 

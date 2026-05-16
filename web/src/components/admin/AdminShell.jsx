@@ -1,6 +1,7 @@
 import { NavLink, Outlet, useNavigate } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import { logout } from '../../store/slices/authSlice'
+import { apiSlice } from '../../store/apiSlice'
 import Icon from '../shared/Icon'
 
 const NAV = [
@@ -21,6 +22,7 @@ export default function AdminShell() {
 
   function handleLogout() {
     dispatch(logout())
+    dispatch(apiSlice.util.resetApiState())
     navigate('/')
   }
 
@@ -66,23 +68,40 @@ export default function AdminShell() {
         </div>
       </aside>
 
-      <header className="fixed top-0 left-60 right-0 h-14 bg-surface-container-lowest border-b border-outline-variant flex items-center justify-between px-6 z-20">
+      <header className="fixed top-0 left-60 right-0 h-16 bg-surface-container-lowest border-b border-outline-variant flex items-center justify-between px-6 z-20">
         <span className="font-bold text-on-surface">LingvaUZ Admin</span>
-        <div className="flex items-center gap-3">
-          <div className="text-sm text-on-surface-variant">
-            {user.displayName} <span className="font-bold text-secondary uppercase tracking-widest text-[10px] ml-1">{user.role}</span>
+        <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 rounded-full bg-primary-fixed text-on-primary-fixed-variant font-extrabold text-sm flex items-center justify-center overflow-hidden shrink-0">
+              {user.avatar
+                ? <img src={user.avatar} alt="" className="w-full h-full object-cover" />
+                : (user.displayName || user.username || '?').slice(0, 1).toUpperCase()}
+            </div>
+            <div className="leading-tight">
+              <p className="text-sm font-bold text-on-surface">{user.displayName}</p>
+              <div className="flex items-center gap-1.5">
+                <span className="text-[10px] text-on-surface-variant">@{user.username}</span>
+                <span className="text-[9px] font-bold uppercase tracking-widest bg-secondary text-on-secondary px-1.5 py-0.5 rounded">
+                  {user.role}
+                </span>
+              </div>
+            </div>
           </div>
+
+          <div className="w-px h-8 bg-outline-variant" />
+
           <button
             onClick={handleLogout}
-            className="text-sm text-on-surface-variant hover:text-error font-semibold"
-            aria-label="Logout"
+            className="flex items-center gap-1.5 text-sm font-semibold text-on-surface-variant hover:text-error hover:bg-error-container/40 px-3 py-1.5 rounded-lg transition-colors"
+            aria-label="Chiqish"
           >
-            <Icon name="exit_to_app" style={{ fontSize: 18 }} />
+            <Icon name="logout" style={{ fontSize: 18 }} />
+            <span className="hidden sm:inline">Chiqish</span>
           </button>
         </div>
       </header>
 
-      <main className="ml-60 pt-14 min-h-screen">
+      <main className="ml-60 pt-16 min-h-screen">
         <div className="p-6">
           <Outlet />
         </div>
