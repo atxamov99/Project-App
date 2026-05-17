@@ -82,12 +82,18 @@ export const apiSlice = createApi({
     }),
     followUser: builder.mutation({
       query: (username) => ({ url: '/friends/follow', method: 'POST', body: { username } }),
+      invalidatesTags: (result, _err, username) => [{ type: 'User', id: username }],
     }),
     unfollowUser: builder.mutation({
       query: (userId) => ({ url: `/friends/unfollow/${userId}`, method: 'DELETE' }),
+      invalidatesTags: ['User'],
     }),
     searchFriends: builder.query({
       query: (q) => `/friends/search?q=${encodeURIComponent(q)}`,
+    }),
+    getUserProfile: builder.query({
+      query: (username) => `/users/${username}`,
+      providesTags: (result, _err, username) => [{ type: 'User', id: username }],
     }),
 
     // --- Admin ---
@@ -274,6 +280,7 @@ export const {
   useFollowUserMutation,
   useUnfollowUserMutation,
   useSearchFriendsQuery,
+  useGetUserProfileQuery,
   useAdminUsersQuery,
   useAdminUserDetailQuery,
   useAdminChangeRoleMutation,

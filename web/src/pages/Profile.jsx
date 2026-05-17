@@ -59,7 +59,7 @@ export default function Profile() {
         <div className="flex flex-col items-center text-center md:items-start md:text-left md:shrink-0">
           <div className="w-24 h-24 md:w-32 md:h-32 rounded-full bg-primary-fixed border-4 border-surface-container-highest flex items-center justify-center text-4xl md:text-5xl font-extrabold text-on-primary-fixed-variant relative overflow-hidden">
             {user.avatar
-              ? <img src={user.avatar} alt="" className="w-full h-full object-cover" />
+              ? <img src={user.avatar} alt="" referrerPolicy="no-referrer" className="w-full h-full object-cover" />
               : initial}
           </div>
         </div>
@@ -249,20 +249,26 @@ function AchievementRow({ a }) {
 }
 
 function FriendRow({ friend, onUnfollow }) {
+  const navigate = useNavigate()
   return (
-    <div className="bg-surface-container-lowest border border-outline-variant rounded-xl p-3 flex items-center gap-3">
-      <div className="w-10 h-10 rounded-full bg-primary-fixed text-on-primary-fixed-variant font-bold flex items-center justify-center overflow-hidden">
-        {friend.avatar
-          ? <img src={friend.avatar} alt="" className="w-full h-full object-cover" />
-          : (friend.displayName || friend.username).slice(0, 1).toUpperCase()}
-      </div>
-      <div className="grow min-w-0">
-        <p className="font-bold text-on-surface truncate">{friend.displayName}</p>
-        <p className="text-xs text-on-surface-variant">@{friend.username} · {friend.totalXP.toLocaleString()} XP</p>
-      </div>
+    <div className="bg-surface-container-lowest border border-outline-variant rounded-xl p-3 flex items-center gap-3 hover:border-secondary/40 transition-colors">
+      <button
+        onClick={() => navigate(`/u/${friend.username}`)}
+        className="flex items-center gap-3 grow min-w-0 cursor-pointer text-left"
+      >
+        <div className="w-10 h-10 rounded-full bg-primary-fixed text-on-primary-fixed-variant font-bold flex items-center justify-center overflow-hidden shrink-0">
+          {friend.avatar
+            ? <img src={friend.avatar} alt="" referrerPolicy="no-referrer" className="w-full h-full object-cover" />
+            : (friend.displayName || friend.username).slice(0, 1).toUpperCase()}
+        </div>
+        <div className="grow min-w-0">
+          <p className="font-bold text-on-surface truncate">{friend.displayName}</p>
+          <p className="text-xs text-on-surface-variant">@{friend.username} · {friend.totalXP.toLocaleString()} XP</p>
+        </div>
+      </button>
       <button
         onClick={onUnfollow}
-        className="text-xs font-bold uppercase tracking-widest text-on-surface-variant hover:text-error transition-colors px-3 py-1.5"
+        className="text-xs font-bold uppercase tracking-widest text-on-surface-variant hover:text-error transition-colors px-3 py-1.5 cursor-pointer shrink-0"
         title="Obunani bekor qilish"
       >
         Olib tashlash
@@ -287,6 +293,7 @@ function AccountRow({ icon, label, onClick }) {
 /* ─── Add friend modal ─── */
 
 function AddFriendModal({ isOpen, onClose }) {
+  const navigate = useNavigate()
   const [q, setQ] = useState('')
   const [debounced, setDebounced] = useState('')
 
@@ -338,23 +345,28 @@ function AddFriendModal({ isOpen, onClose }) {
 
         <div className="space-y-2 max-h-80 overflow-y-auto">
           {results.map((u) => (
-            <div key={u.id} className="bg-surface-container-low border border-outline-variant rounded-xl p-3 flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-primary-fixed text-on-primary-fixed-variant font-bold flex items-center justify-center overflow-hidden">
-                {u.avatar
-                  ? <img src={u.avatar} alt="" className="w-full h-full object-cover" />
-                  : (u.displayName || u.username).slice(0, 1).toUpperCase()}
-              </div>
-              <div className="grow min-w-0">
-                <p className="font-bold text-on-surface truncate">{u.displayName}</p>
-                <p className="text-xs text-on-surface-variant">@{u.username} · {u.totalXP.toLocaleString()} XP</p>
-              </div>
+            <div key={u.id} className="bg-surface-container-low border border-outline-variant rounded-xl p-3 flex items-center gap-3 hover:border-secondary/40 transition-colors">
+              <button
+                onClick={() => { onClose(); navigate(`/u/${u.username}`) }}
+                className="flex items-center gap-3 grow min-w-0 cursor-pointer text-left"
+              >
+                <div className="w-10 h-10 rounded-full bg-primary-fixed text-on-primary-fixed-variant font-bold flex items-center justify-center overflow-hidden shrink-0">
+                  {u.avatar
+                    ? <img src={u.avatar} alt="" referrerPolicy="no-referrer" className="w-full h-full object-cover" />
+                    : (u.displayName || u.username).slice(0, 1).toUpperCase()}
+                </div>
+                <div className="grow min-w-0">
+                  <p className="font-bold text-on-surface truncate">{u.displayName}</p>
+                  <p className="text-xs text-on-surface-variant">@{u.username} · {u.totalXP.toLocaleString()} XP</p>
+                </div>
+              </button>
               {u.isFollowing ? (
-                <span className="text-[10px] font-bold uppercase tracking-widest bg-surface-container-high text-on-surface-variant px-3 py-1 rounded-full">Obuna</span>
+                <span className="text-[10px] font-bold uppercase tracking-widest bg-surface-container-high text-on-surface-variant px-3 py-1 rounded-full shrink-0">Obuna</span>
               ) : (
                 <button
                   onClick={() => follow(u.username)}
                   disabled={followBusy}
-                  className="bg-secondary text-on-secondary px-3 py-1.5 rounded-lg text-xs font-bold disabled:opacity-60"
+                  className="bg-secondary text-on-secondary px-3 py-1.5 rounded-lg text-xs font-bold disabled:opacity-60 cursor-pointer shrink-0"
                 >
                   Qo'shish
                 </button>

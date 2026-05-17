@@ -74,7 +74,7 @@ export default function AdminShell() {
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 rounded-full bg-primary-fixed text-on-primary-fixed-variant font-extrabold text-sm flex items-center justify-center overflow-hidden shrink-0">
               {user.avatar
-                ? <img src={user.avatar} alt="" className="w-full h-full object-cover" />
+                ? <img src={user.avatar} alt="" referrerPolicy="no-referrer" className="w-full h-full object-cover" />
                 : (user.displayName || user.username || '?').slice(0, 1).toUpperCase()}
             </div>
             <div className="leading-tight">

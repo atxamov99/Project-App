@@ -7,6 +7,7 @@ import Lesson from './pages/Lesson'
 import Practice from './pages/Practice'
 import Leaderboard from './pages/Leaderboard'
 import Profile from './pages/Profile'
+import UserProfile from './pages/UserProfile'
 import ProtectedRoute from './components/ProtectedRoute'
 import AppShell from './components/layout/AppShell'
 
@@ -42,6 +43,7 @@ export default function App() {
             <Route path="/practice" element={<Practice />} />
             <Route path="/leaderboard" element={<Leaderboard />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/u/:username" element={<UserProfile />} />
           </Route>
         </Route>
 
