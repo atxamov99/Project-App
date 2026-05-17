@@ -39,11 +39,19 @@ async function main() {
     { name: 'Diamond',  order: 10, color: '#B9F2FF', icon: '💎' },
   ]
   for (const l of leagues) {
-    await prisma.league.upsert({
-      where: { id: `league-${l.order}` },
-      update: {},
-      create: { id: `league-${l.order}`, ...l },
-    })
+    // Avval order bo'yicha mavjud yozuvni topib, nomi/ikon/rangini yangilaymiz
+    // (eski seed'lar boshqa ID formatida saqlangan bo'lishi mumkin)
+    const existing = await prisma.league.findFirst({ where: { order: l.order } })
+    if (existing) {
+      await prisma.league.update({
+        where: { id: existing.id },
+        data: { name: l.name, color: l.color, icon: l.icon, order: l.order },
+      })
+    } else {
+      await prisma.league.create({
+        data: { id: `league-${l.order}`, ...l },
+      })
+    }
   }
 
   // Achievementlar

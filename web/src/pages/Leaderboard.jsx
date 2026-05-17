@@ -115,12 +115,13 @@ export default function Leaderboard() {
           )}
 
           {leaderboard.map((row) => (
-            <div
+            <button
               key={row.userId}
-              className={`flex items-center gap-3 px-4 py-3 rounded-xl ${
+              onClick={() => navigate(row.isYou ? '/profile' : `/u/${row.username}`)}
+              className={`w-full text-left flex items-center gap-3 px-4 py-3 rounded-xl transition-transform cursor-pointer hover:scale-[1.01] ${
                 row.isYou
                   ? 'bg-secondary-container border-2 border-secondary'
-                  : 'bg-surface-container-lowest border border-outline-variant'
+                  : 'bg-surface-container-lowest border border-outline-variant hover:border-secondary/40'
               }`}
             >
               <span className={`text-sm font-bold w-6 ${row.isYou ? 'text-on-secondary-container' : 'text-on-surface-variant'}`}>
@@ -130,7 +131,7 @@ export default function Leaderboard() {
                 row.isYou ? 'bg-secondary text-white' : 'bg-primary-fixed text-on-primary-fixed-variant'
               }`}>
                 {row.avatar
-                  ? <img src={row.avatar} alt="" className="w-full h-full object-cover" />
+                  ? <img src={row.avatar} alt="" referrerPolicy="no-referrer" className="w-full h-full object-cover" />
                   : (row.displayName || row.username).slice(0, 1).toUpperCase()}
               </div>
               <div className="grow min-w-0">
@@ -149,7 +150,7 @@ export default function Leaderboard() {
                   XP
                 </p>
               </div>
-            </div>
+            </button>
           ))}
         </div>
 

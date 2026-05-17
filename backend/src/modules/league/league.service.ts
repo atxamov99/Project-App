@@ -26,23 +26,47 @@ async function ensureEntry(userId: string) {
 export async function getLeague(userId: string) {
   const entry = await ensureEntry(userId)
 
+  // Hali entry yo'q bo'lgan boshqa userlarni ham shu ligaga qo'shamiz
+  const lowest = await ensureLowestLeague()
+  const ws = weekStart()
+  const groupId = `${lowest.id}-${ws.toISOString().slice(0, 10)}-1`
+
+  const usersWithoutEntry = await prisma.user.findMany({
+    where: { leagueEntry: null, suspendedAt: null },
+    select: { id: true },
+  })
+  if (usersWithoutEntry.length > 0) {
+    await prisma.leagueEntry.createMany({
+      data: usersWithoutEntry.map((u) => ({
+        userId: u.id,
+        leagueId: lowest.id,
+        groupId,
+        weeklyXP: 0,
+        weekStart: ws,
+      })),
+      skipDuplicates: true,
+    })
+  }
+
+  // Shu ligadagi barcha userlar (groupId qattiq filter emas — kam userda bir guruh)
   const leaderboard = await prisma.leagueEntry.findMany({
-    where: { groupId: entry.groupId },
+    where: { leagueId: entry.leagueId },
     orderBy: [{ weeklyXP: 'desc' }, { user: { totalXP: 'desc' } }],
     take: GROUP_SIZE,
     include: {
-      user: { select: { username: true, displayName: true, avatar: true, totalXP: true } },
+      user: { select: { username: true, displayName: true, avatar: true, totalXP: true, suspendedAt: true } },
     },
   })
 
-  const myRank = leaderboard.findIndex((e) => e.userId === userId) + 1
+  const visible = leaderboard.filter((e) => !e.user.suspendedAt)
+  const myRank = visible.findIndex((e) => e.userId === userId) + 1
 
   return {
     league: entry.league,
     weekStart: entry.weekStart,
     weeklyXP: entry.weeklyXP,
     rank: myRank || null,
-    leaderboard: leaderboard.map((e, i) => ({
+    leaderboard: visible.map((e, i) => ({
       rank: i + 1,
       userId: e.userId,
       username: e.user.username,
