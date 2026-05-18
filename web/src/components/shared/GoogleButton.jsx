@@ -7,65 +7,78 @@ const CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID
 
 export default function GoogleButton({ onSuccess, onError }) {
   const buttonRef = useRef(null)
+  const onSuccessRef = useRef(onSuccess)
+  const onErrorRef = useRef(onError)
   const dispatch = useAppDispatch()
   const [googleLogin] = useGoogleLoginMutation()
   const [ready, setReady] = useState(false)
   const [loading, setLoading] = useState(false)
 
+  // Callback'larni ref orqali — useEffect qayta ishga tushmasin
+  useEffect(() => { onSuccessRef.current = onSuccess; onErrorRef.current = onError })
+
   useEffect(() => {
     if (!CLIENT_ID) return
 
     let cancelled = false
-    function tryInit() {
-      if (cancelled) return
-      if (!window.google?.accounts?.id) {
-        setTimeout(tryInit, 100)
-        return
-      }
-
-      window.google.accounts.id.initialize({
-        client_id: CLIENT_ID,
-        callback: handleCredential,
-        auto_select: false,
-        cancel_on_tap_outside: true,
-      })
-      // One Tap kerakmas — faqat tugma bossa login bo'lsin
-      window.google.accounts.id.cancel()
-
-      if (buttonRef.current) {
-        window.google.accounts.id.renderButton(buttonRef.current, {
-          type: 'standard',
-          theme: 'outline',
-          size: 'large',
-          text: 'continue_with',
-          shape: 'rectangular',
-          logo_alignment: 'left',
-          width: buttonRef.current.offsetWidth || 320,
-        })
-      }
-      setReady(true)
-    }
+    let timeoutId
 
     async function handleCredential(response) {
       if (!response?.credential) {
-        onError?.('Google javob bermadi')
+        onErrorRef.current?.('Google javob bermadi')
         return
       }
       setLoading(true)
       try {
         const result = await googleLogin({ idToken: response.credential }).unwrap()
         dispatch(setCredentials({ user: result.user, token: result.token }))
-        onSuccess?.(result)
+        onSuccessRef.current?.(result)
       } catch (err) {
-        onError?.(err.data?.error || err.message || 'Google login xatoligi')
+        onErrorRef.current?.(err.data?.error || err.message || 'Google login xatoligi')
       } finally {
         setLoading(false)
       }
     }
 
+    function tryInit() {
+      if (cancelled) return
+      if (!window.google?.accounts?.id) {
+        timeoutId = setTimeout(tryInit, 100)
+        return
+      }
+
+      try {
+        window.google.accounts.id.initialize({
+          client_id: CLIENT_ID,
+          callback: handleCredential,
+          auto_select: false,
+          cancel_on_tap_outside: true,
+        })
+
+        if (buttonRef.current) {
+          window.google.accounts.id.renderButton(buttonRef.current, {
+            type: 'standard',
+            theme: 'outline',
+            size: 'large',
+            text: 'continue_with',
+            shape: 'rectangular',
+            logo_alignment: 'left',
+            width: buttonRef.current.offsetWidth || 320,
+          })
+        }
+        setReady(true)
+      } catch (err) {
+        console.error('Google init failed:', err)
+        onErrorRef.current?.('Google yuklanmadi. Sahifani yangilang.')
+      }
+    }
+
     tryInit()
-    return () => { cancelled = true }
-  }, [onError, onSuccess, googleLogin, dispatch])
+    return () => {
+      cancelled = true
+      if (timeoutId) clearTimeout(timeoutId)
+    }
+  }, [googleLogin, dispatch])
 
   if (!CLIENT_ID) {
     return (

@@ -57,9 +57,40 @@ export const apiSlice = createApi({
     }),
     checkExercise: builder.mutation({
       query: ({ id, answer }) => ({ url: `/exercises/${id}/check`, method: 'POST', body: { answer } }),
+      // Noto'g'ri javobdan keyin lives kamayadi — cache'ni darhol yangilaymiz
+      async onQueryStarted(_arg, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled
+          if (!data.isCorrect && data.livesAfter !== null && data.livesAfter !== undefined) {
+            dispatch(
+              apiSlice.util.updateQueryData('getLives', undefined, (draft) => {
+                if (draft) draft.current = data.livesAfter
+              })
+            )
+          }
+        } catch { /* xato bo'lsa cache'ga teginmaymiz */ }
+      },
     }),
     getPracticeSession: builder.query({
       query: (limit = 10) => ({ url: '/practice/session', params: { limit } }),
+    }),
+    getFlashcards: builder.query({
+      query: ({ limit = 10, languageId } = {}) => ({
+        url: '/words/flashcards',
+        params: { limit, ...(languageId ? { languageId } : {}) },
+      }),
+    }),
+    reviewWord: builder.mutation({
+      query: ({ id, correct }) => ({ url: `/words/${id}/reviewed`, method: 'POST', body: { correct } }),
+    }),
+    browseWords: builder.query({
+      query: (params = {}) => ({ url: '/words/browse', params }),
+    }),
+    translateText: builder.query({
+      query: ({ q, from = 'uz', to = 'en' }) => ({ url: '/dictionary/translate', params: { q, from, to } }),
+    }),
+    getDictLanguages: builder.query({
+      query: () => '/dictionary/languages',
     }),
     getLeague: builder.query({
       query: () => '/league',
@@ -94,6 +125,29 @@ export const apiSlice = createApi({
     getUserProfile: builder.query({
       query: (username) => `/users/${username}`,
       providesTags: (result, _err, username) => [{ type: 'User', id: username }],
+    }),
+
+    // --- Billing / Premium ---
+    getPlans: builder.query({
+      query: () => '/billing/plans',
+    }),
+    subscribePlan: builder.mutation({
+      query: (plan) => ({ url: '/billing/subscribe', method: 'POST', body: { plan } }),
+      invalidatesTags: ['User'],
+    }),
+    cancelPlan: builder.mutation({
+      query: () => ({ url: '/billing/cancel', method: 'POST' }),
+      invalidatesTags: ['User'],
+    }),
+
+    // --- Admin Premium ---
+    adminSetPremium: builder.mutation({
+      query: ({ id, isPremium, days }) => ({
+        url: `/admin/users/${id}/premium`,
+        method: 'POST',
+        body: { isPremium, days },
+      }),
+      invalidatesTags: ['User'],
     }),
 
     // --- Admin ---
@@ -271,6 +325,11 @@ export const {
   useCompleteLessonMutation,
   useCheckExerciseMutation,
   useGetPracticeSessionQuery,
+  useGetFlashcardsQuery,
+  useReviewWordMutation,
+  useBrowseWordsQuery,
+  useLazyTranslateTextQuery,
+  useGetDictLanguagesQuery,
   useGetLeagueQuery,
   useGetStreakQuery,
   useGetLivesQuery,
@@ -281,6 +340,10 @@ export const {
   useUnfollowUserMutation,
   useSearchFriendsQuery,
   useGetUserProfileQuery,
+  useGetPlansQuery,
+  useSubscribePlanMutation,
+  useCancelPlanMutation,
+  useAdminSetPremiumMutation,
   useAdminUsersQuery,
   useAdminUserDetailQuery,
   useAdminChangeRoleMutation,

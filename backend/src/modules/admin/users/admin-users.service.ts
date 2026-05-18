@@ -131,6 +131,26 @@ export async function unsuspendUser(targetId: string) {
   return updated
 }
 
+export async function setPremium(targetId: string, isPremium: boolean, days?: number) {
+  const user = await prisma.user.findUnique({ where: { id: targetId }, select: { premiumUntil: true } })
+  if (!user) throw new AppError(404, 'Foydalanuvchi topilmadi')
+
+  let premiumUntil: Date | null = null
+  if (isPremium) {
+    const dayCount = days && days > 0 ? days : 30
+    const now = new Date()
+    const base = user.premiumUntil && user.premiumUntil > now ? user.premiumUntil : now
+    premiumUntil = new Date(base.getTime() + dayCount * 24 * 60 * 60 * 1000)
+  }
+
+  const updated = await prisma.user.update({
+    where: { id: targetId },
+    data: { isPremium, premiumUntil },
+    select: PUBLIC_FIELDS,
+  })
+  return updated
+}
+
 export async function deleteUser(currentUserId: string, targetId: string) {
   if (targetId === currentUserId) {
     throw new AppError(422, "O'zingizni o'chira olmaysiz")

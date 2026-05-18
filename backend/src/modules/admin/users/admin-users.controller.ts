@@ -49,6 +49,19 @@ export const unsuspend: RequestHandler = async (req, res) => {
   res.json({ user })
 }
 
+export const setPremium: RequestHandler = async (req, res) => {
+  const { isPremium, days } = req.body
+  const user = await service.setPremium(req.params.id, !!isPremium, days)
+  await logAction({
+    ...actorContext(req),
+    action: isPremium ? 'user.premium.grant' : 'user.premium.revoke',
+    targetType: 'user',
+    targetId: req.params.id,
+    metadata: { days },
+  })
+  res.json({ user })
+}
+
 export const remove: RequestHandler = async (req, res) => {
   const result = await service.deleteUser(req.userId!, req.params.id)
   await logAction({

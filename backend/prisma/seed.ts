@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client'
 import { UZ_EN_BASICS } from './content/uz-en-basics'
+import { COMMON_WORDS } from './words-seed'
 
 const prisma = new PrismaClient()
 
@@ -159,6 +160,24 @@ async function main() {
     }
   }
 
+  // Lug'at uchun keng tarqalgan inglizcha so'zlar (250+ ta)
+  let extraWords = 0
+  for (const w of COMMON_WORDS) {
+    await prisma.word.upsert({
+      where: { id: `${en.code}-${w.text.toLowerCase()}` },
+      update: { translation: w.translation, category: w.category, level: w.level },
+      create: {
+        id: `${en.code}-${w.text.toLowerCase()}`,
+        languageId: en.id,
+        text: w.text,
+        translation: w.translation,
+        category: w.category,
+        level: w.level,
+      },
+    })
+    extraWords++
+  }
+
   console.log('✅ Tugadi:', {
     languages: [uz.code, en.code, ru.code],
     leagues: leagues.length,
@@ -166,7 +185,8 @@ async function main() {
     courses: 1,
     lessons: lessonsCreated,
     exercises: exercisesCreated,
-    words: wordsCreated,
+    wordsFromExercises: wordsCreated,
+    commonWords: extraWords,
   })
 }
 

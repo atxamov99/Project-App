@@ -14,6 +14,7 @@ router.get('/:id', controller.get)
 router.patch('/:id/role', validateBody(changeRoleSchema), controller.changeRole)
 router.post('/:id/suspend', validateBody(suspendSchema), controller.suspend)
 router.post('/:id/unsuspend', controller.unsuspend)
+router.post('/:id/premium', controller.setPremium)
 router.delete('/:id', controller.remove)
 
 export default router
