@@ -64,8 +64,8 @@ export async function searchUsers(currentUserId: string, q: string) {
         { suspendedAt: null },
         {
           OR: [
-            { username: { contains: q, mode: 'insensitive' } },
-            { displayName: { contains: q, mode: 'insensitive' } },
+            { username: { contains: q } },
+            { displayName: { contains: q } },
           ],
         },
       ],

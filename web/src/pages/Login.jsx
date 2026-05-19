@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { apiSlice, useLoginMutation } from '../store/apiSlice'
 import { useAppDispatch } from '../store/hooks'
-import { logout, setCredentials } from '../store/slices/authSlice'
+import { setCredentials } from '../store/slices/authSlice'
 import Mascot from '../components/shared/Mascot'
 import GoogleButton from '../components/shared/GoogleButton'
 
@@ -11,23 +11,44 @@ export default function Login() {
   const dispatch = useAppDispatch()
   const [login, { isLoading: loading }] = useLoginMutation()
   const [form, setForm] = useState({ email: '', password: '' })
-  const [error, setError] = useState('')
+  const [errors, setErrors] = useState({})
+  const [globalError, setGlobalError] = useState('')
 
-  // Eski sessiyani va cache'ni tozalash — boshqa hisobga kirish uchun
+  // Cache'ni tozalash — boshqa hisobga kirish uchun
   useEffect(() => {
-    dispatch(logout())
     dispatch(apiSlice.util.resetApiState())
   }, [dispatch])
 
+  function update(field, value) {
+    setForm((f) => ({ ...f, [field]: value }))
+    if (errors[field]) setErrors((e) => ({ ...e, [field]: null }))
+  }
+
   async function onSubmit(e) {
     e.preventDefault()
-    setError('')
+    setErrors({})
+    setGlobalError('')
     try {
       const res = await login(form).unwrap()
       dispatch(setCredentials({ user: res.user, token: res.token }))
       navigate('/learn')
     } catch (err) {
-      setError(err.data?.error || err.message || 'Kirishda xatolik yuz berdi')
+      console.error('Login error:', err)
+      
+      // RTK Query unwrap() error structure handling
+      if (err.data?.details) {
+        const fieldErrors = {}
+        for (const [k, v] of Object.entries(err.data.details)) {
+          fieldErrors[k] = Array.isArray(v) ? v[0] : v
+        }
+        setErrors(fieldErrors)
+      } else if (err.status === 429) {
+        setGlobalError('Juda ko\'p urinishlar. Iltimos, biroz kutib qaytaring.')
+      } else if (err.status === 'FETCH_ERROR') {
+        setGlobalError('Serverga ulanib bo\'lmadi. Backend ishga tushganini tekshiring.')
+      } else {
+        setGlobalError(err.data?.error || err.message || 'Kirishda xatolik yuz berdi')
+      }
     }
   }
 
@@ -44,9 +65,9 @@ export default function Login() {
           <p className="text-on-surface-variant">Yana xush kelibsiz</p>
         </div>
 
-        {error && (
+        {globalError && (
           <div className="bg-error-container text-on-error-container px-4 py-3 rounded-xl text-sm mb-4">
-            {error}
+            {globalError}
           </div>
         )}
 
@@ -55,17 +76,19 @@ export default function Login() {
             label="Email"
             type="email"
             value={form.email}
-            onChange={(v) => setForm({ ...form, email: v })}
+            onChange={(v) => update('email', v)}
             placeholder="siz@example.uz"
             autoComplete="email"
+            error={errors.email}
           />
           <Field
             label="Parol"
             type="password"
             value={form.password}
-            onChange={(v) => setForm({ ...form, password: v })}
+            onChange={(v) => update('password', v)}
             placeholder="Parolingiz"
             autoComplete="current-password"
+            error={errors.password}
           />
           <button
             type="submit"
@@ -84,7 +107,7 @@ export default function Login() {
 
         <GoogleButton
           onSuccess={() => navigate('/learn')}
-          onError={setError}
+          onError={setGlobalError}
         />
 
         <p className="text-center text-sm text-on-surface-variant mt-6">

@@ -1,8 +1,12 @@
 import { PrismaClient } from '@prisma/client'
+import { PrismaBetterSqlite3 } from '@prisma/adapter-better-sqlite3'
+import 'dotenv/config'
 import { UZ_EN_BASICS } from './content/uz-en-basics'
 import { COMMON_WORDS } from './words-seed'
 
-const prisma = new PrismaClient()
+const prisma = new PrismaClient({
+  adapter: new PrismaBetterSqlite3({ url: process.env.DATABASE_URL! }),
+})
 
 async function main() {
   console.log('🌱 Seed boshlandi...')

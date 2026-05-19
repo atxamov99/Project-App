@@ -1,7 +1,9 @@
-import { Prisma, Role } from '@prisma/client'
+import { Prisma } from '@prisma/client'
 import { prisma } from '../../../config/db'
 import { AppError } from '../../../middleware/error'
 import type { ListUsersQuery } from './admin-users.schemas'
+
+type Role = 'STUDENT' | 'CONTENT_EDITOR' | 'ADMIN'
 
 const PUBLIC_FIELDS = {
   id: true,
@@ -32,9 +34,9 @@ export async function listUsers(q: ListUsersQuery) {
   if (q.premium === 'false') where.isPremium = false
   if (q.search) {
     where.OR = [
-      { email: { contains: q.search, mode: 'insensitive' } },
-      { username: { contains: q.search, mode: 'insensitive' } },
-      { displayName: { contains: q.search, mode: 'insensitive' } },
+      { email: { contains: q.search } },
+      { username: { contains: q.search } },
+      { displayName: { contains: q.search } },
     ]
   }
 

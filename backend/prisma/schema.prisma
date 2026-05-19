@@ -3,7 +3,7 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "sqlite"
 }
 
 // ─── FOYDALANUVCHI ─────────────────────────────
@@ -17,7 +17,7 @@ model User {
   username      String    @unique
   displayName   String
   avatar        String?
-  role          Role      @default(STUDENT)
+  role          String      @default("STUDENT")
   suspendedAt   DateTime?
   suspendReason String?
   adminNote     String?
@@ -47,11 +47,7 @@ model User {
   @@map("users")
 }
 
-enum Role {
-  STUDENT
-  CONTENT_EDITOR
-  ADMIN
-}
+
 
 model Friendship {
   followerId  String
@@ -150,7 +146,7 @@ model Lesson {
   unitId   String
   unit     Unit       @relation(fields: [unitId], references: [id], onDelete: Cascade)
   order    Int
-  type     LessonType @default(REGULAR)
+  type     String @default("REGULAR")
   xpReward Int        @default(10)
 
   exercises LessonExercise[]
@@ -159,23 +155,18 @@ model Lesson {
   @@map("lessons")
 }
 
-enum LessonType {
-  REGULAR
-  CHECKPOINT
-  PRACTICE
-  STORY
-}
+
 
 // ─── MASHQLAR ──────────────────────────────────
 
 model Exercise {
   id             String       @id @default(cuid())
-  type           ExerciseType
+  type           String
   question       String
   questionAudio  String?
   questionImage  String?
   correctAnswer  String
-  wrongAnswers   String[]
+  wrongAnswers   Json
   explanation    String?
   difficulty     Int          @default(1)
   targetLangCode String
@@ -187,16 +178,7 @@ model Exercise {
   @@map("exercises")
 }
 
-enum ExerciseType {
-  TRANSLATE_TEXT
-  BUILD_SENTENCE
-  LISTEN_AND_TYPE
-  SPEAK_AND_CHECK
-  MATCH_PAIRS
-  SELECT_IMAGE
-  FILL_IN_BLANK
-  MULTIPLE_CHOICE
-}
+
 
 model LessonExercise {
   id         String   @id @default(cuid())

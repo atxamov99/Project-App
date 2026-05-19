@@ -2,49 +2,50 @@
 
 @theme {
   /* ─── Loft palette ─────────────────────────── */
-  --color-surface: #fbf9f4;
-  --color-surface-dim: #dbdad5;
-  --color-surface-bright: #fbf9f4;
+  --color-surface: #e6f7ff;
+  --color-surface-dim: #cce6ff;
+  --color-surface-bright: #e6f7ff;
   --color-surface-container-lowest: #ffffff;
-  --color-surface-container-low: #f5f3ee;
-  --color-surface-container: #f0eee9;
-  --color-surface-container-high: #eae8e3;
-  --color-surface-container-highest: #e4e2dd;
+  --color-surface-container-low: #f0f8ff;
+  --color-surface-container: #d6ebff;
+  --color-surface-container-high: #b3d4ff;
+  --color-surface-container-highest: #99c2ff;
 
-  --color-on-surface: #1b1c19;
-  --color-on-surface-variant: #51443f;
-  --color-inverse-surface: #30312e;
-  --color-inverse-on-surface: #f2f1ec;
+  --color-on-surface: #003366;
+  --color-on-surface-variant: #005580;
+  --color-inverse-surface: #0066cc;
+  --color-inverse-on-surface: #e6f7ff;
 
-  --color-outline: #84746e;
-  --color-outline-variant: #d6c2bb;
-  --color-surface-tint: #82533e;
+  --color-outline: #0066cc;
+  --color-outline-variant: #99d6ff;
+  --color-surface-tint: #0099ff;
 
-  --color-primary: #623725;
+  --color-primary: #006994;
   --color-on-primary: #ffffff;
-  --color-primary-container: #7d4e3a;
-  --color-on-primary-container: #ffc4ad;
-  --color-primary-fixed: #ffdbcd;
-  --color-primary-fixed-dim: #f7b89f;
-  --color-on-primary-fixed: #331204;
-  --color-on-primary-fixed-variant: #673c29;
-  --color-inverse-primary: #f7b89f;
+  --color-primary-container: #0088b3;
+  --color-on-primary-container: #aae6ff;
+  --color-primary-fixed: #cce6ff;
+  --color-primary-fixed-dim: #b3d4ff;
+  --color-on-primary-fixed: #00334d;
+  --color-on-primary-fixed-variant: #005580;
+  --color-inverse-primary: #b3d4ff;
 
-  --color-secondary: #a03f2e;
+  --color-secondary: #00bcd4;
   --color-on-secondary: #ffffff;
-  --color-secondary-container: #fe8770;
-  --color-on-secondary-container: #741f11;
-  --color-secondary-fixed: #ffdad3;
-  --color-secondary-fixed-dim: #ffb4a5;
-  --color-on-secondary-fixed: #3f0400;
-  --color-on-secondary-fixed-variant: #802919;
+  --color-secondary-container: #33ccff;
+  --color-on-secondary-container: #004d66;
+  --color-secondary-fixed: #e6ffff;
+  --color-secondary-fixed-dim: #b3e5ff;
+  --color-on-secondary-fixed: #004d66;
+  --color-on-secondary-fixed-variant: #006680;
+  --color-inverse-secondary: #b3e5ff;
 
-  --color-tertiary: #424242;
+  --color-tertiary: #2f4f4f;
   --color-on-tertiary: #ffffff;
-  --color-tertiary-container: #5a5959;
-  --color-on-tertiary-container: #d2d0d0;
-  --color-tertiary-fixed: #e4e2e1;
-  --color-tertiary-fixed-dim: #c8c6c6;
+  --color-tertiary-container: #4a6572;
+  --color-on-tertiary-container: #dfe3e6;
+  --color-tertiary-fixed: #e9ecef;
+  --color-tertiary-fixed-dim: #d6dde5;
   --color-on-tertiary-fixed: #1b1c1c;
   --color-on-tertiary-fixed-variant: #474747;
 
@@ -53,9 +54,9 @@
   --color-error-container: #ffdad6;
   --color-on-error-container: #93000a;
 
-  --color-background: #fbf9f4;
-  --color-on-background: #1b1c19;
-  --color-surface-variant: #e4e2dd;
+  --color-background: #e6f7ff;
+  --color-on-background: #003366;
+  --color-surface-variant: #d6ebff;
 
   /* ─── Typography ──────────────────────────── */
   --font-sans: 'Plus Jakarta Sans', system-ui, sans-serif;

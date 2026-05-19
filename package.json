@@ -1,4 +1,8 @@
 {
+  "scripts": {
+    "dev": "npm run dev --prefix web",
+    "dev:backend": "npm run dev --prefix backend"
+  },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
     "react-router-dom": "^7.15.0"

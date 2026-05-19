@@ -10,6 +10,8 @@ const googleClient = env.GOOGLE_CLIENT_ID
   ? new OAuth2Client(env.GOOGLE_CLIENT_ID)
   : null
 
+type UserRole = 'STUDENT' | 'CONTENT_EDITOR' | 'ADMIN'
+
 type UserLike = {
   id: string
   email: string
@@ -19,8 +21,15 @@ type UserLike = {
   gems: number
   totalXP: number
   streak: number
-  role?: 'STUDENT' | 'CONTENT_EDITOR' | 'ADMIN'
+  role?: string
   suspendedAt?: Date | null
+}
+
+function normalizeRole(role?: string | null): UserRole {
+  if (role === 'ADMIN' || role === 'CONTENT_EDITOR' || role === 'STUDENT') {
+    return role
+  }
+  return 'STUDENT'
 }
 
 function publicUser(user: UserLike) {
@@ -33,7 +42,7 @@ function publicUser(user: UserLike) {
     gems: user.gems,
     totalXP: user.totalXP,
     streak: user.streak,
-    role: user.role ?? 'STUDENT',
+    role: normalizeRole(user.role),
     suspendedAt: user.suspendedAt ?? null,
   }
 }
