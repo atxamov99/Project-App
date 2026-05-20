@@ -32,4 +32,4 @@ HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
 
 ENTRYPOINT ["/sbin/tini", "--"]
 # SQLite uchun db.sqlite yaratamiz va seed bilan to'ldiramiz, keyin server'ni ishga tushiramiz
-CMD ["sh", "-c", "npx prisma db push --accept-data-loss --skip-generate && npx tsx prisma/seed.ts && node dist/server.js"]
+CMD ["sh", "-c", "npx prisma db push --accept-data-loss && npx tsx prisma/seed.ts && node dist/server.js"]
