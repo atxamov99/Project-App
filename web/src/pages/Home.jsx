@@ -1,6 +1,10 @@
-import { Link } from 'react-router-dom'
+import { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import Icon from '../components/shared/Icon'
 import Mascot from '../components/shared/Mascot'
+import { useAppSelector } from '../store/hooks'
+import { useSubscribePlanMutation } from '../store/apiSlice'
+import Modal, { ModalActions } from '../components/admin/Modal'
 
 const LANGUAGES = [
   { flag: '🇬🇧', name: 'Ingliz tili',  desc: "O'zbek → Ingliz, A1 dan C1 gacha" },
@@ -18,6 +22,8 @@ const FEATURES = [
 ]
 
 export default function Home() {
+  const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated)
+  const [planModal, setPlanModal] = useState(null) // 'PLUS' | 'MAX' | null
   return (
     <div className="bg-background text-on-background">
       {/* Top nav */}
@@ -143,12 +149,34 @@ export default function Home() {
           <h2 className="text-4xl font-extrabold text-center text-on-surface tracking-tight mb-2">Oddiy narx</h2>
           <p className="text-center text-on-surface-variant mb-12 text-lg">Bepul boshlang, kerak bo'lsa kengaytiring</p>
           <div className="grid md:grid-cols-3 gap-5">
-            <PriceCard title="Bepul" price="0" sub="so'm" features={['✅ Barcha darslar', '✅ 5 ta hayot', '⚠️ Reklama bor']} cta="Boshlash" highlight={false} />
-            <PriceCard title="Plus" price="19 900" sub="so'm/oy" features={['✅ Cheksiz hayot', '✅ Reklamasiz', '✅ Offline rejim']} cta="Plusni tanlash" highlight />
-            <PriceCard title="Max" price="39 900" sub="so'm/oy" features={['✅ Plus imkoniyatlari', '✅ AI suhbat', '✅ Amaliy testlar']} cta="Maxni tanlash" highlight={false} />
+            <PriceCard
+              title="Bepul" price="0" sub="so'm"
+              features={['✅ Barcha darslar', '✅ 5 ta hayot', '⚠️ Reklama bor']}
+              cta={isAuthenticated ? 'Joriy reja' : 'Boshlash'}
+              onClick={() => !isAuthenticated && (window.location.href = '/register')}
+              disabled={isAuthenticated}
+              highlight={false}
+            />
+            <PriceCard
+              title="Plus" price="19 900" sub="so'm/oy"
+              features={['✅ Cheksiz hayot', '✅ Reklamasiz', '✅ Offline rejim']}
+              cta={isAuthenticated ? 'Plusni olish' : 'Plusni tanlash'}
+              onClick={() => isAuthenticated ? setPlanModal('PLUS') : (window.location.href = '/register')}
+              highlight
+            />
+            <PriceCard
+              title="Max" price="39 900" sub="so'm/oy"
+              features={['✅ Plus imkoniyatlari', '✅ AI suhbat', '✅ Amaliy testlar']}
+              cta={isAuthenticated ? 'Maxni olish' : 'Maxni tanlash'}
+              onClick={() => isAuthenticated ? setPlanModal('MAX') : (window.location.href = '/register')}
+              highlight={false}
+            />
           </div>
         </div>
       </section>
+
+      {/* Upgrade Modal */}
+      {planModal && <UpgradeModal plan={planModal} onClose={() => setPlanModal(null)} />}
 
       {/* CTA */}
       <section className="bg-primary-fixed py-20 px-6 text-center">
@@ -179,7 +207,7 @@ export default function Home() {
   )
 }
 
-function PriceCard({ title, price, sub, features, cta, highlight }) {
+function PriceCard({ title, price, sub, features, cta, highlight, onClick, disabled }) {
   return (
     <article
       className={`relative bg-surface-container-lowest border-2 rounded-2xl p-8 flex flex-col items-center text-center gap-4 loft-shadow ${
@@ -198,16 +226,90 @@ function PriceCard({ title, price, sub, features, cta, highlight }) {
       <ul className="text-sm space-y-2">
         {features.map((f) => <li key={f}>{f}</li>)}
       </ul>
-      <Link
-        to="/register"
-        className={`mt-2 px-5 py-2.5 rounded-xl font-bold text-xs uppercase tracking-widest ${
+      <button
+        onClick={onClick}
+        disabled={disabled}
+        className={`mt-2 px-5 py-2.5 rounded-xl font-bold text-xs uppercase tracking-widest cursor-pointer disabled:opacity-50 disabled:cursor-default ${
           highlight
             ? 'bg-secondary text-white terracotta-lift'
             : 'bg-white border-2 border-outline-variant text-tertiary paper-lift'
         }`}
       >
         {cta}
-      </Link>
+      </button>
     </article>
+  )
+}
+
+function UpgradeModal({ plan, onClose }) {
+  const navigate = useNavigate()
+  const [subscribe, { isLoading }] = useSubscribePlanMutation()
+  const [error, setError] = useState('')
+  const [success, setSuccess] = useState(null)
+
+  const info = plan === 'PLUS'
+    ? { label: 'Plus', price: '19 900', desc: 'Cheksiz hayot, reklamasiz, offline rejim' }
+    : { label: 'Max',  price: '39 900', desc: 'Plus + AI suhbat + Amaliy testlar' }
+
+  async function confirm() {
+    setError('')
+    try {
+      const res = await subscribe(plan).unwrap()
+      setSuccess(res)
+    } catch (e) {
+      setError(e.data?.error || 'Xatolik yuz berdi')
+    }
+  }
+
+  if (success) {
+    return (
+      <Modal isOpen={!!plan} onClose={onClose} title="🎉 Premium aktivlashdi!">
+        <div className="space-y-3 text-center">
+          <div className="text-5xl">🍉</div>
+          <p className="text-on-surface">
+            <b>{info.label}</b> rejasi aktiv. Amal qilish muddati:{' '}
+            <b>{new Date(success.premiumUntil).toLocaleDateString('uz-UZ', { year: 'numeric', month: 'long', day: 'numeric' })}</b>
+          </p>
+          <p className="text-xs text-on-surface-variant italic">
+            Bu test rejimi — to'lov tizimi keyinroq qo'shiladi.
+          </p>
+          <ModalActions>
+            <button onClick={() => { onClose(); navigate('/profile') }} className="bg-secondary text-on-secondary px-5 py-2 rounded-lg text-sm font-bold cursor-pointer">
+              Profilga o'tish
+            </button>
+          </ModalActions>
+        </div>
+      </Modal>
+    )
+  }
+
+  return (
+    <Modal isOpen={!!plan} onClose={onClose} title={`${info.label} rejasi`}>
+      <div className="space-y-4">
+        <div className="bg-primary-fixed/30 border border-outline-variant rounded-xl p-4 text-center">
+          <p className="text-3xl font-extrabold text-on-surface">{info.price} <span className="text-sm font-semibold text-on-surface-variant">so'm/oy</span></p>
+          <p className="text-sm text-on-surface-variant mt-2">{info.desc}</p>
+        </div>
+
+        <div className="bg-surface-container-low border border-outline-variant rounded-xl p-3 text-xs text-on-surface-variant italic">
+          ⚠️ Hozir test rejimi: tugmani bossangiz 30 kunlik premium bepul aktivlashadi. Real to'lov tizimi keyinroq qo'shiladi.
+        </div>
+
+        {error && (
+          <div className="bg-error-container text-on-error-container px-3 py-2 rounded-lg text-sm">{error}</div>
+        )}
+
+        <ModalActions>
+          <button onClick={onClose} className="px-4 py-2 text-sm font-bold text-on-surface-variant cursor-pointer">Bekor</button>
+          <button
+            onClick={confirm}
+            disabled={isLoading}
+            className="bg-secondary text-on-secondary px-5 py-2 rounded-lg text-sm font-bold disabled:opacity-50 cursor-pointer"
+          >
+            {isLoading ? "Aktivlashtirilmoqda..." : `${info.label}'ni aktivlashtirish`}
+          </button>
+        </ModalActions>
+      </div>
+    </Modal>
   )
 }

@@ -19,7 +19,28 @@ const reviewed: RequestHandler = async (req, res) => {
   res.json(result)
 }
 
+const flashcards: RequestHandler = async (req, res) => {
+  const limit = Math.min(30, Math.max(1, Number(req.query.limit) || 10))
+  const languageId = (req.query.languageId as string) || undefined
+  const data = await service.getFlashcardSession(req.userId!, limit, languageId)
+  res.json(data)
+}
+
+const browse: RequestHandler = async (req, res) => {
+  const data = await service.browseWords({
+    languageId: req.query.languageId as string | undefined,
+    category: req.query.category as string | undefined,
+    level: req.query.level as string | undefined,
+    search: req.query.search as string | undefined,
+    page: Number(req.query.page) || 1,
+    limit: Number(req.query.limit) || 30,
+  })
+  res.json(data)
+}
+
 router.get('/review', requireAuth, dueReview)
+router.get('/flashcards', requireAuth, flashcards)
+router.get('/browse', requireAuth, browse)
 router.post('/:id/reviewed', requireAuth, validateBody(reviewedSchema), reviewed)
 
 export default router

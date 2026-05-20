@@ -7,6 +7,7 @@ import {
   useAdminSuspendUserMutation,
   useAdminUnsuspendUserMutation,
   useAdminRemoveUserMutation,
+  useAdminSetPremiumMutation,
 } from '../../store/apiSlice'
 import StatCard from '../../components/admin/StatCard'
 import RoleBadge from '../../components/admin/RoleBadge'
@@ -24,13 +25,33 @@ export default function AdminUserDetail() {
   const [suspendUser] = useAdminSuspendUserMutation()
   const [unsuspendUser] = useAdminUnsuspendUserMutation()
   const [removeUser] = useAdminRemoveUserMutation()
+  const [setPremium] = useAdminSetPremiumMutation()
 
   const [roleModal, setRoleModal] = useState(false)
   const [newRole, setNewRole] = useState('')
   const [suspendModal, setSuspendModal] = useState(false)
   const [suspendReason, setSuspendReason] = useState('')
+  const [premiumDays, setPremiumDays] = useState(30)
+  const [premiumModal, setPremiumModal] = useState(false)
   const [busy, setBusy] = useState(false)
   const [actionError, setActionError] = useState('')
+
+  async function grantPremium() {
+    setBusy(true); setActionError('')
+    try {
+      await setPremium({ id, isPremium: true, days: Number(premiumDays) || 30 }).unwrap()
+      setPremiumModal(false)
+    } catch (e) { setActionError(e.data?.error || e.message) }
+    finally { setBusy(false) }
+  }
+
+  async function revokePremium() {
+    if (!confirm("Premium'ni bekor qilishni xohlaysizmi?")) return
+    setBusy(true); setActionError('')
+    try { await setPremium({ id, isPremium: false }).unwrap() }
+    catch (e) { setActionError(e.data?.error || e.message) }
+    finally { setBusy(false) }
+  }
 
   async function applyRole() {
     setActionError('')
@@ -161,6 +182,25 @@ export default function AdminUserDetail() {
             </button>
           )}
 
+          {!user.isPremium ? (
+            <button
+              onClick={() => { setPremiumModal(true); setActionError(''); setPremiumDays(30) }}
+              disabled={busy}
+              className="bg-secondary-container text-on-secondary-container border-2 border-secondary/40 px-4 py-2 rounded-lg text-sm font-bold disabled:opacity-50 cursor-pointer"
+            >
+              <Icon name="workspace_premium" filled style={{ fontSize: 16 }} className="mr-1 align-middle" />
+              Premium berish
+            </button>
+          ) : (
+            <button
+              onClick={revokePremium}
+              disabled={busy}
+              className="bg-surface-container-high text-tertiary border-2 border-outline-variant px-4 py-2 rounded-lg text-sm font-bold disabled:opacity-50 cursor-pointer"
+            >
+              Premium'ni bekor qilish
+            </button>
+          )}
+
           <button
             onClick={deleteUser}
             disabled={isMe || busy}
@@ -212,6 +252,37 @@ export default function AdminUserDetail() {
             {busy ? '...' : 'Suspend'}
           </button>
         </ModalActions>
+      </Modal>
+
+      <Modal isOpen={premiumModal} onClose={() => setPremiumModal(false)} title="Premium berish">
+        <div className="space-y-3">
+          <p className="text-sm text-on-surface-variant">
+            <b>{user.displayName}</b> ga necha kunga Premium berasiz?
+          </p>
+          <FormInput
+            type="number"
+            min={1}
+            max={365}
+            value={premiumDays}
+            onChange={(v) => setPremiumDays(v)}
+            placeholder="30"
+          />
+          {user.isPremium && user.premiumUntil && (
+            <p className="text-xs text-on-surface-variant italic">
+              Hozir: {new Date(user.premiumUntil).toLocaleDateString('uz-UZ')} gacha amalda — bu qiymat qo'shiladi
+            </p>
+          )}
+          <ModalActions>
+            <button onClick={() => setPremiumModal(false)} className="px-4 py-2 text-sm font-bold text-on-surface-variant cursor-pointer">Bekor</button>
+            <button
+              onClick={grantPremium}
+              disabled={busy || !premiumDays}
+              className="bg-secondary text-on-secondary px-5 py-2 rounded-lg text-sm font-bold disabled:opacity-50 cursor-pointer"
+            >
+              {busy ? '...' : 'Aktivlashtirish'}
+            </button>
+          </ModalActions>
+        </div>
       </Modal>
     </div>
   )

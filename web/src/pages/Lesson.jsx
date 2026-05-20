@@ -107,18 +107,7 @@ export default function Lesson() {
   if (!exercise) return <div className="min-h-dvh grid place-items-center text-on-surface-variant">Mashq yo'q</div>
 
   if (hearts <= 0 && !result) {
-    return (
-      <div className="min-h-dvh grid place-items-center px-4">
-        <div className="bg-surface-container-lowest border-2 border-outline-variant rounded-2xl p-8 max-w-md text-center loft-shadow">
-          <div className="text-6xl mb-4">💔</div>
-          <h2 className="text-2xl font-extrabold text-on-surface mb-2">Hayot tugadi</h2>
-          <p className="text-on-surface-variant mb-5">Har 30 daqiqada 1 hayot qaytariladi yoki gem bilan to'liq tiklang.</p>
-          <button onClick={() => navigate('/learn')} className="bg-secondary text-white px-6 py-3 rounded-xl font-bold text-sm uppercase tracking-widest">
-            Kurslarga qaytish
-          </button>
-        </div>
-      </div>
-    )
+    return <NoLivesScreen refillAt={livesData?.refillAt} onExit={() => navigate('/learn')} />
   }
 
   return (
@@ -316,13 +305,14 @@ function BuildSentence({ exercise, answer, setAnswer, disabled }) {
 
   return (
     <>
-      <div className="min-h-[140px] md:min-h-[160px] w-full border-b-2 border-dashed border-outline-variant flex flex-wrap content-start gap-3 py-4 mb-6">
+      {/* Tanlangan so'zlar */}
+      <div className="min-h-[100px] w-full border-b-2 border-dashed border-outline-variant flex flex-wrap content-start gap-3 py-4 mb-4">
         {chosen.map((word, i) => (
           <button
             key={`${word}-c-${i}`}
             onClick={() => unpick(i)}
             disabled={disabled}
-            className="bg-white border-2 border-outline-variant px-5 py-3 rounded-xl text-base font-medium text-tertiary paper-lift disabled:opacity-60"
+            className="bg-white border-2 border-outline-variant px-5 py-3 rounded-xl text-base font-medium text-tertiary paper-lift disabled:opacity-60 cursor-pointer"
           >
             {word}
           </button>
@@ -334,28 +324,37 @@ function BuildSentence({ exercise, answer, setAnswer, disabled }) {
         )}
       </div>
 
-      {available.length > 0 ? (
+      {/* Qo'lda kiritish — har doim ko'rinadi */}
+      <input
+        type="text"
+        value={answer}
+        onChange={(e) => {
+          setAnswer(e.target.value)
+          // Qo'lda yozsa, tanlangan so'zlar tozalanadi
+          if (chosen.length > 0) {
+            setChosen([])
+            setAvailable(initialBank)
+          }
+        }}
+        disabled={disabled}
+        placeholder="Yoki bu yerga qo'lda yozing..."
+        className="w-full bg-white border-2 border-outline-variant rounded-2xl px-5 py-3 text-base text-tertiary outline-none focus:border-secondary disabled:opacity-60 mb-5"
+      />
+
+      {/* So'z banki */}
+      {available.length > 0 && (
         <div className="flex flex-wrap justify-center gap-3">
           {available.map((word, i) => (
             <button
               key={`${word}-b-${i}`}
               onClick={() => pick(word, i)}
               disabled={disabled}
-              className="bg-white border-2 border-outline-variant px-5 py-3 rounded-xl text-base font-medium text-tertiary paper-lift disabled:opacity-60"
+              className="bg-white border-2 border-outline-variant px-5 py-3 rounded-xl text-base font-medium text-tertiary paper-lift disabled:opacity-60 cursor-pointer"
             >
               {word}
             </button>
           ))}
         </div>
-      ) : (
-        <input
-          type="text"
-          value={answer}
-          onChange={(e) => setAnswer(e.target.value)}
-          disabled={disabled}
-          placeholder="Javobingizni yozing..."
-          className="w-full bg-white border-2 border-outline-variant rounded-2xl px-5 py-4 text-lg text-tertiary outline-none focus:border-secondary disabled:opacity-60"
-        />
       )}
     </>
   )
@@ -505,6 +504,59 @@ function CompletionScreen({ data, onContinue }) {
           className="w-full bg-secondary text-white px-8 py-4 rounded-2xl font-bold text-base uppercase tracking-widest terracotta-lift"
         >
           Davom etish
+        </button>
+      </div>
+    </div>
+  )
+}
+
+function NoLivesScreen({ refillAt, onExit }) {
+  const [now, setNow] = useState(Date.now())
+
+  useEffect(() => {
+    const interval = setInterval(() => setNow(Date.now()), 1000)
+    return () => clearInterval(interval)
+  }, [])
+
+  const target = refillAt ? new Date(refillAt).getTime() : null
+  const msLeft = target ? Math.max(0, target - now) : 30 * 60_000
+
+  const totalSec = Math.ceil(msLeft / 1000)
+  const minutes = Math.floor(totalSec / 60)
+  const seconds = totalSec % 60
+  const pct = Math.min(100, ((30 * 60 - totalSec) / (30 * 60)) * 100)
+
+  return (
+    <div className="min-h-dvh grid place-items-center px-4">
+      <div className="bg-surface-container-lowest border-2 border-outline-variant rounded-3xl p-8 max-w-md w-full text-center loft-shadow">
+        <div className="text-6xl mb-3 animate-pulse">💔</div>
+        <h2 className="text-2xl font-extrabold text-on-surface mb-1">Hayot tugadi</h2>
+        <p className="text-on-surface-variant text-sm mb-6">Keyingi hayot qachon kelishini kuting yoki gem bilan tiklang</p>
+
+        <div className="bg-primary-fixed/40 border-2 border-outline-variant rounded-2xl p-5 mb-5">
+          <p className="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant mb-2">
+            Keyingi hayotgacha
+          </p>
+          <div className="flex items-end justify-center gap-1 mb-3">
+            <span className="text-5xl font-extrabold tabular-nums text-secondary">
+              {String(minutes).padStart(2, '0')}
+            </span>
+            <span className="text-2xl font-bold text-on-surface-variant mb-1">:</span>
+            <span className="text-5xl font-extrabold tabular-nums text-secondary">
+              {String(seconds).padStart(2, '0')}
+            </span>
+          </div>
+          <p className="text-xs text-on-surface-variant mb-3">
+            <Icon name="schedule" style={{ fontSize: 14 }} className="align-middle mr-1" />
+            {minutes > 0 ? `${minutes} daqiqa ${seconds} soniya` : `${seconds} soniya`}
+          </p>
+          <div className="bg-surface-container-high h-2 rounded-full overflow-hidden">
+            <div className="h-full bg-secondary rounded-full transition-all" style={{ width: `${pct}%` }} />
+          </div>
+        </div>
+
+        <button onClick={onExit} className="w-full bg-secondary text-white px-6 py-3 rounded-xl font-bold text-sm uppercase tracking-widest terracotta-lift cursor-pointer">
+          Kurslarga qaytish
         </button>
       </div>
     </div>

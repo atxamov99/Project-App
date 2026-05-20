@@ -1,7 +1,9 @@
-import { Prisma, Role } from '@prisma/client'
+import { Prisma } from '@prisma/client'
 import { prisma } from '../../../config/db'
 import { AppError } from '../../../middleware/error'
 import type { ListUsersQuery } from './admin-users.schemas'
+
+type Role = 'STUDENT' | 'CONTENT_EDITOR' | 'ADMIN'
 
 const PUBLIC_FIELDS = {
   id: true,
@@ -32,9 +34,9 @@ export async function listUsers(q: ListUsersQuery) {
   if (q.premium === 'false') where.isPremium = false
   if (q.search) {
     where.OR = [
-      { email: { contains: q.search, mode: 'insensitive' } },
-      { username: { contains: q.search, mode: 'insensitive' } },
-      { displayName: { contains: q.search, mode: 'insensitive' } },
+      { email: { contains: q.search } },
+      { username: { contains: q.search } },
+      { displayName: { contains: q.search } },
     ]
   }
 
@@ -126,6 +128,26 @@ export async function unsuspendUser(targetId: string) {
   const updated = await prisma.user.update({
     where: { id: targetId },
     data: { suspendedAt: null, suspendReason: null },
+    select: PUBLIC_FIELDS,
+  })
+  return updated
+}
+
+export async function setPremium(targetId: string, isPremium: boolean, days?: number) {
+  const user = await prisma.user.findUnique({ where: { id: targetId }, select: { premiumUntil: true } })
+  if (!user) throw new AppError(404, 'Foydalanuvchi topilmadi')
+
+  let premiumUntil: Date | null = null
+  if (isPremium) {
+    const dayCount = days && days > 0 ? days : 30
+    const now = new Date()
+    const base = user.premiumUntil && user.premiumUntil > now ? user.premiumUntil : now
+    premiumUntil = new Date(base.getTime() + dayCount * 24 * 60 * 60 * 1000)
+  }
+
+  const updated = await prisma.user.update({
+    where: { id: targetId },
+    data: { isPremium, premiumUntil },
     select: PUBLIC_FIELDS,
   })
   return updated

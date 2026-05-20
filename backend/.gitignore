@@ -4,3 +4,8 @@ dist/
 .env.local
 *.log
 .DS_Store
+# Lokal SQLite DB (production'ga kerakmas)
+*.db
+*.db-journal
+*.db-shm
+*.db-wal

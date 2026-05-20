@@ -1,0 +1,24 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node *)",
+      "Bash(npm run *)",
+      "Bash(npx prisma *)",
+      "WebFetch(domain:stitch.withgoogle.com)",
+      "Bash(git add *)",
+      "Bash(curl -s -H \"Authorization: Bearer rnd_ZgV0NYA1kgbUNeZPrqdjXaVnoNwM\" -H \"Accept: application/json\" \"https://api.render.com/v1/services?limit=20\")",
+      "Bash(curl -s -H \"Authorization: Bearer rnd_ZgV0NYA1kgbUNeZPrqdjXaVnoNwM\" -H \"Accept: application/json\" \"https://api.render.com/v1/services/srv-d85fvlmq1p3s73f68nm0/env-vars?limit=30\")",
+      "Bash(python3 -m json.tool)",
+      "Bash(curl -s -X PUT -H 'Authorization: Bearer rnd_ZgV0NYA1kgbUNeZPrqdjXaVnoNwM' -H 'Content-Type: application/json' https://api.render.com/v1/services/srv-d85fvlmq1p3s73f68nm0/env-vars -d '[ *)",
+      "Bash(curl -s -X POST -H \"Authorization: Bearer rnd_ZgV0NYA1kgbUNeZPrqdjXaVnoNwM\" -H \"Content-Type: application/json\" \"https://api.render.com/v1/services/srv-d85fvlmq1p3s73f68nm0/deploys\" -d '{\"clearCache\":\"clear\"}')",
+      "mcp__claude_ai_Vercel__deploy_to_vercel",
+      "Bash(vercel --version)",
+      "Bash(curl -s -H \"Authorization: Bearer rnd_ZgV0NYA1kgbUNeZPrqdjXaVnoNwM\" \"https://api.render.com/v1/services/srv-d85fvlmq1p3s73f68nm0/deploys/dep-d86q3gh9rddc739r1s8g\")",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\('Status:', d.get\\('status'\\)\\); print\\('Started:', d.get\\('startedAt'\\)\\); print\\('Finished:', d.get\\('finishedAt', 'in progress'\\)\\)\")",
+      "Bash(curl -s -H \"Authorization: Bearer rnd_ZgV0NYA1kgbUNeZPrqdjXaVnoNwM\" \"https://api.render.com/v1/services/srv-d85fvlmq1p3s73f68nm0/events?limit=10\")",
+      "Bash(curl -s -H \"Authorization: Bearer rnd_ZgV0NYA1kgbUNeZPrqdjXaVnoNwM\" \"https://api.render.com/v1/services/srv-d85fvlmq1p3s73f68nm0/logs?limit=30&type=build\")",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); [print\\(l.get\\('timestamp',''\\)[:19], l.get\\('message',''\\)[:200]\\) for l in d.get\\('logs', []\\)[-25:]]\")",
+      "Bash(curl -s -H \"Authorization: Bearer rnd_ZgV0NYA1kgbUNeZPrqdjXaVnoNwM\" \"https://api.render.com/v1/logs?ownerId=tea-d6o7bqhaae7s73cpk13g&resource=srv-d85fvlmq1p3s73f68nm0&type=build&limit=50\")"
+    ]
+  }
+}

@@ -40,8 +40,8 @@ const list: RequestHandler = async (req, res) => {
   if (q.level) where.level = q.level
   if (q.search) {
     where.OR = [
-      { text: { contains: q.search, mode: 'insensitive' } },
-      { translation: { contains: q.search, mode: 'insensitive' } },
+      { text: { contains: q.search } },
+      { translation: { contains: q.search } },
     ]
   }
 
