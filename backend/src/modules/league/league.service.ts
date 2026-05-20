@@ -36,16 +36,14 @@ export async function getLeague(userId: string) {
     select: { id: true },
   })
   if (usersWithoutEntry.length > 0) {
-    await prisma.leagueEntry.createMany({
-      data: usersWithoutEntry.map((u) => ({
-        userId: u.id,
-        leagueId: lowest.id,
-        groupId,
-        weeklyXP: 0,
-        weekStart: ws,
-      })),
-      skipDuplicates: true,
-    })
+    // SQLite createMany skipDuplicates'ni qo'llab-quvvatlamaydi — bittama-bitta upsert qilamiz
+    for (const u of usersWithoutEntry) {
+      await prisma.leagueEntry.upsert({
+        where: { userId: u.id },
+        update: {},
+        create: { userId: u.id, leagueId: lowest.id, groupId, weeklyXP: 0, weekStart: ws },
+      }).catch(() => {})
+    }
   }
 
   // Shu ligadagi barcha userlar (groupId qattiq filter emas — kam userda bir guruh)
