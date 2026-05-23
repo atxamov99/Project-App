@@ -1,11 +1,14 @@
 import { useState, useEffect, useCallback } from 'react'
+import { useQueryClient } from '@tanstack/react-query'
 import { api } from '@/lib/api'
 import { useLessonStore } from '@/store/lessonStore'
+import { shuffle } from '@/utils/shuffle'
 import type { Exercise, AnswerResult, CheckAnswerResponse, CompleteLessonResponse } from '@/types'
 
 type Phase = 'loading' | 'exercise' | 'feedback' | 'complete' | 'no_lives'
 
 export function useLesson(lessonId: string) {
+  const qc = useQueryClient()
   const [phase, setPhase] = useState<Phase>('loading')
   const [result, setResult] = useState<AnswerResult>(null)
   const [correctAnswer, setCorrectAnswer] = useState<string | undefined>()
@@ -13,16 +16,20 @@ export function useLesson(lessonId: string) {
   const [completionData, setCompletionData] = useState<CompleteLessonResponse | null>(null)
   const [lives, setLives] = useState(5)
 
-  const {
-    exercises, currentIndex,
-    answer, setExercises,
-    nextExercise, addMistake, reset, startedAt,
-  } = useLessonStore()
+  const exercises = useLessonStore((s) => s.exercises)
+  const currentIndex = useLessonStore((s) => s.currentIndex)
+  const answer = useLessonStore((s) => s.answer)
+  const startedAt = useLessonStore((s) => s.startedAt)
+  const setExercises = useLessonStore((s) => s.setExercises)
+  const nextExercise = useLessonStore((s) => s.nextExercise)
+  const addMistake = useLessonStore((s) => s.addMistake)
+  const reset = useLessonStore((s) => s.reset)
 
   useEffect(() => {
     let mounted = true
+    reset()
 
-    const load = async () => {
+    ;(async () => {
       try {
         const [lessonRes, livesRes] = await Promise.all([
           api.get(`/lessons/${lessonId}`),
@@ -33,23 +40,20 @@ export function useLesson(lessonId: string) {
         const rawExercises: Exercise[] = lessonRes.data.exercises.map((ex: Exercise) => ({
           ...ex,
           wordBank: ex.type === 'BUILD_SENTENCE'
-            ? [...ex.correctAnswer.split(' '), ...ex.wrongAnswers]
-                .sort(() => Math.random() - 0.5)
+            ? shuffle([...ex.correctAnswer.split(' '), ...ex.wrongAnswers])
             : undefined,
         }))
 
-        setLives(livesRes.data.current)
+        setLives(livesRes.data?.current ?? 5)
         setExercises(rawExercises)
         setPhase('exercise')
       } catch {
         if (mounted) setPhase('exercise')
       }
-    }
+    })()
 
-    reset()
-    load()
     return () => { mounted = false }
-  }, [lessonId])
+  }, [lessonId, reset, setExercises])
 
   const currentExercise: Exercise | undefined = exercises[currentIndex]
   const progress = exercises.length > 0 ? currentIndex / exercises.length : 0
@@ -67,8 +71,10 @@ export function useLesson(lessonId: string) {
 
       if (!data.isCorrect) {
         addMistake()
-        setLives((l) => Math.max(0, l - 1))
-        if (lives <= 1) {
+        const nextLives = Math.max(0, lives - 1)
+        setLives(nextLives)
+        qc.invalidateQueries({ queryKey: ['lives'] })
+        if (nextLives === 0) {
           setPhase('no_lives')
           return
         }
@@ -77,7 +83,7 @@ export function useLesson(lessonId: string) {
     } catch {
       setPhase('feedback')
     }
-  }, [currentExercise, answer, lives])
+  }, [currentExercise, answer, lives, addMistake, qc])
 
   const next = useCallback(async () => {
     const isLast = currentIndex + 1 >= exercises.length
@@ -90,6 +96,10 @@ export function useLesson(lessonId: string) {
           { mistakes: useLessonStore.getState().mistakes, timeTaken }
         )
         setCompletionData(data)
+        qc.invalidateQueries({ queryKey: ['course'] })
+        qc.invalidateQueries({ queryKey: ['streak'] })
+        qc.invalidateQueries({ queryKey: ['profile'] })
+        qc.invalidateQueries({ queryKey: ['gems'] })
       } catch {
         setCompletionData({ xpEarned: 10, streak: 0 })
       }
@@ -102,7 +112,7 @@ export function useLesson(lessonId: string) {
     setCorrectAnswer(undefined)
     setExplanation(undefined)
     setPhase('exercise')
-  }, [currentIndex, exercises.length, lessonId, startedAt])
+  }, [currentIndex, exercises.length, lessonId, startedAt, nextExercise, qc])
 
   return {
     phase,

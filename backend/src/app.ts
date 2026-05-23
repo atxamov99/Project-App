@@ -29,6 +29,7 @@ import adminExercisesRoutes from './modules/admin/content/exercises.routes'
 import adminWordsRoutes from './modules/admin/content/words.routes'
 import adminAchievementsRoutes from './modules/admin/content/achievements.routes'
 import adminStatsRoutes from './modules/admin/stats/stats.routes'
+import aiRoutes from './modules/ai/ai.routes'
 
 export function createApp() {
   const app = express()
@@ -64,6 +65,7 @@ export function createApp() {
   app.use('/api/users', usersRoutes)
   app.use('/api/billing', billingRoutes)
   app.use('/api/dictionary', dictionaryRoutes)
+  app.use('/api/ai', aiRoutes)
   app.use('/api/admin/users', adminUsersRoutes)
   app.use('/api/admin/languages', adminLanguagesRoutes)
   app.use('/api/admin/courses', adminCoursesRoutes)

@@ -1,6 +1,5 @@
 import { View, Text, StyleSheet } from 'react-native'
 import type { Unit } from '@/types'
-import { Colors } from '@/constants/colors'
 
 interface Props {
   unit: Unit

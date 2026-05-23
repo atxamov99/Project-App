@@ -11,6 +11,7 @@ const schema = z.object({
   CORS_ORIGIN: z.string().default('http://localhost:5173'),
   GOOGLE_CLIENT_ID: z.string().optional(),
   VITE_GOOGLE_CLIENT_ID: z.string().optional(),
+  GEMINI_API_KEY: z.string().optional(),
 })
 
 const parsed = schema.safeParse(process.env)

@@ -1,0 +1,89 @@
+- generic [ref=e3]:
+  - complementary [ref=e4]:
+    - link "Tarvuz mascot LingvaUZ Tarvuz Loft" [ref=e5] [cursor=pointer]:
+      - /url: /learn
+      - img "Tarvuz mascot" [ref=e6]: 🍉
+      - generic [ref=e7]:
+        - generic [ref=e8]: LingvaUZ
+        - generic [ref=e9]: Tarvuz Loft
+    - generic [ref=e10]:
+      - generic [ref=e11]:
+        - generic [ref=e12]: "Y"
+        - generic [ref=e13]:
+          - paragraph [ref=e14]: Yahyo
+          - paragraph [ref=e15]: "@yahyo"
+      - generic [ref=e16]:
+        - generic [ref=e17]:
+          - generic [ref=e18]: local_fire_department
+          - generic [ref=e19]: "0"
+          - generic [ref=e20]: kun
+        - generic [ref=e21]:
+          - generic [ref=e22]: favorite
+          - generic [ref=e23]: "5"
+          - generic [ref=e24]: hayot
+        - generic [ref=e25]:
+          - generic [ref=e26]: workspace_premium
+          - generic [ref=e27]: "0"
+          - generic [ref=e28]: XP
+        - generic [ref=e29]:
+          - generic [ref=e30]: diamond
+          - generic [ref=e31]: "0"
+          - generic [ref=e32]: gem
+    - navigation [ref=e33]:
+      - link "O'rgan" [ref=e34] [cursor=pointer]:
+        - /url: /learn
+        - generic [ref=e35]: home
+        - generic [ref=e36]: O'rgan
+      - link "Mashq" [ref=e37] [cursor=pointer]:
+        - /url: /practice
+        - generic [ref=e38]: fitness_center
+        - generic [ref=e39]: Mashq
+      - link "Liga" [ref=e40] [cursor=pointer]:
+        - /url: /leaderboard
+        - generic [ref=e41]: leaderboard
+        - generic [ref=e42]: Liga
+      - link "Profil" [ref=e43] [cursor=pointer]:
+        - /url: /profile
+        - generic [ref=e44]: person
+        - generic [ref=e45]: Profil
+    - generic [ref=e46]:
+      - generic [ref=e47]: 🍉
+      - button "Chiqish" [ref=e48]
+  - main [ref=e49]:
+    - generic [ref=e72]:
+      - generic [ref=e73]:
+        - button "Yopish" [ref=e74] [cursor=pointer]:
+          - generic [ref=e75]: close
+        - heading "Lug'at" [level=2] [ref=e76]
+      - generic [ref=e77]:
+        - generic [ref=e78]:
+          - button "Qidiruv" [ref=e79] [cursor=pointer]
+          - button "So'zlar ro'yxati" [ref=e80] [cursor=pointer]
+        - generic [ref=e81]:
+          - generic [ref=e82]:
+            - generic [ref=e84]:
+              - button "🇺🇿 O'zbek" [ref=e85] [cursor=pointer]
+              - button "🇬🇧 EN" [ref=e86] [cursor=pointer]
+              - button "🇷🇺 RU" [ref=e87] [cursor=pointer]
+              - button "🇹🇷 TR" [ref=e88] [cursor=pointer]
+            - button "Almashtirish" [ref=e89] [cursor=pointer]:
+              - generic [ref=e90]: swap_horiz
+            - generic [ref=e92]:
+              - button "🇺🇿 UZ" [ref=e93] [cursor=pointer]
+              - button "🇬🇧 English" [ref=e94] [cursor=pointer]
+              - button "🇷🇺 RU" [ref=e95] [cursor=pointer]
+              - button "🇹🇷 TR" [ref=e96] [cursor=pointer]
+          - generic [ref=e97]:
+            - generic [ref=e98]:
+              - generic [ref=e99]:
+                - generic [ref=e100]: 🇺🇿 O'zbek
+                - button "Tozalash" [ref=e113] [cursor=pointer]:
+                  - generic [ref=e114]: close
+              - textbox "Matn kiriting..." [active] [ref=e101]: Don't call me by my firstname
+              - generic [ref=e103]: 29/500
+            - generic [ref=e104]:
+              - generic [ref=e105]:
+                - generic [ref=e106]: 🇬🇧 English
+                - button "Nusxalash" [ref=e110] [cursor=pointer]:
+                  - generic [ref=e111]: content_copy
+              - paragraph [ref=e115]: Don&#39;t call me by my first name.

@@ -1,0 +1,27 @@
+- generic [ref=e3]:
+  - link "← Bosh sahifa" [ref=e4] [cursor=pointer]:
+    - /url: /
+  - generic [ref=e5]:
+    - generic [ref=e6]:
+      - img "Tarvuz mascot" [ref=e7]: 🍉
+      - heading "Kirish" [level=1] [ref=e8]
+      - paragraph [ref=e9]: Yana xush kelibsiz
+    - generic [ref=e10]:
+      - generic [ref=e11]:
+        - generic [ref=e12]: Email
+        - textbox "Email" [ref=e14]:
+          - /placeholder: siz@example.uz
+      - generic [ref=e15]:
+        - generic [ref=e16]: Parol
+        - generic [ref=e17]:
+          - textbox "Parol" [ref=e18]:
+            - /placeholder: Parolingiz
+          - button [ref=e19]:
+            - img [ref=e20]
+      - button "Kirish" [ref=e23]
+    - generic [ref=e24]: yoki
+    - generic [ref=e27]: Google login sozlanmagan ⚙️
+    - paragraph [ref=e28]:
+      - text: Hisobingiz yo'qmi?
+      - link "Yaratish" [ref=e29] [cursor=pointer]:
+        - /url: /register

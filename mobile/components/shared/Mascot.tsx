@@ -4,7 +4,6 @@ import Animated, {
   withSpring, withRepeat, withSequence,
 } from 'react-native-reanimated'
 import { useEffect } from 'react'
-import { Colors } from '@/constants/colors'
 
 type Mood = 'happy' | 'sad' | 'celebrate' | 'idle'
 

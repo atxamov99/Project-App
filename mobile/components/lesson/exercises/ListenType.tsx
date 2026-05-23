@@ -1,8 +1,26 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native'
-import { Colors } from '@/constants/colors'
+import { useColors } from '@/hooks/useColors'
+import type { ThemeColors } from '@/constants/themes'
 import { playAudio } from '@/utils/audio'
 import type { Exercise, AnswerResult } from '@/types'
+
+const createStyles = (c: ThemeColors) => StyleSheet.create({
+  container: { gap: 16, alignItems: 'center' },
+  label: { fontSize: 14, color: c.textSecondary, fontWeight: '600', alignSelf: 'flex-start' },
+  playBtn: {
+    width: 100, height: 100, borderRadius: 50,
+    backgroundColor: c.info, alignItems: 'center', justifyContent: 'center',
+    shadowColor: c.info, shadowOpacity: 0.4, shadowRadius: 8, elevation: 6,
+    gap: 4,
+  },
+  playIcon: { fontSize: 32 },
+  playText: { color: c.onPrimary, fontSize: 12, fontWeight: '700' },
+  input: {
+    width: '100%', minHeight: 52, borderWidth: 2, borderRadius: 12,
+    paddingHorizontal: 16, paddingVertical: 12, fontSize: 17, color: c.text,
+  },
+})
 
 interface Props {
   exercise: Exercise
@@ -12,6 +30,8 @@ interface Props {
 }
 
 export function ListenType({ exercise, answer, onAnswerChange, result }: Props) {
+  const c = useColors()
+  const styles = useMemo(() => createStyles(c), [c])
   const [playing, setPlaying] = useState(false)
 
   const handlePlay = async () => {
@@ -22,12 +42,12 @@ export function ListenType({ exercise, answer, onAnswerChange, result }: Props) 
   }
 
   const borderColor =
-    result === 'correct' ? Colors.correctBorder :
-    result === 'wrong'   ? Colors.wrongBorder   : Colors.border
+    result === 'correct' ? c.correctBorder :
+    result === 'wrong'   ? c.wrongBorder   : c.border
 
   const bgColor =
-    result === 'correct' ? Colors.correctBg :
-    result === 'wrong'   ? Colors.wrongBg   : Colors.surface
+    result === 'correct' ? c.correctBg :
+    result === 'wrong'   ? c.wrongBg   : c.surface
 
   return (
     <View style={styles.container}>
@@ -35,7 +55,7 @@ export function ListenType({ exercise, answer, onAnswerChange, result }: Props) 
 
       <TouchableOpacity style={styles.playBtn} onPress={handlePlay} activeOpacity={0.8}>
         {playing
-          ? <ActivityIndicator color="#fff" />
+          ? <ActivityIndicator color={c.onPrimary} />
           : <Text style={styles.playIcon}>🔊</Text>
         }
         <Text style={styles.playText}>Tinglash</Text>
@@ -44,7 +64,7 @@ export function ListenType({ exercise, answer, onAnswerChange, result }: Props) 
       <TextInput
         style={[styles.input, { borderColor, backgroundColor: bgColor }]}
         placeholder="Eshitganingizni yozing..."
-        placeholderTextColor={Colors.textLight}
+        placeholderTextColor={c.textLight}
         value={answer}
         onChangeText={onAnswerChange}
         editable={result === null}
@@ -53,20 +73,3 @@ export function ListenType({ exercise, answer, onAnswerChange, result }: Props) 
     </View>
   )
 }
-
-const styles = StyleSheet.create({
-  container: { gap: 16, alignItems: 'center' },
-  label: { fontSize: 14, color: Colors.textSecondary, fontWeight: '600', alignSelf: 'flex-start' },
-  playBtn: {
-    width: 100, height: 100, borderRadius: 50,
-    backgroundColor: Colors.info, alignItems: 'center', justifyContent: 'center',
-    shadowColor: Colors.info, shadowOpacity: 0.4, shadowRadius: 8, elevation: 6,
-    gap: 4,
-  },
-  playIcon: { fontSize: 32 },
-  playText: { color: '#fff', fontSize: 12, fontWeight: '700' },
-  input: {
-    width: '100%', minHeight: 52, borderWidth: 2, borderRadius: 12,
-    paddingHorizontal: 16, paddingVertical: 12, fontSize: 17, color: Colors.text,
-  },
-})

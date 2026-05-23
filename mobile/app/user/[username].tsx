@@ -1,14 +1,95 @@
+import { useMemo } from 'react'
 import {
   View, Text, StyleSheet, ScrollView, TouchableOpacity,
-  ActivityIndicator, SafeAreaView, Platform,
+  ActivityIndicator,
 } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
 import { useLocalSearchParams, useRouter } from 'expo-router'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { Colors } from '@/constants/colors'
+import { useColors } from '@/hooks/useColors'
+import type { ThemeColors } from '@/constants/themes'
 import { api } from '@/lib/api'
 import type { PublicProfile } from '@/types'
 
-function StatPill({ label, value }: { label: string; value: string | number }) {
+const createStyles = (c: ThemeColors) => StyleSheet.create({
+  safe: {
+    flex: 1,
+    backgroundColor: c.background,
+  },
+  scroll: { flex: 1 },
+  content: { paddingBottom: 48 },
+  center: { flex: 1, justifyContent: 'center', alignItems: 'center' },
+  backBtn: { paddingHorizontal: 20, paddingVertical: 12 },
+  backText: { fontSize: 15, fontWeight: '600', color: c.primary },
+  heroSection: {
+    alignItems: 'center',
+    paddingHorizontal: 24, paddingTop: 8, paddingBottom: 24,
+  },
+  avatar: {
+    width: 88, height: 88, borderRadius: 44,
+    backgroundColor: c.primary, alignItems: 'center', justifyContent: 'center',
+    marginBottom: 14,
+    shadowColor: c.primaryDark, shadowOpacity: 0.3,
+    shadowOffset: { width: 0, height: 4 }, shadowRadius: 8, elevation: 6,
+  },
+  avatarText: { color: c.onPrimary, fontSize: 36, fontWeight: '800' },
+  displayName: { fontSize: 24, fontWeight: '800', color: c.text },
+  username: { fontSize: 14, color: c.textSecondary, marginTop: 2, marginBottom: 12 },
+  badgeRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, justifyContent: 'center', marginBottom: 16 },
+  badge: { paddingHorizontal: 10, paddingVertical: 4, borderRadius: 20, backgroundColor: c.surfaceAlt },
+  premiumBadge: { backgroundColor: '#FFF3CD' },
+  followsBadge: { backgroundColor: c.primaryLight },
+  badgeText: { fontSize: 12, fontWeight: '700', color: c.text },
+  followBtn: {
+    paddingHorizontal: 28, paddingVertical: 12,
+    borderRadius: 24, backgroundColor: c.primary,
+    minWidth: 140, alignItems: 'center',
+    shadowColor: c.primaryDark, shadowOpacity: 0.25,
+    shadowOffset: { width: 0, height: 3 }, shadowRadius: 5, elevation: 4,
+  },
+  followingBtn: {
+    backgroundColor: c.background,
+    borderWidth: 2, borderColor: c.primary,
+  },
+  followBtnText: { color: c.onPrimary, fontSize: 15, fontWeight: '700' },
+  followingBtnText: { color: c.primary },
+  statsRow: { flexDirection: 'row', marginHorizontal: 16, gap: 10, marginBottom: 16 },
+  statPill: {
+    flex: 1, backgroundColor: c.surface, borderRadius: 16,
+    borderWidth: 2, borderColor: c.border, paddingVertical: 14, alignItems: 'center',
+  },
+  statPillValue: { fontSize: 18, fontWeight: '800', color: c.text },
+  statPillLabel: { fontSize: 11, color: c.textSecondary, marginTop: 2 },
+  socialRow: {
+    flexDirection: 'row', marginHorizontal: 16,
+    backgroundColor: c.surface, borderRadius: 16,
+    borderWidth: 2, borderColor: c.border,
+    paddingVertical: 16, marginBottom: 16,
+  },
+  socialItem: { flex: 1, alignItems: 'center' },
+  socialNum: { fontSize: 18, fontWeight: '800', color: c.text },
+  socialLabel: { fontSize: 11, color: c.textSecondary, marginTop: 2 },
+  socialDivider: { width: 1, backgroundColor: c.border },
+  leagueCard: {
+    flexDirection: 'row', alignItems: 'center',
+    marginHorizontal: 16, backgroundColor: c.surface,
+    borderRadius: 16, borderWidth: 2, borderColor: c.border,
+    padding: 16, gap: 14, marginBottom: 20,
+  },
+  leagueIcon: { fontSize: 36 },
+  leagueInfo: { flex: 1 },
+  leagueName: { fontSize: 16, fontWeight: '700', color: c.text },
+  leagueXp: { fontSize: 13, color: c.textSecondary, marginTop: 2 },
+  joinedText: { textAlign: 'center', fontSize: 13, color: c.textLight, marginTop: 4 },
+  errorText: { fontSize: 16, color: c.error },
+})
+
+function StatPill({
+  label, value, styles,
+}: {
+  label: string; value: string | number
+  styles: ReturnType<typeof createStyles>
+}) {
   return (
     <View style={styles.statPill}>
       <Text style={styles.statPillValue}>{value}</Text>
@@ -21,6 +102,8 @@ export default function UserProfileScreen() {
   const { username } = useLocalSearchParams<{ username: string }>()
   const router = useRouter()
   const qc = useQueryClient()
+  const c = useColors()
+  const styles = useMemo(() => createStyles(c), [c])
 
   const { data, isLoading, error } = useQuery<PublicProfile>({
     queryKey: ['user-profile', username],
@@ -40,9 +123,9 @@ export default function UserProfileScreen() {
 
   if (isLoading) {
     return (
-      <SafeAreaView style={styles.safe}>
+      <SafeAreaView style={styles.safe} edges={['top', 'bottom']}>
         <View style={styles.center}>
-          <ActivityIndicator size="large" color={Colors.primary} />
+          <ActivityIndicator size="large" color={c.primary} />
         </View>
       </SafeAreaView>
     )
@@ -50,7 +133,7 @@ export default function UserProfileScreen() {
 
   if (error || !data) {
     return (
-      <SafeAreaView style={styles.safe}>
+      <SafeAreaView style={styles.safe} edges={['top', 'bottom']}>
         <TouchableOpacity style={styles.backBtn} onPress={() => router.back()}>
           <Text style={styles.backText}>← Orqaga</Text>
         </TouchableOpacity>
@@ -64,7 +147,7 @@ export default function UserProfileScreen() {
   const joinYear = new Date(data.createdAt).getFullYear()
 
   return (
-    <SafeAreaView style={styles.safe}>
+    <SafeAreaView style={styles.safe} edges={['top', 'bottom']}>
       <TouchableOpacity style={styles.backBtn} onPress={() => router.back()}>
         <Text style={styles.backText}>← Orqaga</Text>
       </TouchableOpacity>
@@ -109,7 +192,7 @@ export default function UserProfileScreen() {
               activeOpacity={0.8}
             >
               {followMutation.isPending
-                ? <ActivityIndicator color={data.isFollowing ? Colors.primary : '#fff'} size="small" />
+                ? <ActivityIndicator color={data.isFollowing ? c.primary : c.onPrimary} size="small" />
                 : <Text style={[styles.followBtnText, data.isFollowing && styles.followingBtnText]}>
                     {data.isFollowing ? 'Kuzatilmoqda ✓' : '+ Kuzatish'}
                   </Text>
@@ -119,9 +202,9 @@ export default function UserProfileScreen() {
         </View>
 
         <View style={styles.statsRow}>
-          <StatPill label="Umumiy XP" value={data.totalXP.toLocaleString()} />
-          <StatPill label="Streak" value={`${data.streak} 🔥`} />
-          <StatPill label="Rekord" value={`${data.longestStreak} kun`} />
+          <StatPill label="Umumiy XP" value={data.totalXP.toLocaleString()} styles={styles} />
+          <StatPill label="Streak" value={`${data.streak} 🔥`} styles={styles} />
+          <StatPill label="Rekord" value={`${data.longestStreak} kun`} styles={styles} />
         </View>
 
         <View style={styles.socialRow}>
@@ -163,138 +246,3 @@ export default function UserProfileScreen() {
     </SafeAreaView>
   )
 }
-
-const styles = StyleSheet.create({
-  safe: {
-    flex: 1,
-    backgroundColor: Colors.background,
-    paddingTop: Platform.OS === 'android' ? 24 : 0,
-  },
-  scroll: { flex: 1 },
-  content: { paddingBottom: 48 },
-  center: { flex: 1, justifyContent: 'center', alignItems: 'center' },
-
-  backBtn: {
-    paddingHorizontal: 20,
-    paddingVertical: 12,
-  },
-  backText: {
-    fontSize: 15,
-    fontWeight: '600',
-    color: Colors.primary,
-  },
-
-  heroSection: {
-    alignItems: 'center',
-    paddingHorizontal: 24,
-    paddingTop: 8,
-    paddingBottom: 24,
-  },
-  avatar: {
-    width: 88,
-    height: 88,
-    borderRadius: 44,
-    backgroundColor: Colors.primary,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 14,
-    shadowColor: Colors.primaryDark,
-    shadowOpacity: 0.3,
-    shadowOffset: { width: 0, height: 4 },
-    shadowRadius: 8,
-    elevation: 6,
-  },
-  avatarText: { color: '#fff', fontSize: 36, fontWeight: '800' },
-  displayName: { fontSize: 24, fontWeight: '800', color: Colors.text },
-  username: { fontSize: 14, color: Colors.textSecondary, marginTop: 2, marginBottom: 12 },
-
-  badgeRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, justifyContent: 'center', marginBottom: 16 },
-  badge: {
-    paddingHorizontal: 10,
-    paddingVertical: 4,
-    borderRadius: 20,
-    backgroundColor: Colors.surfaceAlt,
-  },
-  premiumBadge: { backgroundColor: '#FFF3CD' },
-  followsBadge: { backgroundColor: Colors.primaryLight },
-  badgeText: { fontSize: 12, fontWeight: '700', color: Colors.text },
-
-  followBtn: {
-    paddingHorizontal: 28,
-    paddingVertical: 12,
-    borderRadius: 24,
-    backgroundColor: Colors.primary,
-    minWidth: 140,
-    alignItems: 'center',
-    shadowColor: Colors.primaryDark,
-    shadowOpacity: 0.25,
-    shadowOffset: { width: 0, height: 3 },
-    shadowRadius: 5,
-    elevation: 4,
-  },
-  followingBtn: {
-    backgroundColor: Colors.background,
-    borderWidth: 2,
-    borderColor: Colors.primary,
-  },
-  followBtnText: { color: '#fff', fontSize: 15, fontWeight: '700' },
-  followingBtnText: { color: Colors.primary },
-
-  statsRow: {
-    flexDirection: 'row',
-    marginHorizontal: 16,
-    gap: 10,
-    marginBottom: 16,
-  },
-  statPill: {
-    flex: 1,
-    backgroundColor: Colors.surface,
-    borderRadius: 16,
-    borderWidth: 2,
-    borderColor: Colors.border,
-    paddingVertical: 14,
-    alignItems: 'center',
-  },
-  statPillValue: { fontSize: 18, fontWeight: '800', color: Colors.text },
-  statPillLabel: { fontSize: 11, color: Colors.textSecondary, marginTop: 2 },
-
-  socialRow: {
-    flexDirection: 'row',
-    marginHorizontal: 16,
-    backgroundColor: Colors.surface,
-    borderRadius: 16,
-    borderWidth: 2,
-    borderColor: Colors.border,
-    paddingVertical: 16,
-    marginBottom: 16,
-  },
-  socialItem: { flex: 1, alignItems: 'center' },
-  socialNum: { fontSize: 18, fontWeight: '800', color: Colors.text },
-  socialLabel: { fontSize: 11, color: Colors.textSecondary, marginTop: 2 },
-  socialDivider: { width: 1, backgroundColor: Colors.border },
-
-  leagueCard: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginHorizontal: 16,
-    backgroundColor: Colors.surface,
-    borderRadius: 16,
-    borderWidth: 2,
-    borderColor: Colors.border,
-    padding: 16,
-    gap: 14,
-    marginBottom: 20,
-  },
-  leagueIcon: { fontSize: 36 },
-  leagueInfo: { flex: 1 },
-  leagueName: { fontSize: 16, fontWeight: '700', color: Colors.text },
-  leagueXp: { fontSize: 13, color: Colors.textSecondary, marginTop: 2 },
-
-  joinedText: {
-    textAlign: 'center',
-    fontSize: 13,
-    color: Colors.textLight,
-    marginTop: 4,
-  },
-  errorText: { fontSize: 16, color: Colors.error },
-})

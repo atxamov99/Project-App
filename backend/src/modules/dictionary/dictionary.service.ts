@@ -6,6 +6,20 @@ const BASE = 'https://api.mymemory.translated.net/get'
 // Email parametri yuborilsa kunlik limit 1000 dan 50000 ga oshadi
 const CONTACT_EMAIL = process.env.MYMEMORY_EMAIL || ''
 
+function cleanText(text: string): string {
+  return text
+    .replace(/<[^>]+>/g, '')       // XML/HTML teglarni olib tashla
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&apos;/g, "'")
+    .replace(/&#(\d+);/g, (_, code) => String.fromCharCode(Number(code)))
+    .replace(/\s+/g, ' ')
+    .trim()
+}
+
 type CacheEntry = { value: TranslationResult; expiresAt: number }
 const cache = new Map<string, CacheEntry>()
 const CACHE_TTL_MS = 24 * 60 * 60 * 1000 // 1 kun
@@ -71,14 +85,14 @@ export async function translate(q: string, from: string, to: string): Promise<Tr
     throw new AppError(502, data?.responseDetails || 'Tarjima topilmadi')
   }
 
-  const translation = (data.responseData?.translatedText || '').trim()
+  const translation = cleanText((data.responseData?.translatedText || '').trim())
   if (!translation) throw new AppError(404, 'Tarjima topilmadi')
 
   // Alternativ variantlar — match score yuqori bo'lganlar
   const alternatives: string[] = []
   if (Array.isArray(data.matches)) {
     for (const m of data.matches.slice(0, 10)) {
-      const t = (m?.translation || '').trim()
+      const t = cleanText((m?.translation || '').trim())
       if (t && t.toLowerCase() !== translation.toLowerCase() && !alternatives.includes(t)) {
         alternatives.push(t)
       }

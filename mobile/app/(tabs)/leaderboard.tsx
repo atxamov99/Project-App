@@ -1,14 +1,55 @@
+import { useMemo } from 'react'
 import {
   View, Text, StyleSheet, FlatList, TouchableOpacity, ActivityIndicator,
 } from 'react-native'
 import { useQuery } from '@tanstack/react-query'
 import { useRouter } from 'expo-router'
-import { Colors } from '@/constants/colors'
+import { useColors } from '@/hooks/useColors'
+import type { ThemeColors } from '@/constants/themes'
 import { api } from '@/lib/api'
 import { useAuthStore } from '@/store/authStore'
 import type { LeagueData, LeagueEntry } from '@/types'
 
-function EntryRow({ entry, rank }: { entry: LeagueEntry; rank: number }) {
+const createStyles = (c: ThemeColors) => StyleSheet.create({
+  container: { flex: 1, backgroundColor: c.background },
+  center: { flex: 1, justifyContent: 'center', alignItems: 'center' },
+  leagueHeader: {
+    padding: 24, alignItems: 'center',
+    borderBottomLeftRadius: 24, borderBottomRightRadius: 24,
+  },
+  leagueIcon: { fontSize: 48, marginBottom: 4 },
+  leagueName: { fontSize: 22, fontWeight: '800', color: '#fff' },
+  leagueSub: { fontSize: 13, color: 'rgba(255,255,255,0.85)', marginTop: 4 },
+  list: { padding: 16 },
+  row: {
+    flexDirection: 'row', alignItems: 'center',
+    paddingVertical: 12, paddingHorizontal: 8, borderRadius: 12,
+  },
+  rowMe: { backgroundColor: c.primaryLight },
+  rankWrap: { width: 32, alignItems: 'center' },
+  rank: { fontSize: 15, fontWeight: '700', color: c.textSecondary },
+  medal: { fontSize: 22 },
+  avatar: {
+    width: 40, height: 40, borderRadius: 20,
+    backgroundColor: c.primary, alignItems: 'center', justifyContent: 'center',
+    marginHorizontal: 10,
+  },
+  avatarText: { color: c.onPrimary, fontWeight: '800', fontSize: 16 },
+  nameWrap: { flex: 1 },
+  name: { fontSize: 15, fontWeight: '700', color: c.text },
+  nameMe: { color: c.primaryDark },
+  username: { fontSize: 12, color: c.textLight },
+  xp: { fontSize: 15, fontWeight: '800', color: c.warning },
+  separator: { height: 1, backgroundColor: c.border, marginHorizontal: 8 },
+})
+
+function EntryRow({
+  entry, rank, styles, c,
+}: {
+  entry: LeagueEntry; rank: number
+  styles: ReturnType<typeof createStyles>
+  c: ThemeColors
+}) {
   const { user } = useAuthStore()
   const router = useRouter()
   const isMe = entry.userId === user?.id
@@ -41,6 +82,9 @@ function EntryRow({ entry, rank }: { entry: LeagueEntry; rank: number }) {
 }
 
 export default function LeaderboardScreen() {
+  const c = useColors()
+  const styles = useMemo(() => createStyles(c), [c])
+
   const { data, isLoading } = useQuery<LeagueData>({
     queryKey: ['league'],
     queryFn: () => api.get('/league').then((r) => r.data),
@@ -50,7 +94,7 @@ export default function LeaderboardScreen() {
   if (isLoading) {
     return (
       <View style={styles.center}>
-        <ActivityIndicator size="large" color={Colors.primary} />
+        <ActivityIndicator size="large" color={c.primary} />
       </View>
     )
   }
@@ -68,43 +112,12 @@ export default function LeaderboardScreen() {
       <FlatList
         data={data.entries}
         keyExtractor={(e) => e.userId}
-        renderItem={({ item, index }) => <EntryRow entry={item} rank={index + 1} />}
+        renderItem={({ item, index }) => (
+          <EntryRow entry={item} rank={index + 1} styles={styles} c={c} />
+        )}
         ItemSeparatorComponent={() => <View style={styles.separator} />}
         contentContainerStyle={styles.list}
       />
     </View>
   )
 }
-
-const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: Colors.background },
-  center: { flex: 1, justifyContent: 'center', alignItems: 'center' },
-  leagueHeader: {
-    padding: 24, alignItems: 'center',
-    borderBottomLeftRadius: 24, borderBottomRightRadius: 24,
-  },
-  leagueIcon: { fontSize: 48, marginBottom: 4 },
-  leagueName: { fontSize: 22, fontWeight: '800', color: '#fff' },
-  leagueSub: { fontSize: 13, color: 'rgba(255,255,255,0.85)', marginTop: 4 },
-  list: { padding: 16 },
-  row: {
-    flexDirection: 'row', alignItems: 'center',
-    paddingVertical: 12, paddingHorizontal: 8, borderRadius: 12,
-  },
-  rowMe: { backgroundColor: Colors.primaryLight },
-  rankWrap: { width: 32, alignItems: 'center' },
-  rank: { fontSize: 15, fontWeight: '700', color: Colors.textSecondary },
-  medal: { fontSize: 22 },
-  avatar: {
-    width: 40, height: 40, borderRadius: 20,
-    backgroundColor: Colors.primary, alignItems: 'center', justifyContent: 'center',
-    marginHorizontal: 10,
-  },
-  avatarText: { color: '#fff', fontWeight: '800', fontSize: 16 },
-  nameWrap: { flex: 1 },
-  name: { fontSize: 15, fontWeight: '700', color: Colors.text },
-  nameMe: { color: Colors.primaryDark },
-  username: { fontSize: 12, color: Colors.textLight },
-  xp: { fontSize: 15, fontWeight: '800', color: Colors.warning },
-  separator: { height: 1, backgroundColor: Colors.border, marginHorizontal: 8 },
-})

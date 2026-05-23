@@ -1,8 +1,25 @@
-import { useState, useEffect } from 'react'
+import { useState, useMemo } from 'react'
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
-import Animated, { FadeOut } from 'react-native-reanimated'
-import { Colors } from '@/constants/colors'
+import { useColors } from '@/hooks/useColors'
+import type { ThemeColors } from '@/constants/themes'
 import type { Exercise, AnswerResult } from '@/types'
+import { shuffle } from '@/utils/shuffle'
+
+const createStyles = (c: ThemeColors) => StyleSheet.create({
+  container: { gap: 12 },
+  label: { fontSize: 14, color: c.textSecondary, fontWeight: '600' },
+  grid: { flexDirection: 'row', gap: 12 },
+  column: { flex: 1, gap: 10 },
+  chip: {
+    paddingVertical: 14, paddingHorizontal: 12, borderRadius: 12,
+    backgroundColor: c.surface, borderWidth: 2, borderColor: c.border,
+    alignItems: 'center',
+  },
+  chipSelected: { borderColor: c.primary, backgroundColor: c.primaryLight },
+  chipWrong: { borderColor: c.error, backgroundColor: c.wrongBg },
+  chipText: { fontSize: 14, fontWeight: '600', color: c.text, textAlign: 'center' },
+  placeholder: { height: 50 },
+})
 
 interface Pair {
   id: string
@@ -28,8 +45,10 @@ function parsePairs(exercise: Exercise): Pair[] {
 }
 
 export function MatchPairs({ exercise, onAnswerChange, result }: Props) {
+  const c = useColors()
+  const styles = useMemo(() => createStyles(c), [c])
   const [pairs] = useState<Pair[]>(() => parsePairs(exercise))
-  const [shuffledRight] = useState(() => [...pairs].sort(() => Math.random() - 0.5))
+  const [shuffledRight] = useState(() => shuffle(pairs))
   const [selectedLeft, setSelectedLeft] = useState<string | null>(null)
   const [selectedRight, setSelectedRight] = useState<string | null>(null)
   const [matched, setMatched] = useState<Set<string>>(new Set())
@@ -110,19 +129,3 @@ export function MatchPairs({ exercise, onAnswerChange, result }: Props) {
     </View>
   )
 }
-
-const styles = StyleSheet.create({
-  container: { gap: 12 },
-  label: { fontSize: 14, color: Colors.textSecondary, fontWeight: '600' },
-  grid: { flexDirection: 'row', gap: 12 },
-  column: { flex: 1, gap: 10 },
-  chip: {
-    paddingVertical: 14, paddingHorizontal: 12, borderRadius: 12,
-    backgroundColor: Colors.surface, borderWidth: 2, borderColor: Colors.border,
-    alignItems: 'center',
-  },
-  chipSelected: { borderColor: Colors.primary, backgroundColor: Colors.primaryLight },
-  chipWrong: { borderColor: Colors.error, backgroundColor: Colors.wrongBg },
-  chipText: { fontSize: 14, fontWeight: '600', color: Colors.text, textAlign: 'center' },
-  placeholder: { height: 50 },
-})

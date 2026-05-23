@@ -1,0 +1,12 @@
+- generic [ref=e14]:
+  - generic [ref=e15]: 🍉
+  - generic [ref=e16]: LingvaUZ ga xush kelibsiz!
+  - generic [ref=e17]: Til o'rganishni davom eting
+  - textbox "Email" [ref=e18]
+  - generic [ref=e19]:
+    - textbox "Parol" [ref=e20]
+    - img [ref=e22] [cursor=pointer]
+  - generic [ref=e26] [cursor=pointer]: KIRISH
+  - link "Hisobingiz yo'qmi? Ro'yxatdan o'ting" [ref=e27] [cursor=pointer]:
+    - /url: /register
+    - generic [ref=e28]: Hisobingiz yo'qmi? Ro'yxatdan o'ting

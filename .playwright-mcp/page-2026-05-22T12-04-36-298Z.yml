@@ -1,0 +1,70 @@
+- generic [ref=e3]:
+  - complementary [ref=e4]:
+    - link "Tarvuz mascot LingvaUZ Tarvuz Loft" [ref=e5] [cursor=pointer]:
+      - /url: /learn
+      - img "Tarvuz mascot" [ref=e6]: 🍉
+      - generic [ref=e7]:
+        - generic [ref=e8]: LingvaUZ
+        - generic [ref=e9]: Tarvuz Loft
+    - generic [ref=e10]:
+      - generic [ref=e11]:
+        - generic [ref=e12]: "Y"
+        - generic [ref=e13]:
+          - paragraph [ref=e14]: Yahyo
+          - paragraph [ref=e15]: "@yahyo"
+      - generic [ref=e16]:
+        - generic [ref=e17]:
+          - generic [ref=e18]: local_fire_department
+          - generic [ref=e19]: "0"
+          - generic [ref=e20]: kun
+        - generic [ref=e21]:
+          - generic [ref=e22]: favorite
+          - generic [ref=e23]: "5"
+          - generic [ref=e24]: hayot
+        - generic [ref=e25]:
+          - generic [ref=e26]: workspace_premium
+          - generic [ref=e27]: "0"
+          - generic [ref=e28]: XP
+        - generic [ref=e29]:
+          - generic [ref=e30]: diamond
+          - generic [ref=e31]: "0"
+          - generic [ref=e32]: gem
+    - navigation [ref=e33]:
+      - link "O'rgan" [ref=e34] [cursor=pointer]:
+        - /url: /learn
+        - generic [ref=e35]: home
+        - generic [ref=e36]: O'rgan
+      - link "Mashq" [ref=e37] [cursor=pointer]:
+        - /url: /practice
+        - generic [ref=e38]: fitness_center
+        - generic [ref=e39]: Mashq
+      - link "Liga" [ref=e40] [cursor=pointer]:
+        - /url: /leaderboard
+        - generic [ref=e41]: leaderboard
+        - generic [ref=e42]: Liga
+      - link "Profil" [ref=e43] [cursor=pointer]:
+        - /url: /profile
+        - generic [ref=e44]: person
+        - generic [ref=e45]: Profil
+    - generic [ref=e46]:
+      - generic [ref=e47]: 🍉
+      - button "Chiqish" [ref=e48]
+  - main [ref=e49]:
+    - generic [ref=e50]:
+      - generic [ref=e51]:
+        - generic [ref=e53]: fitness_center
+        - heading "Mashq qiling" [level=1] [ref=e54]
+        - paragraph [ref=e55]: Bilimingizni mustahkamlash uchun rejim tanlang
+      - generic [ref=e56]:
+        - button "Mashqlar Yakunlangan darslardan mashqlar" [ref=e57] [cursor=pointer]:
+          - generic [ref=e59]: fitness_center
+          - heading "Mashqlar" [level=3] [ref=e60]
+          - paragraph [ref=e61]: Yakunlangan darslardan mashqlar
+        - button "So'z kartochkalar Flashcard bilan so'z yodlash" [ref=e62] [cursor=pointer]:
+          - generic [ref=e64]: style
+          - heading "So'z kartochkalar" [level=3] [ref=e65]
+          - paragraph [ref=e66]: Flashcard bilan so'z yodlash
+        - button "Lug'at So'zlar ro'yxati va tarjima" [ref=e67] [cursor=pointer]:
+          - generic [ref=e69]: menu_book
+          - heading "Lug'at" [level=3] [ref=e70]
+          - paragraph [ref=e71]: So'zlar ro'yxati va tarjima

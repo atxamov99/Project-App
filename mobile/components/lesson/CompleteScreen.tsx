@@ -1,6 +1,33 @@
+import { useMemo } from 'react'
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
 import Animated, { ZoomIn, FadeInUp } from 'react-native-reanimated'
-import { Colors } from '@/constants/colors'
+import { useColors } from '@/hooks/useColors'
+import type { ThemeColors } from '@/constants/themes'
+
+const createStyles = (c: ThemeColors) => StyleSheet.create({
+  container: {
+    flex: 1, backgroundColor: c.background,
+    alignItems: 'center', justifyContent: 'center', padding: 24,
+  },
+  mascot: { fontSize: 96, marginBottom: 24 },
+  title: { fontSize: 28, fontWeight: '800', color: c.text, marginBottom: 32 },
+  statsRow: { flexDirection: 'row', gap: 24, marginBottom: 48 },
+  statBox: {
+    alignItems: 'center', paddingHorizontal: 32, paddingVertical: 20,
+    backgroundColor: c.surface, borderRadius: 20,
+    borderWidth: 2, borderColor: c.border,
+  },
+  statValue: { fontSize: 32, fontWeight: '800', color: c.primary },
+  statLabel: { fontSize: 14, color: c.textSecondary, marginTop: 4 },
+  btnWrap: { width: '100%' },
+  btn: {
+    backgroundColor: c.primary, paddingVertical: 16,
+    borderRadius: 14, alignItems: 'center',
+    shadowColor: c.primaryDark, shadowOpacity: 0.3,
+    shadowOffset: { width: 0, height: 4 }, shadowRadius: 8, elevation: 6,
+  },
+  btnText: { color: c.onPrimary, fontSize: 18, fontWeight: '800', letterSpacing: 0.5 },
+})
 
 interface Props {
   xpEarned: number
@@ -9,6 +36,9 @@ interface Props {
 }
 
 export function CompleteScreen({ xpEarned, streak, onContinue }: Props) {
+  const c = useColors()
+  const styles = useMemo(() => createStyles(c), [c])
+
   return (
     <View style={styles.container}>
       <Animated.Text entering={ZoomIn.springify()} style={styles.mascot}>
@@ -40,28 +70,3 @@ export function CompleteScreen({ xpEarned, streak, onContinue }: Props) {
     </View>
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1, backgroundColor: Colors.background,
-    alignItems: 'center', justifyContent: 'center', padding: 24,
-  },
-  mascot: { fontSize: 96, marginBottom: 24 },
-  title: { fontSize: 28, fontWeight: '800', color: Colors.text, marginBottom: 32 },
-  statsRow: { flexDirection: 'row', gap: 24, marginBottom: 48 },
-  statBox: {
-    alignItems: 'center', paddingHorizontal: 32, paddingVertical: 20,
-    backgroundColor: Colors.surface, borderRadius: 20,
-    borderWidth: 2, borderColor: Colors.border,
-  },
-  statValue: { fontSize: 32, fontWeight: '800', color: Colors.primary },
-  statLabel: { fontSize: 14, color: Colors.textSecondary, marginTop: 4 },
-  btnWrap: { width: '100%' },
-  btn: {
-    backgroundColor: Colors.primary, paddingVertical: 16,
-    borderRadius: 14, alignItems: 'center',
-    shadowColor: Colors.primaryDark, shadowOpacity: 0.3,
-    shadowOffset: { width: 0, height: 4 }, shadowRadius: 8, elevation: 6,
-  },
-  btnText: { color: '#fff', fontSize: 18, fontWeight: '800', letterSpacing: 0.5 },
-})

@@ -1,8 +1,34 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
 import Animated, { ZoomIn, ZoomOut } from 'react-native-reanimated'
-import { Colors } from '@/constants/colors'
+import { useColors } from '@/hooks/useColors'
+import type { ThemeColors } from '@/constants/themes'
 import type { Exercise, AnswerResult } from '@/types'
+
+const createStyles = (c: ThemeColors) => StyleSheet.create({
+  container: { gap: 12 },
+  label: { fontSize: 14, color: c.textSecondary, fontWeight: '600' },
+  question: { fontSize: 22, fontWeight: '800', color: c.text },
+  selectedArea: {
+    minHeight: 60, borderWidth: 2, borderRadius: 12, padding: 8,
+    flexDirection: 'row', flexWrap: 'wrap', gap: 6,
+  },
+  areaNormal: { borderColor: c.border, backgroundColor: c.surface },
+  areaCorrect: { borderColor: c.correctBorder, backgroundColor: c.correctBg },
+  areaWrong: { borderColor: c.wrongBorder, backgroundColor: c.wrongBg },
+  selectedWord: {
+    paddingHorizontal: 12, paddingVertical: 6, backgroundColor: '#fff',
+    borderWidth: 2, borderColor: c.selectedBorder, borderRadius: 8,
+  },
+  separator: { height: 1, backgroundColor: c.border },
+  wordBank: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, justifyContent: 'center' },
+  bankWord: {
+    paddingHorizontal: 16, paddingVertical: 10, backgroundColor: '#fff',
+    borderWidth: 2, borderColor: c.border, borderRadius: 12,
+    shadowColor: '#000', shadowOpacity: 0.08, shadowRadius: 2, elevation: 2,
+  },
+  wordText: { fontSize: 15, fontWeight: '600', color: c.text },
+})
 
 interface Props {
   exercise: Exercise
@@ -12,6 +38,8 @@ interface Props {
 }
 
 export function BuildSentence({ exercise, onAnswerChange, result }: Props) {
+  const c = useColors()
+  const styles = useMemo(() => createStyles(c), [c])
   const wordBank = exercise.wordBank ?? []
   const [selected, setSelected] = useState<string[]>([])
   const [remaining, setRemaining] = useState<string[]>(wordBank)
@@ -73,28 +101,3 @@ export function BuildSentence({ exercise, onAnswerChange, result }: Props) {
     </View>
   )
 }
-
-const styles = StyleSheet.create({
-  container: { gap: 12 },
-  label: { fontSize: 14, color: Colors.textSecondary, fontWeight: '600' },
-  question: { fontSize: 22, fontWeight: '800', color: Colors.text },
-  selectedArea: {
-    minHeight: 60, borderWidth: 2, borderRadius: 12, padding: 8,
-    flexDirection: 'row', flexWrap: 'wrap', gap: 6,
-  },
-  areaNormal: { borderColor: Colors.border, backgroundColor: Colors.surface },
-  areaCorrect: { borderColor: Colors.correctBorder, backgroundColor: Colors.correctBg },
-  areaWrong: { borderColor: Colors.wrongBorder, backgroundColor: Colors.wrongBg },
-  selectedWord: {
-    paddingHorizontal: 12, paddingVertical: 6, backgroundColor: '#fff',
-    borderWidth: 2, borderColor: Colors.selectedBorder, borderRadius: 8,
-  },
-  separator: { height: 1, backgroundColor: Colors.border },
-  wordBank: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, justifyContent: 'center' },
-  bankWord: {
-    paddingHorizontal: 16, paddingVertical: 10, backgroundColor: '#fff',
-    borderWidth: 2, borderColor: Colors.border, borderRadius: 12,
-    shadowColor: '#000', shadowOpacity: 0.08, shadowRadius: 2, elevation: 2,
-  },
-  wordText: { fontSize: 15, fontWeight: '600', color: Colors.text },
-})

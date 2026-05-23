@@ -1,6 +1,32 @@
+import { useMemo } from 'react'
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
-import { Colors } from '@/constants/colors'
+import { useColors } from '@/hooks/useColors'
+import type { ThemeColors } from '@/constants/themes'
 import type { Exercise, AnswerResult } from '@/types'
+import { shuffle } from '@/utils/shuffle'
+
+const createStyles = (c: ThemeColors) => StyleSheet.create({
+  container: { gap: 20 },
+  label: { fontSize: 14, color: c.textSecondary, fontWeight: '600' },
+  sentenceRow: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: 6 },
+  sentencePart: { flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap', gap: 6 },
+  sentenceText: { fontSize: 22, fontWeight: '700', color: c.text },
+  blank: {
+    minWidth: 80, paddingHorizontal: 12, paddingVertical: 4,
+    borderBottomWidth: 2, borderBottomColor: c.textSecondary,
+  },
+  blankFilled: { borderBottomColor: c.primary },
+  blankText: { fontSize: 20, fontWeight: '700', color: c.primary, textAlign: 'center' },
+  optionsRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 10, justifyContent: 'center' },
+  option: {
+    paddingHorizontal: 20, paddingVertical: 12, borderRadius: 12,
+    backgroundColor: c.surface, borderWidth: 2, borderColor: c.border,
+  },
+  optionSelected: { borderColor: c.selectedBorder, backgroundColor: c.selectedBg },
+  optionCorrect: { borderColor: c.correctBorder, backgroundColor: c.correctBg },
+  optionWrong: { borderColor: c.wrongBorder, backgroundColor: c.wrongBg },
+  optionText: { fontSize: 16, fontWeight: '600', color: c.text },
+})
 
 interface Props {
   exercise: Exercise
@@ -10,11 +36,14 @@ interface Props {
 }
 
 export function FillInBlank({ exercise, answer, onAnswerChange, result }: Props) {
-  const options = [exercise.correctAnswer, ...exercise.wrongAnswers].sort(
-    () => Math.random() - 0.5
-  )
+  const c = useColors()
+  const styles = useMemo(() => createStyles(c), [c])
 
-  const parts = exercise.question.split('___')
+  const options = useMemo(
+    () => shuffle([exercise.correctAnswer, ...exercise.wrongAnswers]),
+    [exercise.id],
+  )
+  const parts = useMemo(() => exercise.question.split('___'), [exercise.id])
 
   const getOptionStyle = (opt: string) => {
     if (answer !== opt) return styles.option
@@ -41,9 +70,9 @@ export function FillInBlank({ exercise, answer, onAnswerChange, result }: Props)
       </View>
 
       <View style={styles.optionsRow}>
-        {options.map((opt, i) => (
+        {options.map((opt) => (
           <TouchableOpacity
-            key={i}
+            key={opt}
             style={getOptionStyle(opt)}
             onPress={() => result === null && onAnswerChange(opt)}
             activeOpacity={0.7}
@@ -55,26 +84,3 @@ export function FillInBlank({ exercise, answer, onAnswerChange, result }: Props)
     </View>
   )
 }
-
-const styles = StyleSheet.create({
-  container: { gap: 20 },
-  label: { fontSize: 14, color: Colors.textSecondary, fontWeight: '600' },
-  sentenceRow: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: 6 },
-  sentencePart: { flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap', gap: 6 },
-  sentenceText: { fontSize: 22, fontWeight: '700', color: Colors.text },
-  blank: {
-    minWidth: 80, paddingHorizontal: 12, paddingVertical: 4,
-    borderBottomWidth: 2, borderBottomColor: Colors.textSecondary,
-  },
-  blankFilled: { borderBottomColor: Colors.primary },
-  blankText: { fontSize: 20, fontWeight: '700', color: Colors.primary, textAlign: 'center' },
-  optionsRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 10, justifyContent: 'center' },
-  option: {
-    paddingHorizontal: 20, paddingVertical: 12, borderRadius: 12,
-    backgroundColor: Colors.surface, borderWidth: 2, borderColor: Colors.border,
-  },
-  optionSelected: { borderColor: Colors.selectedBorder, backgroundColor: Colors.selectedBg },
-  optionCorrect: { borderColor: Colors.correctBorder, backgroundColor: Colors.correctBg },
-  optionWrong: { borderColor: Colors.wrongBorder, backgroundColor: Colors.wrongBg },
-  optionText: { fontSize: 16, fontWeight: '600', color: Colors.text },
-})

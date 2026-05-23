@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '../store/hooks'
 import { logout as logoutAction, setCredentials } from '../store/slices/authSlice'
+import { setTheme, setMode } from '../store/slices/themeSlice'
 import {
   apiSlice,
   useMeQuery,
@@ -12,6 +13,7 @@ import {
 } from '../store/apiSlice'
 import Icon from '../components/shared/Icon'
 import Modal, { ModalActions } from '../components/admin/Modal'
+import { THEMES, THEME_IDS } from '../lib/themes'
 
 const ACHIEVEMENTS = [
   { key: 'EARLY_BIRD',     title: 'Early Bird',      desc: 'Complete 10 lessons before 8 AM.', icon: 'wb_sunny',    progress: 7,   total: 10 },
@@ -167,6 +169,7 @@ export default function Profile() {
           <h2 className="text-xl font-bold text-on-surface mb-3 px-1">Hisob</h2>
           <div className="bg-surface-container-lowest border border-outline-variant rounded-2xl divide-y divide-outline-variant/40 overflow-hidden">
             <AccountRow icon="settings"      label="Sozlamalar"       onClick={() => setActiveAccountModal('settings')} />
+            <AccountRow icon="palette"       label="Ko'rinish"        onClick={() => setActiveAccountModal('appearance')} />
             <AccountRow icon="notifications" label="Bildirishnomalar" onClick={() => setActiveAccountModal('notifications')} />
             <AccountRow icon="shield"        label="Maxfiylik"        onClick={() => setActiveAccountModal('privacy')} />
             <AccountRow icon="help"          label="Yordam"           onClick={() => setActiveAccountModal('help')} />
@@ -196,6 +199,9 @@ export default function Profile() {
         user={user}
         onUpdated={(u) => dispatch(setCredentials({ user: u, token: localStorage.getItem('token') }))}
       />
+      <SimpleModal isOpen={activeAccountModal === 'appearance'} onClose={() => setActiveAccountModal(null)} title="Ko'rinish">
+        <AppearanceContent />
+      </SimpleModal>
       <SimpleModal isOpen={activeAccountModal === 'notifications'} onClose={() => setActiveAccountModal(null)} title="Bildirishnomalar">
         <NotificationsContent />
       </SimpleModal>
@@ -497,6 +503,87 @@ function PrivacyContent({ email }) {
         </p>
       </div>
     </>
+  )
+}
+
+function AppearanceContent() {
+  const dispatch = useAppDispatch()
+  const themeId = useAppSelector((s) => s.theme.themeId)
+  const mode = useAppSelector((s) => s.theme.mode)
+
+  return (
+    <div className="space-y-5">
+      <div>
+        <p className="text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-3">
+          Rang mavzusi
+        </p>
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+          {THEME_IDS.map((id) => {
+            const t = THEMES[id]
+            const palette = t.raw[mode]
+            const active = themeId === id
+            return (
+              <button
+                key={id}
+                onClick={() => dispatch(setTheme(id))}
+                className={`flex flex-col items-start gap-2 p-3 rounded-xl border-2 transition-all text-left ${
+                  active
+                    ? 'border-primary bg-surface-container-low'
+                    : 'border-outline-variant bg-surface-container-lowest hover:border-primary/40'
+                }`}
+              >
+                <div className="flex gap-1.5">
+                  <span className="w-5 h-5 rounded-full" style={{ background: palette.primary }} />
+                  <span className="w-5 h-5 rounded-full" style={{ background: palette.secondary }} />
+                  <span className="w-5 h-5 rounded-full" style={{ background: palette.tertiary }} />
+                </div>
+                <div className="flex items-center gap-1.5 w-full">
+                  <span className="text-base">{t.emoji}</span>
+                  <span className="text-sm font-bold text-on-surface truncate">{t.label}</span>
+                  {active && (
+                    <Icon name="check_circle" filled className="text-primary ml-auto" style={{ fontSize: 18 }} />
+                  )}
+                </div>
+              </button>
+            )
+          })}
+        </div>
+      </div>
+
+      <div>
+        <p className="text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-3">
+          Rejim
+        </p>
+        <div className="flex gap-1.5 bg-surface-container-low border border-outline-variant rounded-xl p-1">
+          <button
+            onClick={() => dispatch(setMode('light'))}
+            className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-bold transition-colors ${
+              mode === 'light'
+                ? 'bg-surface-container-lowest text-on-surface shadow-sm'
+                : 'text-on-surface-variant hover:text-on-surface'
+            }`}
+          >
+            <Icon name="light_mode" style={{ fontSize: 18 }} />
+            Yorug'
+          </button>
+          <button
+            onClick={() => dispatch(setMode('dark'))}
+            className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-bold transition-colors ${
+              mode === 'dark'
+                ? 'bg-surface-container-lowest text-on-surface shadow-sm'
+                : 'text-on-surface-variant hover:text-on-surface'
+            }`}
+          >
+            <Icon name="dark_mode" style={{ fontSize: 18 }} />
+            Qorong'i
+          </button>
+        </div>
+      </div>
+
+      <p className="text-xs text-on-surface-variant">
+        O'zgarishlar avtomatik saqlanadi.
+      </p>
+    </div>
   )
 }
 

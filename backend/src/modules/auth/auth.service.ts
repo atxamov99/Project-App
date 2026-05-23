@@ -21,6 +21,11 @@ type UserLike = {
   gems: number
   totalXP: number
   streak: number
+  longestStreak: number
+  streakFreezes: number
+  isPremium: boolean
+  interfaceLanguage: string | null
+  targetLanguage: string | null
   role?: string
   suspendedAt?: Date | null
 }
@@ -42,6 +47,11 @@ function publicUser(user: UserLike) {
     gems: user.gems,
     totalXP: user.totalXP,
     streak: user.streak,
+    longestStreak: user.longestStreak,
+    streakFreezes: user.streakFreezes,
+    isPremium: user.isPremium,
+    interfaceLanguage: user.interfaceLanguage,
+    targetLanguage: user.targetLanguage,
     role: normalizeRole(user.role),
     suspendedAt: user.suspendedAt ?? null,
   }
@@ -166,8 +176,8 @@ export async function me(userId: string) {
 
   return {
     ...publicUser(user),
-    lives: user.lives ? { current: user.lives.current, max: user.lives.max, refillAt: user.lives.refillAt } : null,
-    longestStreak: user.longestStreak,
-    isPremium: user.isPremium,
+    lives: user.lives
+      ? { current: user.lives.current, max: user.lives.max, refillAt: user.lives.refillAt }
+      : null,
   }
 }

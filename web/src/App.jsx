@@ -5,11 +5,13 @@ import Register from './pages/Register'
 import Learn from './pages/Learn'
 import Lesson from './pages/Lesson'
 import Practice from './pages/Practice'
+import Tutor from './pages/Tutor'
 import Leaderboard from './pages/Leaderboard'
 import Profile from './pages/Profile'
 import UserProfile from './pages/UserProfile'
 import ProtectedRoute from './components/ProtectedRoute'
 import AppShell from './components/layout/AppShell'
+import ThemeProvider from './components/ThemeProvider'
 
 import AdminProtectedRoute from './components/admin/AdminProtectedRoute'
 import AdminShell from './components/admin/AdminShell'
@@ -29,6 +31,7 @@ import './App.css'
 
 export default function App() {
   return (
+    <ThemeProvider>
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
@@ -38,6 +41,7 @@ export default function App() {
         {/* Authenticated student routes */}
         <Route element={<ProtectedRoute />}>
           <Route path="/lesson/:lessonId" element={<Lesson />} />
+          <Route path="/tutor" element={<Tutor />} />
           <Route element={<AppShell />}>
             <Route path="/learn" element={<Learn />} />
             <Route path="/practice" element={<Practice />} />
@@ -67,5 +71,6 @@ export default function App() {
         <Route path="*" element={<Home />} />
       </Routes>
     </BrowserRouter>
+    </ThemeProvider>
   )
 }

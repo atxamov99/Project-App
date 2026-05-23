@@ -1,6 +1,19 @@
+import { useMemo } from 'react'
 import { View, Text, TextInput, StyleSheet } from 'react-native'
-import { Colors } from '@/constants/colors'
+import { useColors } from '@/hooks/useColors'
+import type { ThemeColors } from '@/constants/themes'
 import type { Exercise, AnswerResult } from '@/types'
+
+const createStyles = (c: ThemeColors) => StyleSheet.create({
+  container: { gap: 12 },
+  label: { fontSize: 14, color: c.textSecondary, fontWeight: '600' },
+  question: { fontSize: 26, fontWeight: '800', color: c.text, lineHeight: 34 },
+  input: {
+    minHeight: 80, borderWidth: 2, borderRadius: 12,
+    padding: 14, fontSize: 17, color: c.text,
+    textAlignVertical: 'top',
+  },
+})
 
 interface Props {
   exercise: Exercise
@@ -10,13 +23,16 @@ interface Props {
 }
 
 export function TranslateText({ exercise, answer, onAnswerChange, result }: Props) {
+  const c = useColors()
+  const styles = useMemo(() => createStyles(c), [c])
+
   const borderColor =
-    result === 'correct' ? Colors.correctBorder :
-    result === 'wrong'   ? Colors.wrongBorder   : Colors.border
+    result === 'correct' ? c.correctBorder :
+    result === 'wrong'   ? c.wrongBorder   : c.border
 
   const bgColor =
-    result === 'correct' ? Colors.correctBg :
-    result === 'wrong'   ? Colors.wrongBg   : Colors.surface
+    result === 'correct' ? c.correctBg :
+    result === 'wrong'   ? c.wrongBg   : c.surface
 
   return (
     <View style={styles.container}>
@@ -26,7 +42,7 @@ export function TranslateText({ exercise, answer, onAnswerChange, result }: Prop
       <TextInput
         style={[styles.input, { borderColor, backgroundColor: bgColor }]}
         placeholder="Tarjimangizni yozing..."
-        placeholderTextColor={Colors.textLight}
+        placeholderTextColor={c.textLight}
         value={answer}
         onChangeText={onAnswerChange}
         multiline
@@ -36,14 +52,3 @@ export function TranslateText({ exercise, answer, onAnswerChange, result }: Prop
     </View>
   )
 }
-
-const styles = StyleSheet.create({
-  container: { gap: 12 },
-  label: { fontSize: 14, color: Colors.textSecondary, fontWeight: '600' },
-  question: { fontSize: 26, fontWeight: '800', color: Colors.text, lineHeight: 34 },
-  input: {
-    minHeight: 80, borderWidth: 2, borderRadius: 12,
-    padding: 14, fontSize: 17, color: Colors.text,
-    textAlignVertical: 'top',
-  },
-})

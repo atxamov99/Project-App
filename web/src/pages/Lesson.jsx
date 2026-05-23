@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useGetLessonQuery, useGetLivesQuery, useCheckExerciseMutation, useCompleteLessonMutation } from '../store/apiSlice'
 import Icon from '../components/shared/Icon'
+import { api } from '../lib/api'
 
 function shuffle(arr) {
   const a = [...arr]
@@ -142,6 +143,8 @@ export default function Lesson() {
               answer={answer}
               setAnswer={setAnswer}
               result={result}
+              learningLang={lesson?.unit?.course?.toLanguage?.code ?? 'en'}
+              interfaceLang={lesson?.unit?.course?.fromLanguage?.code ?? 'ru'}
             />
           </div>
 
@@ -185,8 +188,33 @@ export default function Lesson() {
 
 /* ─── Exercise Renderer ──────────────────── */
 
-function ExerciseRenderer({ exercise, answer, setAnswer, result }) {
+function ExerciseRenderer({ exercise, answer, setAnswer, result, learningLang, interfaceLang }) {
   const type = exercise.type
+  const [aiExplain, setAiExplain] = useState(null)
+  const [aiLoading, setAiLoading] = useState(false)
+  const [aiError, setAiError] = useState('')
+
+  useEffect(() => { setAiExplain(null); setAiError('') }, [exercise.id, result?.isCorrect])
+
+  async function fetchExplanation() {
+    if (aiLoading || aiExplain) return
+    setAiLoading(true); setAiError('')
+    try {
+      const resp = await api.ai.explain({
+        exerciseType: type,
+        prompt: exercise.question,
+        userAnswer: answer || '',
+        correctAnswer: result?.correctAnswer || exercise.correctAnswer || '',
+        learningLang,
+        interfaceLang,
+      })
+      setAiExplain(resp)
+    } catch (e) {
+      setAiError(e.message || 'AI xatolik')
+    } finally {
+      setAiLoading(false)
+    }
+  }
 
   return (
     <>
@@ -252,6 +280,23 @@ function ExerciseRenderer({ exercise, answer, setAnswer, result }) {
             )}
             {result.explanation && (
               <p className="text-xs italic mt-1 opacity-90 lg:hidden">{result.explanation}</p>
+            )}
+            {!result.isCorrect && !aiExplain && (
+              <button
+                onClick={fetchExplanation}
+                disabled={aiLoading}
+                className="mt-3 inline-flex items-center gap-1 text-xs font-bold uppercase tracking-widest hover:underline disabled:opacity-50"
+              >
+                {aiLoading ? '✨ AI o\'ylamoqda...' : '✨ AI dan tushuntirish so\'rash'}
+              </button>
+            )}
+            {aiError && <p className="text-xs italic mt-2 opacity-90">{aiError}</p>}
+            {aiExplain && (
+              <div className="mt-3 bg-white/40 rounded-xl p-3">
+                <p className="text-xs font-bold uppercase tracking-widest mb-1">✨ AI tushuntiradi</p>
+                <p className="text-sm">{aiExplain.explanation}</p>
+                {aiExplain.tip && <p className="text-xs italic mt-2">💡 {aiExplain.tip}</p>}
+              </div>
             )}
           </div>
         </div>

@@ -1,12 +1,15 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useMemo } from 'react'
 import {
   View, Text, TouchableOpacity, StyleSheet,
-  SafeAreaView, Animated, Platform, ActivityIndicator, Alert,
+  Animated, ActivityIndicator,
 } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
 import { useRouter, useLocalSearchParams } from 'expo-router'
-import { Colors } from '@/constants/colors'
+import { ArrowLeft } from 'lucide-react-native'
+import { useColors } from '@/hooks/useColors'
 import { useAuthStore } from '@/store/authStore'
 import { api } from '@/lib/api'
+import type { ThemeColors } from '@/constants/themes'
 import type { LanguageCode } from '@/types'
 
 const LANGUAGES: { code: LanguageCode; flag: string; name: string; sub: string }[] = [
@@ -15,16 +18,77 @@ const LANGUAGES: { code: LanguageCode; flag: string; name: string; sub: string }
   { code: 'ru', flag: '🇷🇺', name: 'Русский', sub: 'Rus tili' },
 ]
 
+const createStyles = (c: ThemeColors) => StyleSheet.create({
+  safe: {
+    flex: 1,
+    backgroundColor: c.background,
+  },
+  container: { flex: 1, paddingHorizontal: 24, paddingBottom: 32 },
+  backBtn: { padding: 4, alignSelf: 'flex-start', marginTop: 8, marginBottom: 8 },
+  progressRow: {
+    flexDirection: 'row', alignItems: 'center', justifyContent: 'center',
+    marginTop: 8, marginBottom: 36, gap: 8,
+  },
+  progressDot: { width: 12, height: 12, borderRadius: 6, backgroundColor: c.border },
+  progressDotActive: { backgroundColor: c.primary, width: 28, borderRadius: 6 },
+  progressLine: {
+    flex: 1, height: 3, backgroundColor: c.primaryLight,
+    borderRadius: 2, maxWidth: 60,
+  },
+  header: { alignItems: 'center', marginBottom: 36 },
+  globe: { fontSize: 52, marginBottom: 16 },
+  title: {
+    fontSize: 26, fontWeight: '800', color: c.text,
+    textAlign: 'center', marginBottom: 10, lineHeight: 34,
+  },
+  subtitle: {
+    fontSize: 14, color: c.textSecondary,
+    textAlign: 'center', lineHeight: 20, paddingHorizontal: 8,
+  },
+  cards: { gap: 12, flex: 1 },
+  card: {
+    flexDirection: 'row', alignItems: 'center',
+    backgroundColor: c.surface, borderRadius: 16,
+    borderWidth: 2, borderColor: c.border,
+    paddingHorizontal: 20, paddingVertical: 18, gap: 14,
+  },
+  cardSelected: { borderColor: c.primary, backgroundColor: c.primaryLight },
+  cardDisabled: { backgroundColor: c.surfaceAlt, borderColor: c.border, opacity: 0.55 },
+  cardFlag: { fontSize: 36 },
+  cardFlagDisabled: { opacity: 0.5 },
+  cardText: { flex: 1 },
+  cardName: { fontSize: 18, fontWeight: '700', color: c.text, marginBottom: 2 },
+  cardNameSelected: { color: c.primaryDark },
+  cardNameDisabled: { color: c.textSecondary },
+  cardSub: { fontSize: 13, color: c.textSecondary },
+  cardSubDisabled: { fontSize: 12, color: c.textLight, fontStyle: 'italic' },
+  radio: {
+    width: 24, height: 24, borderRadius: 12, borderWidth: 2,
+    borderColor: c.borderMedium, alignItems: 'center', justifyContent: 'center',
+  },
+  radioSelected: { borderColor: c.primary, backgroundColor: c.primary },
+  radioDisabled: { borderColor: c.border, backgroundColor: c.surfaceAlt },
+  radioDot: { width: 10, height: 10, borderRadius: 5, backgroundColor: c.onPrimary },
+  btn: {
+    width: '100%', height: 54, backgroundColor: c.primary,
+    borderRadius: 14, alignItems: 'center', justifyContent: 'center',
+    marginTop: 24,
+    shadowColor: c.primaryDark, shadowOpacity: 0.3,
+    shadowOffset: { width: 0, height: 4 }, shadowRadius: 6, elevation: 5,
+  },
+  btnDisabled: { backgroundColor: c.border, shadowOpacity: 0, elevation: 0 },
+  btnText: { color: c.onPrimary, fontSize: 15, fontWeight: '800', letterSpacing: 0.5 },
+})
+
 function LanguageCard({
-  lang,
-  selected,
-  disabled,
-  onPress,
+  lang, selected, disabled, onPress, styles, c,
 }: {
   lang: (typeof LANGUAGES)[number]
   selected: boolean
   disabled: boolean
   onPress: () => void
+  styles: ReturnType<typeof createStyles>
+  c: ThemeColors
 }) {
   const scale = useRef(new Animated.Value(1)).current
 
@@ -69,11 +133,14 @@ function LanguageCard({
 }
 
 export default function SelectLearningLanguageScreen() {
-  const { interfaceLang } = useLocalSearchParams<{ interfaceLang: LanguageCode }>()
+  const { interfaceLang, mode } = useLocalSearchParams<{ interfaceLang: LanguageCode; mode?: string }>()
   const [selected, setSelected] = useState<LanguageCode | null>(null)
   const [loading, setLoading] = useState(false)
   const { setLanguages } = useAuthStore()
   const router = useRouter()
+  const c = useColors()
+  const styles = useMemo(() => createStyles(c), [c])
+  const isChangeMode = mode === 'change'
 
   const handleStart = async () => {
     if (!selected || !interfaceLang) return
@@ -86,12 +153,21 @@ export default function SelectLearningLanguageScreen() {
     } finally {
       setLanguages(interfaceLang, selected)
       setLoading(false)
+      if (isChangeMode) {
+        router.dismissAll()
+      }
     }
   }
 
   return (
-    <SafeAreaView style={styles.safe}>
+    <SafeAreaView style={styles.safe} edges={['top', 'bottom']}>
       <View style={styles.container}>
+        {isChangeMode && (
+          <TouchableOpacity style={styles.backBtn} onPress={() => router.back()} activeOpacity={0.7}>
+            <ArrowLeft size={24} color={c.text} />
+          </TouchableOpacity>
+        )}
+
         <View style={styles.progressRow}>
           <View style={styles.progressDot} />
           <View style={styles.progressLine} />
@@ -114,6 +190,8 @@ export default function SelectLearningLanguageScreen() {
               selected={selected === lang.code}
               disabled={lang.code === interfaceLang}
               onPress={() => setSelected(lang.code)}
+              styles={styles}
+              c={c}
             />
           ))}
         </View>
@@ -125,147 +203,11 @@ export default function SelectLearningLanguageScreen() {
           activeOpacity={0.85}
         >
           {loading
-            ? <ActivityIndicator color="#fff" />
-            : <Text style={styles.btnText}>O'RGANISHNI BOSHLASH 🚀</Text>
+            ? <ActivityIndicator color={c.onPrimary} />
+            : <Text style={styles.btnText}>{isChangeMode ? 'SAQLASH' : "O'RGANISHNI BOSHLASH 🚀"}</Text>
           }
         </TouchableOpacity>
       </View>
     </SafeAreaView>
   )
 }
-
-const styles = StyleSheet.create({
-  safe: {
-    flex: 1,
-    backgroundColor: Colors.background,
-    paddingTop: Platform.OS === 'android' ? 24 : 0,
-  },
-  container: {
-    flex: 1,
-    paddingHorizontal: 24,
-    paddingBottom: 32,
-  },
-
-  progressRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 24,
-    marginBottom: 36,
-    gap: 8,
-  },
-  progressDot: {
-    width: 12,
-    height: 12,
-    borderRadius: 6,
-    backgroundColor: Colors.border,
-  },
-  progressDotActive: {
-    backgroundColor: Colors.primary,
-    width: 28,
-    borderRadius: 6,
-  },
-  progressLine: {
-    flex: 1,
-    height: 3,
-    backgroundColor: Colors.primaryLight,
-    borderRadius: 2,
-    maxWidth: 60,
-  },
-
-  header: {
-    alignItems: 'center',
-    marginBottom: 36,
-  },
-  globe: { fontSize: 52, marginBottom: 16 },
-  title: {
-    fontSize: 26,
-    fontWeight: '800',
-    color: Colors.text,
-    textAlign: 'center',
-    marginBottom: 10,
-    lineHeight: 34,
-  },
-  subtitle: {
-    fontSize: 14,
-    color: Colors.textSecondary,
-    textAlign: 'center',
-    lineHeight: 20,
-    paddingHorizontal: 8,
-  },
-
-  cards: { gap: 12, flex: 1 },
-
-  card: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: Colors.surface,
-    borderRadius: 16,
-    borderWidth: 2,
-    borderColor: Colors.border,
-    paddingHorizontal: 20,
-    paddingVertical: 18,
-    gap: 14,
-  },
-  cardSelected: {
-    borderColor: Colors.primary,
-    backgroundColor: Colors.primaryLight,
-  },
-  cardDisabled: {
-    backgroundColor: Colors.surfaceAlt,
-    borderColor: Colors.border,
-    opacity: 0.55,
-  },
-  cardFlag: { fontSize: 36 },
-  cardFlagDisabled: { opacity: 0.5 },
-  cardText: { flex: 1 },
-  cardName: {
-    fontSize: 18,
-    fontWeight: '700',
-    color: Colors.text,
-    marginBottom: 2,
-  },
-  cardNameSelected: { color: Colors.primaryDark },
-  cardNameDisabled: { color: Colors.textSecondary },
-  cardSub: { fontSize: 13, color: Colors.textSecondary },
-  cardSubDisabled: { fontSize: 12, color: Colors.textLight, fontStyle: 'italic' },
-
-  radio: {
-    width: 24,
-    height: 24,
-    borderRadius: 12,
-    borderWidth: 2,
-    borderColor: Colors.borderMedium,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  radioSelected: { borderColor: Colors.primary, backgroundColor: Colors.primary },
-  radioDisabled: { borderColor: Colors.border, backgroundColor: Colors.surfaceAlt },
-  radioDot: { width: 10, height: 10, borderRadius: 5, backgroundColor: '#fff' },
-
-  btn: {
-    width: '100%',
-    height: 54,
-    backgroundColor: Colors.primary,
-    borderRadius: 14,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 24,
-    shadowColor: Colors.primaryDark,
-    shadowOpacity: 0.3,
-    shadowOffset: { width: 0, height: 4 },
-    shadowRadius: 6,
-    elevation: 5,
-  },
-  btnDisabled: {
-    backgroundColor: Colors.border,
-    shadowOpacity: 0,
-    elevation: 0,
-  },
-  btnText: {
-    color: '#fff',
-    fontSize: 15,
-    fontWeight: '800',
-    letterSpacing: 0.5,
-  },
-})

@@ -1,0 +1,40 @@
+<h2>Approach 3: Hybrid Design System</h2>
+<p class="subtitle">Custom design system with selective enhancements</p>
+
+<div class="options">
+  <div class="option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Pros</h3>
+      <ul>
+        <li>Best of both worlds: consistency + efficiency</li>
+        <li>Preserves good existing architecture</li>
+        <li>Figma-accurate UI where it matters most</li>
+        <li>Lower risk than complete rewrite</li>
+        <li>Flexible implementation pace</li>
+      </ul>
+    </div>
+  </div>
+  <div class="option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Cons</h3>
+      <ul>
+        <li>Requires creating custom design system</li>
+        <li>Some inconsistency during transition period</li>
+        <li>Need to balance custom vs existing solutions</li>
+        <li>May require refactoring as project evolves</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<h3>Implementation Steps:</h3>
+<ol>
+  <li>Extract design tokens from Figma (colors, fonts, spacing)</li>
+  <li>Create reusable UI components matching Figma exactly</li>
+  <li>Gradually replace existing components with new ones</li>
+  <li>Enhance animations with react-native-reanimated v3</li>
+  <li>Add 3D model support for specific exercise types</li>
+  <li>Preserve existing state management and API layers</li>
+</ol>

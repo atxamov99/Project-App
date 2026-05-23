@@ -3,10 +3,10 @@ import { useNavigate } from 'react-router-dom'
 import {
   useGetPracticeSessionQuery,
   useCheckExerciseMutation,
+  useAiTranslateMutation,
   useGetFlashcardsQuery,
   useReviewWordMutation,
   useBrowseWordsQuery,
-  useLazyTranslateTextQuery,
 } from '../store/apiSlice'
 import Icon from '../components/shared/Icon'
 
@@ -456,116 +456,206 @@ function TabBtn({ active, onClick, children }) {
   )
 }
 
+const LANG_OPTS = [
+  { code: 'auto', label: 'Aniqlash', flag: '🌐' },
+  { code: 'uz',   label: "O'zbek",   flag: '🇺🇿' },
+  { code: 'en',   label: 'English',  flag: '🇬🇧' },
+  { code: 'ru',   label: 'Русский',  flag: '🇷🇺' },
+]
+
+const TARGET_OPTS = [
+  { code: 'uz', label: "O'zbek", flag: '🇺🇿' },
+  { code: 'en', label: 'English', flag: '🇬🇧' },
+  { code: 'ru', label: 'Русский', flag: '🇷🇺' },
+]
+
 function DictSearch() {
   const [q, setQ] = useState('')
-  const [from, setFrom] = useState('uz')
-  const [to, setTo] = useState('en')
-  const [trigger, { data, isFetching, error }] = useLazyTranslateTextQuery()
+  const [from, setFrom] = useState('auto')
+  const [to, setTo] = useState('uz')
+  const [result, setResult] = useState(null)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
+  const [copied, setCopied] = useState(false)
+  const [aiTranslate] = useAiTranslateMutation()
+  const debounceRef = useState(null)
 
-  // Auto-search debounce — 400ms tinch turgandan keyin so'rov yuboradi
   useEffect(() => {
+    if (debounceRef[0]) clearTimeout(debounceRef[0])
     const text = q.trim()
-    if (!text) return
-    const timer = setTimeout(() => {
-      // preferCacheValue: agar avval qidirilgan bo'lsa, kesh'dan tez chiqaradi
-      trigger({ q: text, from, to }, true)
-    }, 400)
-    return () => clearTimeout(timer)
-  }, [q, from, to, trigger])
-
-  function submit(e) {
-    e.preventDefault()
-    const text = q.trim()
-    if (!text) return
-    trigger({ q: text, from, to }, true)
-  }
+    if (!text) { setResult(null); setError(''); return }
+    debounceRef[0] = setTimeout(async () => {
+      setLoading(true); setError('')
+      try {
+        const data = await aiTranslate({ text, from, to }).unwrap()
+        setResult(data)
+      } catch (e) {
+        setError(e?.data?.error || 'Tarjima xatoligi')
+        setResult(null)
+      } finally {
+        setLoading(false)
+      }
+    }, 700)
+    return () => clearTimeout(debounceRef[0])
+  }, [q, from, to])
 
   function swap() {
-    setFrom(to)
-    setTo(from)
+    const newFrom = to === 'uz' ? 'uz' : to === 'en' ? 'en' : 'ru'
+    const newTo = from === 'auto' ? 'en' : from
+    setFrom(newFrom)
+    setTo(newTo)
+    if (result?.translation) setQ(result.translation)
+    setResult(null)
   }
 
+  function copy() {
+    if (!result?.translation) return
+    navigator.clipboard.writeText(result.translation)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
+  }
+
+  const detectedLabel = result?.detectedLang
+    ? (LANG_OPTS.find((l) => l.code === result.detectedLang) ?? { flag: '🌐', label: result.detectedLang.toUpperCase() })
+    : null
+  const fromDisplay = from === 'auto' && detectedLabel
+    ? { flag: detectedLabel.flag, label: `${detectedLabel.label} (aniqlandi)` }
+    : (LANG_OPTS.find((l) => l.code === from) ?? LANG_OPTS[0])
+  const toDisplay = TARGET_OPTS.find((l) => l.code === to) ?? TARGET_OPTS[0]
+
   return (
-    <div>
-      <form onSubmit={submit} className="space-y-3">
-        <div className="grid grid-cols-[1fr_auto_1fr] gap-2 items-center">
-          <LangSelect value={from} onChange={setFrom} />
-          <button type="button" onClick={swap} className="p-2 rounded-full hover:bg-surface-container cursor-pointer" aria-label="Almashtirish">
-            <Icon name="swap_horiz" className="text-secondary" />
-          </button>
-          <LangSelect value={to} onChange={setTo} />
+    <div className="space-y-3">
+      {/* Language bar */}
+      <div className="flex items-center bg-surface-container-lowest border-2 border-outline-variant rounded-2xl overflow-hidden">
+        <div className="flex flex-1">
+          {LANG_OPTS.map((l) => (
+            <button
+              key={l.code}
+              onClick={() => setFrom(l.code)}
+              className={`flex-1 px-3 py-3 text-sm font-semibold transition-colors cursor-pointer text-center whitespace-nowrap ${
+                from === l.code
+                  ? 'text-secondary border-b-2 border-secondary bg-surface-container/40'
+                  : 'text-on-surface-variant hover:bg-surface-container'
+              }`}
+            >
+              {l.flag} <span className="hidden sm:inline">{l.label}</span><span className="sm:hidden">{l.code === 'auto' ? 'Auto' : l.code.toUpperCase()}</span>
+            </button>
+          ))}
         </div>
 
-        <div className="flex gap-2">
-          <input
+        <button
+          onClick={swap}
+          className="mx-2 p-2 rounded-full hover:bg-surface-container transition-colors cursor-pointer shrink-0"
+          aria-label="Almashtirish"
+          title="Tillarni almashtirish"
+        >
+          <Icon name="swap_horiz" className="text-secondary" />
+        </button>
+
+        <div className="flex flex-1 justify-end">
+          {TARGET_OPTS.map((l) => (
+            <button
+              key={l.code}
+              onClick={() => setTo(l.code)}
+              className={`flex-1 px-3 py-3 text-sm font-semibold transition-colors cursor-pointer text-center whitespace-nowrap ${
+                to === l.code
+                  ? 'text-secondary border-b-2 border-secondary bg-surface-container/40'
+                  : 'text-on-surface-variant hover:bg-surface-container'
+              }`}
+            >
+              {l.flag} <span className="hidden sm:inline">{l.label}</span><span className="sm:hidden">{l.code.toUpperCase()}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Two-panel layout */}
+      <div className="grid md:grid-cols-2 border-2 border-outline-variant rounded-2xl overflow-hidden bg-surface-container-lowest">
+        {/* Source panel */}
+        <div className="relative border-b md:border-b-0 md:border-r border-outline-variant">
+          <div className="flex items-center justify-between px-4 pt-3 pb-1">
+            <span className="text-xs font-bold uppercase tracking-widest text-on-surface-variant">
+              {fromDisplay.flag} {fromDisplay.label}
+            </span>
+            {q && (
+              <button onClick={() => { setQ(''); setResult(null) }} className="text-on-surface-variant hover:text-on-surface p-1 cursor-pointer rounded-full hover:bg-surface-container" aria-label="Tozalash">
+                <Icon name="close" style={{ fontSize: 16 }} />
+              </button>
+            )}
+          </div>
+          <textarea
             value={q}
-            onChange={(e) => setQ(e.target.value)}
-            placeholder="So'z yoki jumla..."
-            className="grow bg-white border-2 border-outline-variant rounded-xl px-4 py-3 outline-none focus:border-secondary"
+            onChange={(e) => setQ(e.target.value.slice(0, 2000))}
+            placeholder="Matn kiriting..."
             autoFocus
+            rows={5}
+            className="w-full px-4 py-2 text-lg text-on-surface bg-transparent outline-none resize-none placeholder:text-on-surface-variant/40"
           />
-          <button
-            type="submit"
-            disabled={!q.trim() || isFetching}
-            className="bg-secondary text-white px-5 py-3 rounded-xl font-bold disabled:opacity-60 cursor-pointer"
-          >
-            {isFetching ? '...' : 'Tarjima'}
-          </button>
+          <div className="px-4 pb-3 flex justify-end">
+            <span className="text-xs text-on-surface-variant/50">{q.length}/2000</span>
+          </div>
         </div>
-      </form>
 
-      {error && (
-        <div className="mt-4 bg-error-container text-on-error-container px-4 py-3 rounded-xl text-sm">
-          {error.data?.error || 'Tarjima xatoligi'}
+        {/* Target panel */}
+        <div className="relative bg-surface-container/20 min-h-[180px]">
+          <div className="flex items-center justify-between px-4 pt-3 pb-1">
+            <span className="text-xs font-bold uppercase tracking-widest text-secondary">
+              {toDisplay.flag} {toDisplay.label}
+            </span>
+            {result?.translation && (
+              <button onClick={copy} className="text-on-surface-variant hover:text-secondary p-1 cursor-pointer transition-colors rounded-full hover:bg-surface-container" aria-label="Nusxalash">
+                <Icon name={copied ? 'check' : 'content_copy'} style={{ fontSize: 16 }} className={copied ? 'text-secondary' : ''} />
+              </button>
+            )}
+          </div>
+
+          {loading ? (
+            <div className="px-4 py-5 flex gap-1.5 items-center">
+              <span className="w-2 h-2 rounded-full bg-secondary animate-bounce" style={{ animationDelay: '0ms' }} />
+              <span className="w-2 h-2 rounded-full bg-secondary animate-bounce" style={{ animationDelay: '150ms' }} />
+              <span className="w-2 h-2 rounded-full bg-secondary animate-bounce" style={{ animationDelay: '300ms' }} />
+              <span className="text-xs text-on-surface-variant ml-2">AI tarjima qilmoqda...</span>
+            </div>
+          ) : result?.translation ? (
+            <div className="px-4 py-2">
+              <p className="text-xl font-bold text-secondary leading-relaxed break-words select-text">{result.translation}</p>
+            </div>
+          ) : q && !error ? (
+            <div className="px-4 py-6 text-on-surface-variant/40 text-sm italic">Tarjima bu yerda paydo bo'ladi...</div>
+          ) : !q ? (
+            <div className="px-4 py-6 text-on-surface-variant/40 text-sm">Chap tomonga matn kiriting</div>
+          ) : null}
+
+          {error && (
+            <div className="px-4 py-3 text-sm text-error flex items-center gap-2">
+              <Icon name="error_outline" style={{ fontSize: 16 }} />
+              {error}
+            </div>
+          )}
         </div>
-      )}
+      </div>
 
-      {data && (
-        <div className="mt-6 bg-surface-container-lowest border-2 border-outline-variant rounded-2xl p-5 loft-shadow">
-          <p className="text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-2">Tarjima</p>
-          <p className="text-2xl font-extrabold text-on-surface mb-4 break-words">{data.translation}</p>
-
-          {data.alternatives?.length > 0 && (
-            <>
-              <p className="text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-2">Boshqa variantlar</p>
-              <ul className="space-y-1">
-                {data.alternatives.map((alt, i) => (
-                  <li key={i} className="text-sm text-on-surface bg-surface-container rounded-lg px-3 py-2">{alt}</li>
-                ))}
-              </ul>
-            </>
-          )}
-
-          {data.match !== undefined && (
-            <p className="text-[10px] text-on-surface-variant mt-3">Mosligi: {Math.round(data.match * 100)}%</p>
-          )}
+      {/* Alternatives */}
+      {result?.alternatives?.length > 0 && (
+        <div className="mt-4 bg-surface-container-lowest border-2 border-outline-variant rounded-2xl p-4">
+          <p className="text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-2">Boshqa variantlar</p>
+          <div className="flex flex-wrap gap-2">
+            {result.alternatives.map((alt, i) => (
+              <button
+                key={i}
+                onClick={() => setQ(alt)}
+                className="text-sm text-on-surface bg-surface-container hover:bg-surface-container-high border border-outline-variant rounded-full px-3 py-1.5 transition-colors cursor-pointer"
+              >
+                {alt}
+              </button>
+            ))}
+          </div>
         </div>
       )}
     </div>
   )
 }
 
-function LangSelect({ value, onChange }) {
-  const opts = [
-    { code: 'uz', label: "🇺🇿 O'zbek" },
-    { code: 'en', label: '🇬🇧 English' },
-    { code: 'ru', label: '🇷🇺 Русский' },
-    { code: 'tr', label: '🇹🇷 Türkçe' },
-    { code: 'es', label: '🇪🇸 Español' },
-    { code: 'de', label: '🇩🇪 Deutsch' },
-    { code: 'fr', label: '🇫🇷 Français' },
-    { code: 'ar', label: '🇸🇦 العربية' },
-  ]
-  return (
-    <select
-      value={value}
-      onChange={(e) => onChange(e.target.value)}
-      className="bg-white border-2 border-outline-variant rounded-xl px-3 py-2 text-sm font-semibold outline-none focus:border-secondary cursor-pointer"
-    >
-      {opts.map((o) => <option key={o.code} value={o.code}>{o.label}</option>)}
-    </select>
-  )
-}
 
 function DictBrowse() {
   const [search, setSearch] = useState('')

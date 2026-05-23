@@ -1,0 +1,129 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e5]:
+      - img "Tarvuz mascot" [ref=e6]: 🍉
+      - generic [ref=e7]: LingvaUZ
+    - navigation [ref=e8]:
+      - link "Tillar" [ref=e9] [cursor=pointer]:
+        - /url: "#tillar"
+      - link "Imkoniyatlar" [ref=e10] [cursor=pointer]:
+        - /url: "#imkoniyatlar"
+      - link "Narxlar" [ref=e11] [cursor=pointer]:
+        - /url: "#narxlar"
+    - generic [ref=e12]:
+      - link "Kirish" [ref=e13] [cursor=pointer]:
+        - /url: /login
+      - link "Boshlash" [ref=e14] [cursor=pointer]:
+        - /url: /register
+  - generic [ref=e15]:
+    - generic [ref=e16]:
+      - generic [ref=e17]: 🇺🇿 O'zbekistonliklar uchun
+      - heading "Til o'rganish — qiziqarli bo'lishi mumkin" [level=1] [ref=e18]
+      - paragraph [ref=e19]: LingvaUZ — Duolingo uslubidagi bepul platforma. Ingliz, Rus va O'zbek tillarini kuniga 5 daqiqada o'rganing.
+      - generic [ref=e20]:
+        - link "Bepul Boshlash" [ref=e21] [cursor=pointer]:
+          - /url: /register
+        - link "Hisobim bor" [ref=e22] [cursor=pointer]:
+          - /url: /login
+      - generic [ref=e23]:
+        - generic [ref=e24]: ✅ Bepul
+        - generic [ref=e25]: ✅ 3 ta til
+        - generic [ref=e26]: ✅ Mahalliy mazmun
+    - generic [ref=e27]:
+      - generic [ref=e28]: 🍉
+      - generic [ref=e29]:
+        - generic [ref=e30]: local_fire_department
+        - text: "7"
+      - generic [ref=e31]:
+        - generic [ref=e32]: workspace_premium
+        - text: +15 XP
+      - generic [ref=e33]: ❤❤❤❤❤
+  - generic [ref=e35]:
+    - heading "3 ta til, bitta platformada" [level=2] [ref=e36]
+    - paragraph [ref=e37]: O'zbek tilidagi to'liq interfeys bilan
+    - generic [ref=e38]:
+      - article [ref=e39]:
+        - generic [ref=e40]: 🇬🇧
+        - heading "Ingliz tili" [level=3] [ref=e41]
+        - paragraph [ref=e42]: O'zbek → Ingliz, A1 dan C1 gacha
+      - article [ref=e43]:
+        - generic [ref=e44]: 🇷🇺
+        - heading "Rus tili" [level=3] [ref=e45]
+        - paragraph [ref=e46]: Kirill alifbosi va kundalik muloqot
+      - article [ref=e47]:
+        - generic [ref=e48]: 🇺🇿
+        - heading "O'zbek tili" [level=3] [ref=e49]
+        - paragraph [ref=e50]: Chet elliklar uchun
+  - generic [ref=e52]:
+    - heading "Sevimli mexanikalar" [level=2] [ref=e53]
+    - paragraph [ref=e54]: Duolingo'ning eng yaxshi g'oyalari + mahalliy yondashuv
+    - generic [ref=e55]:
+      - article [ref=e56]:
+        - generic [ref=e58]: local_fire_department
+        - heading "Streak" [level=3] [ref=e59]
+        - paragraph [ref=e60]: Har kuni o'qing, zanjir uzilmasin
+      - article [ref=e61]:
+        - generic [ref=e63]: workspace_premium
+        - heading "XP" [level=3] [ref=e64]
+        - paragraph [ref=e65]: Mashq bajaring, daraja oshiring
+      - article [ref=e66]:
+        - generic [ref=e68]: leaderboard
+        - heading "Liga" [level=3] [ref=e69]
+        - paragraph [ref=e70]: Bronzedan Diamondgacha
+      - article [ref=e71]:
+        - generic [ref=e73]: favorite
+        - heading "Hayot" [level=3] [ref=e74]
+        - paragraph [ref=e75]: 5 ta yurak, ehtiyot bo'ling
+      - article [ref=e76]:
+        - generic [ref=e78]: diamond
+        - heading "Gem" [level=3] [ref=e79]
+        - paragraph [ref=e80]: Mukofotlar bilan xarid
+      - article [ref=e81]:
+        - generic [ref=e83]: auto_awesome
+        - heading "Tarvuz" [level=3] [ref=e84]
+        - paragraph [ref=e85]: O'zbek maskoti yoningizda
+  - generic [ref=e87]:
+    - heading "Oddiy narx" [level=2] [ref=e88]
+    - paragraph [ref=e89]: Bepul boshlang, kerak bo'lsa kengaytiring
+    - generic [ref=e90]:
+      - article [ref=e91]:
+        - heading "Bepul" [level=3] [ref=e92]
+        - paragraph [ref=e93]: 0 so'm
+        - list [ref=e94]:
+          - listitem [ref=e95]: ✅ Barcha darslar
+          - listitem [ref=e96]: ✅ 5 ta hayot
+          - listitem [ref=e97]: ⚠️ Reklama bor
+        - button "Boshlash" [ref=e98] [cursor=pointer]
+      - article [ref=e99]:
+        - generic [ref=e100]: Mashhur
+        - heading "Plus" [level=3] [ref=e101]
+        - paragraph [ref=e102]: 19 900 so'm/oy
+        - list [ref=e103]:
+          - listitem [ref=e104]: ✅ Cheksiz hayot
+          - listitem [ref=e105]: ✅ Reklamasiz
+          - listitem [ref=e106]: ✅ Offline rejim
+        - button "Plusni tanlash" [ref=e107] [cursor=pointer]
+      - article [ref=e108]:
+        - heading "Max" [level=3] [ref=e109]
+        - paragraph [ref=e110]: 39 900 so'm/oy
+        - list [ref=e111]:
+          - listitem [ref=e112]: ✅ Plus imkoniyatlari
+          - listitem [ref=e113]: ✅ AI suhbat
+          - listitem [ref=e114]: ✅ Amaliy testlar
+        - button "Maxni tanlash" [ref=e115] [cursor=pointer]
+  - generic [ref=e116]:
+    - heading "Bugun boshlang. 5 daqiqa kifoya." [level=2] [ref=e117]
+    - link "Bepul Hisob Ochish" [ref=e118] [cursor=pointer]:
+      - /url: /register
+  - contentinfo [ref=e119]:
+    - generic [ref=e120]:
+      - img "Tarvuz mascot" [ref=e121]: 🍉
+      - strong [ref=e122]: LingvaUZ
+      - text: — © 2026
+    - generic [ref=e123]:
+      - link "Maxfiylik" [ref=e124] [cursor=pointer]:
+        - /url: "#"
+      - link "Shartlar" [ref=e125] [cursor=pointer]:
+        - /url: "#"
+      - link "Aloqa" [ref=e126] [cursor=pointer]:
+        - /url: mailto:hello@lingvauz.uz

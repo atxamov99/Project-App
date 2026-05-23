@@ -1,0 +1,7 @@
+﻿version: "2"
+authtoken: 3Dx6oFLxhInwAMNIWpytnIlFZrw_4UyxigBdRHek4PGeEkUro
+tunnels:
+  backend:
+    addr: 3001
+    proto: http
+    url: seclusion-watch-deception.ngrok-free.dev
