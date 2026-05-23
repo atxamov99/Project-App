@@ -39,7 +39,10 @@ export function createApp() {
       policy: 'same-origin-allow-popups',
     },
   }))
-  app.use(cors({ origin: env.CORS_ORIGIN, credentials: true }))
+  const allowedOrigins = env.CORS_ORIGIN === '*'
+    ? true
+    : env.CORS_ORIGIN.split(',').map((o) => o.trim())
+  app.use(cors({ origin: allowedOrigins, credentials: true }))
   app.use(express.json({ limit: '1mb' }))
   app.use(cookieParser())
   app.use(morgan(env.NODE_ENV === 'development' ? 'dev' : 'combined'))
