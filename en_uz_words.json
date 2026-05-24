@@ -1,0 +1,4002 @@
+[
+  {
+    "en": "apple",
+    "uz": "olma"
+  },
+  {
+    "en": "book",
+    "uz": "kitob"
+  },
+  {
+    "en": "car",
+    "uz": "mashina"
+  },
+  {
+    "en": "dog",
+    "uz": "it"
+  },
+  {
+    "en": "eat",
+    "uz": "yemoq"
+  },
+  {
+    "en": "fish",
+    "uz": "baliq"
+  },
+  {
+    "en": "girl",
+    "uz": "qiz"
+  },
+  {
+    "en": "house",
+    "uz": "uy"
+  },
+  {
+    "en": "ink",
+    "uz": "siyoh"
+  },
+  {
+    "en": "jump",
+    "uz": "sakramoq"
+  },
+  {
+    "en": "key",
+    "uz": "kalit"
+  },
+  {
+    "en": "lamp",
+    "uz": "chiroq"
+  },
+  {
+    "en": "map",
+    "uz": "xarita"
+  },
+  {
+    "en": "name",
+    "uz": "ism"
+  },
+  {
+    "en": "open",
+    "uz": "ochmoq"
+  },
+  {
+    "en": "pen",
+    "uz": "qalam"
+  },
+  {
+    "en": "queen",
+    "uz": "malika"
+  },
+  {
+    "en": "run",
+    "uz": "yugurmoq"
+  },
+  {
+    "en": "sun",
+    "uz": "quyosh"
+  },
+  {
+    "en": "tree",
+    "uz": "daraxt"
+  },
+  {
+    "en": "umbrella",
+    "uz": "soyabon"
+  },
+  {
+    "en": "village",
+    "uz": "qishloq"
+  },
+  {
+    "en": "water",
+    "uz": "suv"
+  },
+  {
+    "en": "box",
+    "uz": "quti"
+  },
+  {
+    "en": "yellow",
+    "uz": "sariq"
+  },
+  {
+    "en": "zero",
+    "uz": "nol"
+  },
+  {
+    "en": "air",
+    "uz": "havo"
+  },
+  {
+    "en": "bird",
+    "uz": "qush"
+  },
+  {
+    "en": "cloud",
+    "uz": "bulut"
+  },
+  {
+    "en": "door",
+    "uz": "eshik"
+  },
+  {
+    "en": "egg",
+    "uz": "tuxum"
+  },
+  {
+    "en": "fire",
+    "uz": "olov"
+  },
+  {
+    "en": "grass",
+    "uz": "o't"
+  },
+  {
+    "en": "hand",
+    "uz": "qo'l"
+  },
+  {
+    "en": "ice",
+    "uz": "muz"
+  },
+  {
+    "en": "jam",
+    "uz": "murabbo"
+  },
+  {
+    "en": "king",
+    "uz": "shoh"
+  },
+  {
+    "en": "leaf",
+    "uz": "barg"
+  },
+  {
+    "en": "milk",
+    "uz": "sut"
+  },
+  {
+    "en": "night",
+    "uz": "tun"
+  },
+  {
+    "en": "orange",
+    "uz": "apelsin"
+  },
+  {
+    "en": "paper",
+    "uz": "qog'oz"
+  },
+  {
+    "en": "rain",
+    "uz": "yomg'ir"
+  },
+  {
+    "en": "salt",
+    "uz": "tuz"
+  },
+  {
+    "en": "table",
+    "uz": "stol"
+  },
+  {
+    "en": "under",
+    "uz": "ostida"
+  },
+  {
+    "en": "voice",
+    "uz": "ovoz"
+  },
+  {
+    "en": "wind",
+    "uz": "shamol"
+  },
+  {
+    "en": "year",
+    "uz": "yil"
+  },
+  {
+    "en": "zoo",
+    "uz": "hayvonot bog'i"
+  },
+  {
+    "en": "arm",
+    "uz": "qo'l (bilak)"
+  },
+  {
+    "en": "ball",
+    "uz": "to'p"
+  },
+  {
+    "en": "cake",
+    "uz": "tort"
+  },
+  {
+    "en": "dance",
+    "uz": "raqsga tushmoq"
+  },
+  {
+    "en": "earth",
+    "uz": "yer"
+  },
+  {
+    "en": "face",
+    "uz": "yuz"
+  },
+  {
+    "en": "gold",
+    "uz": "oltin"
+  },
+  {
+    "en": "hat",
+    "uz": "shlyapa"
+  },
+  {
+    "en": "island",
+    "uz": "orol"
+  },
+  {
+    "en": "juice",
+    "uz": "sharbat"
+  },
+  {
+    "en": "knee",
+    "uz": "tizza"
+  },
+  {
+    "en": "love",
+    "uz": "sevgi"
+  },
+  {
+    "en": "moon",
+    "uz": "oy"
+  },
+  {
+    "en": "nose",
+    "uz": "burun"
+  },
+  {
+    "en": "ocean",
+    "uz": "okean"
+  },
+  {
+    "en": "pink",
+    "uz": "pushti"
+  },
+  {
+    "en": "quiet",
+    "uz": "jim"
+  },
+  {
+    "en": "river",
+    "uz": "daryo"
+  },
+  {
+    "en": "snow",
+    "uz": "qor"
+  },
+  {
+    "en": "tooth",
+    "uz": "tish"
+  },
+  {
+    "en": "uncle",
+    "uz": "amaki"
+  },
+  {
+    "en": "valley",
+    "uz": "vodiy"
+  },
+  {
+    "en": "wolf",
+    "uz": "bo'ri"
+  },
+  {
+    "en": "yard",
+    "uz": "hovli"
+  },
+  {
+    "en": "zebra",
+    "uz": "zebra"
+  },
+  {
+    "en": "after",
+    "uz": "keyin"
+  },
+  {
+    "en": "before",
+    "uz": "oldin"
+  },
+  {
+    "en": "city",
+    "uz": "shahar"
+  },
+  {
+    "en": "down",
+    "uz": "pastga"
+  },
+  {
+    "en": "every",
+    "uz": "har"
+  },
+  {
+    "en": "fast",
+    "uz": "tez"
+  },
+  {
+    "en": "give",
+    "uz": "bermoq"
+  },
+  {
+    "en": "happy",
+    "uz": "baxtli"
+  },
+  {
+    "en": "inside",
+    "uz": "ichida"
+  },
+  {
+    "en": "join",
+    "uz": "qo'shilmoq"
+  },
+  {
+    "en": "keep",
+    "uz": "saqlash"
+  },
+  {
+    "en": "learn",
+    "uz": "o'rganmoq"
+  },
+  {
+    "en": "make",
+    "uz": "qilmoq"
+  },
+  {
+    "en": "never",
+    "uz": "hech qachon"
+  },
+  {
+    "en": "old",
+    "uz": "keksa / eski"
+  },
+  {
+    "en": "play",
+    "uz": "o'ynamoq"
+  },
+  {
+    "en": "quickly",
+    "uz": "tezda"
+  },
+  {
+    "en": "read",
+    "uz": "o'qimoq"
+  },
+  {
+    "en": "sleep",
+    "uz": "uxlamoq"
+  },
+  {
+    "en": "talk",
+    "uz": "gapirmoq"
+  },
+  {
+    "en": "use",
+    "uz": "ishlatmoq"
+  },
+  {
+    "en": "very",
+    "uz": "juda"
+  },
+  {
+    "en": "walk",
+    "uz": "yurmoq"
+  },
+  {
+    "en": "young",
+    "uz": "yosh"
+  },
+  {
+    "en": "above",
+    "uz": "ustida"
+  },
+  {
+    "en": "below",
+    "uz": "pastida"
+  },
+  {
+    "en": "child",
+    "uz": "bola"
+  },
+  {
+    "en": "dream",
+    "uz": "tush / orzu"
+  },
+  {
+    "en": "empty",
+    "uz": "bo'sh"
+  },
+  {
+    "en": "friend",
+    "uz": "do'st"
+  },
+  {
+    "en": "green",
+    "uz": "yashil"
+  },
+  {
+    "en": "hero",
+    "uz": "qahramon"
+  },
+  {
+    "en": "if",
+    "uz": "agar"
+  },
+  {
+    "en": "join",
+    "uz": "qo'shilmoq"
+  },
+  {
+    "en": "kind",
+    "uz": "mehribon"
+  },
+  {
+    "en": "large",
+    "uz": "katta"
+  },
+  {
+    "en": "money",
+    "uz": "pul"
+  },
+  {
+    "en": "new",
+    "uz": "yangi"
+  },
+  {
+    "en": "often",
+    "uz": "tez-tez"
+  },
+  {
+    "en": "people",
+    "uz": "odamlar"
+  },
+  {
+    "en": "right",
+    "uz": "to'g'ri / o'ng"
+  },
+  {
+    "en": "small",
+    "uz": "kichik"
+  },
+  {
+    "en": "time",
+    "uz": "vaqt"
+  },
+  {
+    "en": "up",
+    "uz": "tepaga"
+  },
+  {
+    "en": "work",
+    "uz": "ishlash"
+  },
+  {
+    "en": "buy",
+    "uz": "sotib olmoq"
+  },
+  {
+    "en": "sell",
+    "uz": "sotmoq"
+  },
+  {
+    "en": "cold",
+    "uz": "sovuq"
+  },
+  {
+    "en": "hot",
+    "uz": "issiq"
+  },
+  {
+    "en": "warm",
+    "uz": "iliq"
+  },
+  {
+    "en": "cool",
+    "uz": "salqin"
+  },
+  {
+    "en": "sky",
+    "uz": "osmon"
+  },
+  {
+    "en": "star",
+    "uz": "yulduz"
+  },
+  {
+    "en": "stone",
+    "uz": "tosh"
+  },
+  {
+    "en": "sand",
+    "uz": "qum"
+  },
+  {
+    "en": "sea",
+    "uz": "dengiz"
+  },
+  {
+    "en": "lake",
+    "uz": "ko'l"
+  },
+  {
+    "en": "mountain",
+    "uz": "tog'"
+  },
+  {
+    "en": "forest",
+    "uz": "o'rmon"
+  },
+  {
+    "en": "flower",
+    "uz": "gul"
+  },
+  {
+    "en": "fruit",
+    "uz": "meva"
+  },
+  {
+    "en": "bread",
+    "uz": "non"
+  },
+  {
+    "en": "meat",
+    "uz": "go'sht"
+  },
+  {
+    "en": "soup",
+    "uz": "sho'rva"
+  },
+  {
+    "en": "rice",
+    "uz": "guruch"
+  },
+  {
+    "en": "tea",
+    "uz": "choy"
+  },
+  {
+    "en": "coffee",
+    "uz": "qahva"
+  },
+  {
+    "en": "window",
+    "uz": "deraza"
+  },
+  {
+    "en": "floor",
+    "uz": "pol"
+  },
+  {
+    "en": "wall",
+    "uz": "devor"
+  },
+  {
+    "en": "roof",
+    "uz": "tom"
+  },
+  {
+    "en": "chair",
+    "uz": "stul"
+  },
+  {
+    "en": "bed",
+    "uz": "karavot"
+  },
+  {
+    "en": "room",
+    "uz": "xona"
+  },
+  {
+    "en": "school",
+    "uz": "maktab"
+  },
+  {
+    "en": "teacher",
+    "uz": "o'qituvchi"
+  },
+  {
+    "en": "student",
+    "uz": "talaba / o'quvchi"
+  },
+  {
+    "en": "lesson",
+    "uz": "dars"
+  },
+  {
+    "en": "exam",
+    "uz": "imtihon"
+  },
+  {
+    "en": "answer",
+    "uz": "javob"
+  },
+  {
+    "en": "question",
+    "uz": "savol"
+  },
+  {
+    "en": "number",
+    "uz": "raqam"
+  },
+  {
+    "en": "letter",
+    "uz": "xat / harf"
+  },
+  {
+    "en": "word",
+    "uz": "so'z"
+  },
+  {
+    "en": "sentence",
+    "uz": "gap"
+  },
+  {
+    "en": "language",
+    "uz": "til"
+  },
+  {
+    "en": "country",
+    "uz": "mamlakat"
+  },
+  {
+    "en": "flag",
+    "uz": "bayroq"
+  },
+  {
+    "en": "border",
+    "uz": "chegara"
+  },
+  {
+    "en": "road",
+    "uz": "yo'l"
+  },
+  {
+    "en": "bridge",
+    "uz": "ko'prik"
+  },
+  {
+    "en": "train",
+    "uz": "poyezd"
+  },
+  {
+    "en": "plane",
+    "uz": "samolyot"
+  },
+  {
+    "en": "ship",
+    "uz": "kema"
+  },
+  {
+    "en": "bus",
+    "uz": "avtobus"
+  },
+  {
+    "en": "bicycle",
+    "uz": "velosiped"
+  },
+  {
+    "en": "hospital",
+    "uz": "kasalxona"
+  },
+  {
+    "en": "doctor",
+    "uz": "shifokor"
+  },
+  {
+    "en": "medicine",
+    "uz": "dori"
+  },
+  {
+    "en": "health",
+    "uz": "salomatlik"
+  },
+  {
+    "en": "pain",
+    "uz": "og'riq"
+  },
+  {
+    "en": "smile",
+    "uz": "tabassum"
+  },
+  {
+    "en": "cry",
+    "uz": "yig'lamoq"
+  },
+  {
+    "en": "laugh",
+    "uz": "kulmoq"
+  },
+  {
+    "en": "sing",
+    "uz": "qo'shiq aytmoq"
+  },
+  {
+    "en": "cook",
+    "uz": "pishirmoq"
+  },
+  {
+    "en": "wash",
+    "uz": "yuvmoq"
+  },
+  {
+    "en": "clean",
+    "uz": "tozalamoq"
+  },
+  {
+    "en": "write",
+    "uz": "yozmoq"
+  },
+  {
+    "en": "draw",
+    "uz": "chizmoq"
+  },
+  {
+    "en": "paint",
+    "uz": "bo'yash"
+  },
+  {
+    "en": "build",
+    "uz": "qurmoq"
+  },
+  {
+    "en": "break",
+    "uz": "sinmoq"
+  },
+  {
+    "en": "fix",
+    "uz": "tuzatmoq"
+  },
+  {
+    "en": "help",
+    "uz": "yordam bermoq"
+  },
+  {
+    "en": "wait",
+    "uz": "kutmoq"
+  },
+  {
+    "en": "start",
+    "uz": "boshlash"
+  },
+  {
+    "en": "stop",
+    "uz": "to'xtatish"
+  },
+  {
+    "en": "finish",
+    "uz": "tugatmoq"
+  },
+  {
+    "en": "begin",
+    "uz": "boshlamoq"
+  },
+  {
+    "en": "change",
+    "uz": "o'zgartirish"
+  },
+  {
+    "en": "choose",
+    "uz": "tanlash"
+  },
+  {
+    "en": "come",
+    "uz": "kelmoq"
+  },
+  {
+    "en": "go",
+    "uz": "bormoq"
+  },
+  {
+    "en": "bring",
+    "uz": "olib kelmoq"
+  },
+  {
+    "en": "take",
+    "uz": "olmoq"
+  },
+  {
+    "en": "leave",
+    "uz": "ketmoq"
+  },
+  {
+    "en": "return",
+    "uz": "qaytmoq"
+  },
+  {
+    "en": "stay",
+    "uz": "qolmoq"
+  },
+  {
+    "en": "meet",
+    "uz": "uchrashmoq"
+  },
+  {
+    "en": "visit",
+    "uz": "tashrif buyurmoq"
+  },
+  {
+    "en": "travel",
+    "uz": "sayohat qilmoq"
+  },
+  {
+    "en": "study",
+    "uz": "o'qimoq"
+  },
+  {
+    "en": "practice",
+    "uz": "mashq qilmoq"
+  },
+  {
+    "en": "remember",
+    "uz": "eslamoq"
+  },
+  {
+    "en": "forget",
+    "uz": "unutmoq"
+  },
+  {
+    "en": "understand",
+    "uz": "tushunmoq"
+  },
+  {
+    "en": "know",
+    "uz": "bilmoq"
+  },
+  {
+    "en": "think",
+    "uz": "o'ylamoq"
+  },
+  {
+    "en": "believe",
+    "uz": "ishonmoq"
+  },
+  {
+    "en": "feel",
+    "uz": "his qilmoq"
+  },
+  {
+    "en": "see",
+    "uz": "ko'rmoq"
+  },
+  {
+    "en": "hear",
+    "uz": "eshitmoq"
+  },
+  {
+    "en": "smell",
+    "uz": "hidlamoq"
+  },
+  {
+    "en": "touch",
+    "uz": "tegmoq"
+  },
+  {
+    "en": "taste",
+    "uz": "tatib ko'rmoq"
+  },
+  {
+    "en": "like",
+    "uz": "yoqmoq"
+  },
+  {
+    "en": "hate",
+    "uz": "nafrat qilmoq"
+  },
+  {
+    "en": "want",
+    "uz": "xohlamoq"
+  },
+  {
+    "en": "need",
+    "uz": "kerak"
+  },
+  {
+    "en": "try",
+    "uz": "urinib ko'rmoq"
+  },
+  {
+    "en": "fail",
+    "uz": "muvaffaqiyatsiz bo'lmoq"
+  },
+  {
+    "en": "succeed",
+    "uz": "muvaffaqiyatga erishmoq"
+  },
+  {
+    "en": "win",
+    "uz": "g'alaba qozonmoq"
+  },
+  {
+    "en": "lose",
+    "uz": "yutqizmoq"
+  },
+  {
+    "en": "fight",
+    "uz": "kurashmoq"
+  },
+  {
+    "en": "peace",
+    "uz": "tinchlik"
+  },
+  {
+    "en": "war",
+    "uz": "urush"
+  },
+  {
+    "en": "family",
+    "uz": "oila"
+  },
+  {
+    "en": "mother",
+    "uz": "ona"
+  },
+  {
+    "en": "father",
+    "uz": "ota"
+  },
+  {
+    "en": "brother",
+    "uz": "aka / uka"
+  },
+  {
+    "en": "sister",
+    "uz": "opa / singil"
+  },
+  {
+    "en": "son",
+    "uz": "o'g'il"
+  },
+  {
+    "en": "daughter",
+    "uz": "qiz"
+  },
+  {
+    "en": "grandfather",
+    "uz": "bobo"
+  },
+  {
+    "en": "grandmother",
+    "uz": "buvi"
+  },
+  {
+    "en": "husband",
+    "uz": "er"
+  },
+  {
+    "en": "wife",
+    "uz": "xotin"
+  },
+  {
+    "en": "baby",
+    "uz": "chaqaloq"
+  },
+  {
+    "en": "boy",
+    "uz": "o'g'il bola"
+  },
+  {
+    "en": "man",
+    "uz": "erkak"
+  },
+  {
+    "en": "woman",
+    "uz": "ayol"
+  },
+  {
+    "en": "person",
+    "uz": "kishi"
+  },
+  {
+    "en": "human",
+    "uz": "inson"
+  },
+  {
+    "en": "heart",
+    "uz": "yurak"
+  },
+  {
+    "en": "mind",
+    "uz": "aql"
+  },
+  {
+    "en": "body",
+    "uz": "tana"
+  },
+  {
+    "en": "head",
+    "uz": "bosh"
+  },
+  {
+    "en": "eye",
+    "uz": "ko'z"
+  },
+  {
+    "en": "ear",
+    "uz": "quloq"
+  },
+  {
+    "en": "mouth",
+    "uz": "og'iz"
+  },
+  {
+    "en": "lip",
+    "uz": "lab"
+  },
+  {
+    "en": "neck",
+    "uz": "bo'yin"
+  },
+  {
+    "en": "shoulder",
+    "uz": "yelka"
+  },
+  {
+    "en": "chest",
+    "uz": "ko'krak"
+  },
+  {
+    "en": "back",
+    "uz": "orqa"
+  },
+  {
+    "en": "stomach",
+    "uz": "qorin"
+  },
+  {
+    "en": "leg",
+    "uz": "oyoq"
+  },
+  {
+    "en": "foot",
+    "uz": "oyoq (taglik)"
+  },
+  {
+    "en": "finger",
+    "uz": "barmoq"
+  },
+  {
+    "en": "hair",
+    "uz": "soch"
+  },
+  {
+    "en": "blood",
+    "uz": "qon"
+  },
+  {
+    "en": "bone",
+    "uz": "suyak"
+  },
+  {
+    "en": "skin",
+    "uz": "teri"
+  },
+  {
+    "en": "morning",
+    "uz": "ertalab"
+  },
+  {
+    "en": "afternoon",
+    "uz": "tushdan keyin"
+  },
+  {
+    "en": "evening",
+    "uz": "kechqurun"
+  },
+  {
+    "en": "midnight",
+    "uz": "yarim tun"
+  },
+  {
+    "en": "today",
+    "uz": "bugun"
+  },
+  {
+    "en": "tomorrow",
+    "uz": "ertaga"
+  },
+  {
+    "en": "yesterday",
+    "uz": "kecha"
+  },
+  {
+    "en": "week",
+    "uz": "hafta"
+  },
+  {
+    "en": "month",
+    "uz": "oy"
+  },
+  {
+    "en": "hour",
+    "uz": "soat"
+  },
+  {
+    "en": "minute",
+    "uz": "daqiqa"
+  },
+  {
+    "en": "second",
+    "uz": "soniya"
+  },
+  {
+    "en": "always",
+    "uz": "har doim"
+  },
+  {
+    "en": "sometimes",
+    "uz": "ba'zan"
+  },
+  {
+    "en": "usually",
+    "uz": "odatda"
+  },
+  {
+    "en": "now",
+    "uz": "hozir"
+  },
+  {
+    "en": "soon",
+    "uz": "tez orada"
+  },
+  {
+    "en": "late",
+    "uz": "kech"
+  },
+  {
+    "en": "early",
+    "uz": "erta"
+  },
+  {
+    "en": "long",
+    "uz": "uzun"
+  },
+  {
+    "en": "short",
+    "uz": "qisqa"
+  },
+  {
+    "en": "wide",
+    "uz": "keng"
+  },
+  {
+    "en": "narrow",
+    "uz": "tor"
+  },
+  {
+    "en": "deep",
+    "uz": "chuqur"
+  },
+  {
+    "en": "shallow",
+    "uz": "sayoz"
+  },
+  {
+    "en": "heavy",
+    "uz": "og'ir"
+  },
+  {
+    "en": "light",
+    "uz": "yengil"
+  },
+  {
+    "en": "soft",
+    "uz": "yumshoq"
+  },
+  {
+    "en": "hard",
+    "uz": "qattiq"
+  },
+  {
+    "en": "smooth",
+    "uz": "silliq"
+  },
+  {
+    "en": "rough",
+    "uz": "g'adir-budur"
+  },
+  {
+    "en": "wet",
+    "uz": "ho'l"
+  },
+  {
+    "en": "dry",
+    "uz": "quruq"
+  },
+  {
+    "en": "sweet",
+    "uz": "shirin"
+  },
+  {
+    "en": "sour",
+    "uz": "nordon"
+  },
+  {
+    "en": "bitter",
+    "uz": "achchiq"
+  },
+  {
+    "en": "spicy",
+    "uz": "o'tkir"
+  },
+  {
+    "en": "delicious",
+    "uz": "mazali"
+  },
+  {
+    "en": "beautiful",
+    "uz": "chiroyli"
+  },
+  {
+    "en": "ugly",
+    "uz": "xunuk"
+  },
+  {
+    "en": "strong",
+    "uz": "kuchli"
+  },
+  {
+    "en": "weak",
+    "uz": "kuchsiz"
+  },
+  {
+    "en": "brave",
+    "uz": "jasur"
+  },
+  {
+    "en": "afraid",
+    "uz": "qo'rqmoq"
+  },
+  {
+    "en": "angry",
+    "uz": "g'azablangan"
+  },
+  {
+    "en": "sad",
+    "uz": "g'amgin"
+  },
+  {
+    "en": "excited",
+    "uz": "hayajonlangan"
+  },
+  {
+    "en": "tired",
+    "uz": "charchagan"
+  },
+  {
+    "en": "bored",
+    "uz": "zerikkan"
+  },
+  {
+    "en": "busy",
+    "uz": "band"
+  },
+  {
+    "en": "free",
+    "uz": "bo'sh"
+  },
+  {
+    "en": "rich",
+    "uz": "boy"
+  },
+  {
+    "en": "poor",
+    "uz": "kambag'al"
+  },
+  {
+    "en": "smart",
+    "uz": "aqlli"
+  },
+  {
+    "en": "stupid",
+    "uz": "ahmoq"
+  },
+  {
+    "en": "funny",
+    "uz": "kulgili"
+  },
+  {
+    "en": "serious",
+    "uz": "jiddiy"
+  },
+  {
+    "en": "honest",
+    "uz": "halol"
+  },
+  {
+    "en": "lazy",
+    "uz": "dangasa"
+  },
+  {
+    "en": "hardworking",
+    "uz": "mehnatsevar"
+  },
+  {
+    "en": "polite",
+    "uz": "odobli"
+  },
+  {
+    "en": "rude",
+    "uz": "qo'pol"
+  },
+  {
+    "en": "shy",
+    "uz": "uyatchan"
+  },
+  {
+    "en": "confident",
+    "uz": "ishonchli"
+  },
+  {
+    "en": "patient",
+    "uz": "sabr"
+  },
+  {
+    "en": "impatient",
+    "uz": "sabrsiz"
+  },
+  {
+    "en": "curious",
+    "uz": "qiziquvchan"
+  },
+  {
+    "en": "careful",
+    "uz": "ehtiyotkor"
+  },
+  {
+    "en": "careless",
+    "uz": "beparvo"
+  },
+  {
+    "en": "generous",
+    "uz": "saxiy"
+  },
+  {
+    "en": "selfish",
+    "uz": "xudbin"
+  },
+  {
+    "en": "clever",
+    "uz": "zukko"
+  },
+  {
+    "en": "wise",
+    "uz": "dono"
+  },
+  {
+    "en": "creative",
+    "uz": "ijodiy"
+  },
+  {
+    "en": "boring",
+    "uz": "zerikarli"
+  },
+  {
+    "en": "interesting",
+    "uz": "qiziqarli"
+  },
+  {
+    "en": "important",
+    "uz": "muhim"
+  },
+  {
+    "en": "necessary",
+    "uz": "zarur"
+  },
+  {
+    "en": "possible",
+    "uz": "mumkin"
+  },
+  {
+    "en": "impossible",
+    "uz": "mumkin emas"
+  },
+  {
+    "en": "difficult",
+    "uz": "qiyin"
+  },
+  {
+    "en": "easy",
+    "uz": "oson"
+  },
+  {
+    "en": "dangerous",
+    "uz": "xavfli"
+  },
+  {
+    "en": "safe",
+    "uz": "xavfsiz"
+  },
+  {
+    "en": "lucky",
+    "uz": "omadli"
+  },
+  {
+    "en": "unlucky",
+    "uz": "omadsiz"
+  },
+  {
+    "en": "special",
+    "uz": "maxsus"
+  },
+  {
+    "en": "normal",
+    "uz": "oddiy"
+  },
+  {
+    "en": "strange",
+    "uz": "g'alati"
+  },
+  {
+    "en": "familiar",
+    "uz": "tanish"
+  },
+  {
+    "en": "similar",
+    "uz": "o'xshash"
+  },
+  {
+    "en": "different",
+    "uz": "boshqa"
+  },
+  {
+    "en": "same",
+    "uz": "bir xil"
+  },
+  {
+    "en": "alone",
+    "uz": "yolg'iz"
+  },
+  {
+    "en": "together",
+    "uz": "birga"
+  },
+  {
+    "en": "between",
+    "uz": "orasida"
+  },
+  {
+    "en": "among",
+    "uz": "ichida"
+  },
+  {
+    "en": "near",
+    "uz": "yaqin"
+  },
+  {
+    "en": "far",
+    "uz": "uzoq"
+  },
+  {
+    "en": "here",
+    "uz": "bu yerda"
+  },
+  {
+    "en": "there",
+    "uz": "u yerda"
+  },
+  {
+    "en": "where",
+    "uz": "qayerda"
+  },
+  {
+    "en": "when",
+    "uz": "qachon"
+  },
+  {
+    "en": "why",
+    "uz": "nima uchun"
+  },
+  {
+    "en": "how",
+    "uz": "qanday"
+  },
+  {
+    "en": "what",
+    "uz": "nima"
+  },
+  {
+    "en": "who",
+    "uz": "kim"
+  },
+  {
+    "en": "which",
+    "uz": "qaysi"
+  },
+  {
+    "en": "this",
+    "uz": "bu"
+  },
+  {
+    "en": "that",
+    "uz": "u"
+  },
+  {
+    "en": "these",
+    "uz": "bular"
+  },
+  {
+    "en": "those",
+    "uz": "ular"
+  },
+  {
+    "en": "some",
+    "uz": "ba'zi"
+  },
+  {
+    "en": "any",
+    "uz": "har qanday"
+  },
+  {
+    "en": "all",
+    "uz": "hammasi"
+  },
+  {
+    "en": "none",
+    "uz": "hech biri"
+  },
+  {
+    "en": "many",
+    "uz": "ko'p"
+  },
+  {
+    "en": "few",
+    "uz": "bir nechta"
+  },
+  {
+    "en": "more",
+    "uz": "ko'proq"
+  },
+  {
+    "en": "less",
+    "uz": "kamroq"
+  },
+  {
+    "en": "enough",
+    "uz": "yetarli"
+  },
+  {
+    "en": "too much",
+    "uz": "juda ko'p"
+  },
+  {
+    "en": "almost",
+    "uz": "deyarli"
+  },
+  {
+    "en": "only",
+    "uz": "faqat"
+  },
+  {
+    "en": "also",
+    "uz": "ham"
+  },
+  {
+    "en": "both",
+    "uz": "ikkalasi ham"
+  },
+  {
+    "en": "either",
+    "uz": "yoki"
+  },
+  {
+    "en": "neither",
+    "uz": "na... na..."
+  },
+  {
+    "en": "again",
+    "uz": "yana"
+  },
+  {
+    "en": "still",
+    "uz": "hali ham"
+  },
+  {
+    "en": "already",
+    "uz": "allaqachon"
+  },
+  {
+    "en": "yet",
+    "uz": "hali"
+  },
+  {
+    "en": "just",
+    "uz": "hozirgina / faqat"
+  },
+  {
+    "en": "even",
+    "uz": "hatto"
+  },
+  {
+    "en": "especially",
+    "uz": "ayniqsa"
+  },
+  {
+    "en": "probably",
+    "uz": "ehtimol"
+  },
+  {
+    "en": "maybe",
+    "uz": "balki"
+  },
+  {
+    "en": "certainly",
+    "uz": "albatta"
+  },
+  {
+    "en": "exactly",
+    "uz": "aynan"
+  },
+  {
+    "en": "actually",
+    "uz": "aslida"
+  },
+  {
+    "en": "finally",
+    "uz": "nihoyat"
+  },
+  {
+    "en": "suddenly",
+    "uz": "to'satdan"
+  },
+  {
+    "en": "slowly",
+    "uz": "sekin"
+  },
+  {
+    "en": "carefully",
+    "uz": "ehtiyotkorlik bilan"
+  },
+  {
+    "en": "clearly",
+    "uz": "aniq"
+  },
+  {
+    "en": "deeply",
+    "uz": "chuqur"
+  },
+  {
+    "en": "exactly",
+    "uz": "to'liq"
+  },
+  {
+    "en": "freely",
+    "uz": "erkin"
+  },
+  {
+    "en": "greatly",
+    "uz": "katta darajada"
+  },
+  {
+    "en": "highly",
+    "uz": "yuqori darajada"
+  },
+  {
+    "en": "completely",
+    "uz": "to'liq"
+  },
+  {
+    "en": "partly",
+    "uz": "qisman"
+  },
+  {
+    "en": "mostly",
+    "uz": "asosan"
+  },
+  {
+    "en": "nearly",
+    "uz": "deyarli"
+  },
+  {
+    "en": "partly",
+    "uz": "qisman"
+  },
+  {
+    "en": "simply",
+    "uz": "oddiy qilib"
+  },
+  {
+    "en": "truly",
+    "uz": "chindan ham"
+  },
+  {
+    "en": "wrongly",
+    "uz": "noto'g'ri"
+  },
+  {
+    "en": "correctly",
+    "uz": "to'g'ri"
+  },
+  {
+    "en": "badly",
+    "uz": "yomon"
+  },
+  {
+    "en": "well",
+    "uz": "yaxshi"
+  },
+  {
+    "en": "ago",
+    "uz": "oldin"
+  },
+  {
+    "en": "since",
+    "uz": "dan beri"
+  },
+  {
+    "en": "during",
+    "uz": "davomida"
+  },
+  {
+    "en": "until",
+    "uz": "gacha"
+  },
+  {
+    "en": "while",
+    "uz": "paytida"
+  },
+  {
+    "en": "after",
+    "uz": "keyin"
+  },
+  {
+    "en": "before",
+    "uz": "oldin"
+  },
+  {
+    "en": "about",
+    "uz": "haqida"
+  },
+  {
+    "en": "around",
+    "uz": "atrofida"
+  },
+  {
+    "en": "across",
+    "uz": "bo'ylab"
+  },
+  {
+    "en": "along",
+    "uz": "yoqalab"
+  },
+  {
+    "en": "against",
+    "uz": "qarshi"
+  },
+  {
+    "en": "without",
+    "uz": "siz"
+  },
+  {
+    "en": "within",
+    "uz": "ichida"
+  },
+  {
+    "en": "beyond",
+    "uz": "narisi"
+  },
+  {
+    "en": "despite",
+    "uz": "qaramay"
+  },
+  {
+    "en": "except",
+    "uz": "tashqari"
+  },
+  {
+    "en": "including",
+    "uz": "jumladan"
+  },
+  {
+    "en": "instead",
+    "uz": "o'rniga"
+  },
+  {
+    "en": "because",
+    "uz": "chunki"
+  },
+  {
+    "en": "although",
+    "uz": "garchi"
+  },
+  {
+    "en": "however",
+    "uz": "ammo"
+  },
+  {
+    "en": "therefore",
+    "uz": "shuning uchun"
+  },
+  {
+    "en": "moreover",
+    "uz": "bundan tashqari"
+  },
+  {
+    "en": "otherwise",
+    "uz": "aks holda"
+  },
+  {
+    "en": "meanwhile",
+    "uz": "shu orada"
+  },
+  {
+    "en": "suddenly",
+    "uz": "to'satdan"
+  },
+  {
+    "en": "recently",
+    "uz": "yaqinda"
+  },
+  {
+    "en": "immediately",
+    "uz": "darhol"
+  },
+  {
+    "en": "eventually",
+    "uz": "oxir-oqibat"
+  },
+  {
+    "en": "daily",
+    "uz": "kundalik"
+  },
+  {
+    "en": "weekly",
+    "uz": "haftalik"
+  },
+  {
+    "en": "monthly",
+    "uz": "oylik"
+  },
+  {
+    "en": "yearly",
+    "uz": "yillik"
+  },
+  {
+    "en": "once",
+    "uz": "bir marta"
+  },
+  {
+    "en": "twice",
+    "uz": "ikki marta"
+  },
+  {
+    "en": "first",
+    "uz": "birinchi"
+  },
+  {
+    "en": "second",
+    "uz": "ikkinchi"
+  },
+  {
+    "en": "third",
+    "uz": "uchinchi"
+  },
+  {
+    "en": "last",
+    "uz": "oxirgi"
+  },
+  {
+    "en": "next",
+    "uz": "keyingi"
+  },
+  {
+    "en": "previous",
+    "uz": "avvalgi"
+  },
+  {
+    "en": "new",
+    "uz": "yangi"
+  },
+  {
+    "en": "recent",
+    "uz": "yaqindagi"
+  },
+  {
+    "en": "ancient",
+    "uz": "qadimiy"
+  },
+  {
+    "en": "modern",
+    "uz": "zamonaviy"
+  },
+  {
+    "en": "traditional",
+    "uz": "an'anaviy"
+  },
+  {
+    "en": "popular",
+    "uz": "mashhur"
+  },
+  {
+    "en": "common",
+    "uz": "keng tarqalgan"
+  },
+  {
+    "en": "rare",
+    "uz": "kam uchraydigan"
+  },
+  {
+    "en": "natural",
+    "uz": "tabiiy"
+  },
+  {
+    "en": "artificial",
+    "uz": "sun'iy"
+  },
+  {
+    "en": "chemical",
+    "uz": "kimyoviy"
+  },
+  {
+    "en": "physical",
+    "uz": "fizik"
+  },
+  {
+    "en": "digital",
+    "uz": "raqamli"
+  },
+  {
+    "en": "electronic",
+    "uz": "elektron"
+  },
+  {
+    "en": "internet",
+    "uz": "internet"
+  },
+  {
+    "en": "computer",
+    "uz": "kompyuter"
+  },
+  {
+    "en": "phone",
+    "uz": "telefon"
+  },
+  {
+    "en": "camera",
+    "uz": "kamera"
+  },
+  {
+    "en": "music",
+    "uz": "musiqa"
+  },
+  {
+    "en": "movie",
+    "uz": "film"
+  },
+  {
+    "en": "game",
+    "uz": "o'yin"
+  },
+  {
+    "en": "sport",
+    "uz": "sport"
+  },
+  {
+    "en": "team",
+    "uz": "jamoa"
+  },
+  {
+    "en": "player",
+    "uz": "o'yinchi"
+  },
+  {
+    "en": "match",
+    "uz": "o'yin / musobaqa"
+  },
+  {
+    "en": "goal",
+    "uz": "gol / maqsad"
+  },
+  {
+    "en": "score",
+    "uz": "hisob"
+  },
+  {
+    "en": "winner",
+    "uz": "g'olib"
+  },
+  {
+    "en": "champion",
+    "uz": "chempion"
+  },
+  {
+    "en": "prize",
+    "uz": "mukofot"
+  },
+  {
+    "en": "medal",
+    "uz": "medal"
+  },
+  {
+    "en": "club",
+    "uz": "klub"
+  },
+  {
+    "en": "library",
+    "uz": "kutubxona"
+  },
+  {
+    "en": "museum",
+    "uz": "muzey"
+  },
+  {
+    "en": "park",
+    "uz": "bog'"
+  },
+  {
+    "en": "garden",
+    "uz": "bog'cha"
+  },
+  {
+    "en": "market",
+    "uz": "bozor"
+  },
+  {
+    "en": "shop",
+    "uz": "do'kon"
+  },
+  {
+    "en": "restaurant",
+    "uz": "restoran"
+  },
+  {
+    "en": "hotel",
+    "uz": "mehmonxona"
+  },
+  {
+    "en": "airport",
+    "uz": "aeroport"
+  },
+  {
+    "en": "station",
+    "uz": "stansiya"
+  },
+  {
+    "en": "office",
+    "uz": "ofis"
+  },
+  {
+    "en": "factory",
+    "uz": "zavod"
+  },
+  {
+    "en": "farm",
+    "uz": "ferma"
+  },
+  {
+    "en": "bank",
+    "uz": "bank"
+  },
+  {
+    "en": "post office",
+    "uz": "pochta"
+  },
+  {
+    "en": "police",
+    "uz": "politsiya"
+  },
+  {
+    "en": "fire station",
+    "uz": "o't o'chirish stantsiyasi"
+  },
+  {
+    "en": "court",
+    "uz": "sud"
+  },
+  {
+    "en": "prison",
+    "uz": "qamoqxona"
+  },
+  {
+    "en": "government",
+    "uz": "hukumat"
+  },
+  {
+    "en": "president",
+    "uz": "prezident"
+  },
+  {
+    "en": "minister",
+    "uz": "vazir"
+  },
+  {
+    "en": "parliament",
+    "uz": "parlament"
+  },
+  {
+    "en": "election",
+    "uz": "saylov"
+  },
+  {
+    "en": "vote",
+    "uz": "ovoz bermoq"
+  },
+  {
+    "en": "law",
+    "uz": "qonun"
+  },
+  {
+    "en": "rule",
+    "uz": "qoida"
+  },
+  {
+    "en": "right",
+    "uz": "huquq"
+  },
+  {
+    "en": "duty",
+    "uz": "burch"
+  },
+  {
+    "en": "freedom",
+    "uz": "erkinlik"
+  },
+  {
+    "en": "justice",
+    "uz": "adolat"
+  },
+  {
+    "en": "equality",
+    "uz": "tenglik"
+  },
+  {
+    "en": "society",
+    "uz": "jamiyat"
+  },
+  {
+    "en": "culture",
+    "uz": "madaniyat"
+  },
+  {
+    "en": "religion",
+    "uz": "din"
+  },
+  {
+    "en": "science",
+    "uz": "fan"
+  },
+  {
+    "en": "history",
+    "uz": "tarix"
+  },
+  {
+    "en": "geography",
+    "uz": "geografiya"
+  },
+  {
+    "en": "mathematics",
+    "uz": "matematika"
+  },
+  {
+    "en": "biology",
+    "uz": "biologiya"
+  },
+  {
+    "en": "chemistry",
+    "uz": "kimyo"
+  },
+  {
+    "en": "physics",
+    "uz": "fizika"
+  },
+  {
+    "en": "technology",
+    "uz": "texnologiya"
+  },
+  {
+    "en": "engineering",
+    "uz": "muhandislik"
+  },
+  {
+    "en": "medicine",
+    "uz": "tibbiyot"
+  },
+  {
+    "en": "economy",
+    "uz": "iqtisodiyot"
+  },
+  {
+    "en": "business",
+    "uz": "biznes"
+  },
+  {
+    "en": "trade",
+    "uz": "savdo"
+  },
+  {
+    "en": "agriculture",
+    "uz": "qishloq xo'jaligi"
+  },
+  {
+    "en": "industry",
+    "uz": "sanoat"
+  },
+  {
+    "en": "energy",
+    "uz": "energiya"
+  },
+  {
+    "en": "environment",
+    "uz": "atrof-muhit"
+  },
+  {
+    "en": "climate",
+    "uz": "iqlim"
+  },
+  {
+    "en": "weather",
+    "uz": "ob-havo"
+  },
+  {
+    "en": "temperature",
+    "uz": "harorat"
+  },
+  {
+    "en": "pollution",
+    "uz": "ifloslanish"
+  },
+  {
+    "en": "nature",
+    "uz": "tabiat"
+  },
+  {
+    "en": "animal",
+    "uz": "hayvon"
+  },
+  {
+    "en": "plant",
+    "uz": "o'simlik"
+  },
+  {
+    "en": "insect",
+    "uz": "hasharot"
+  },
+  {
+    "en": "cat",
+    "uz": "mushuk"
+  },
+  {
+    "en": "horse",
+    "uz": "ot"
+  },
+  {
+    "en": "cow",
+    "uz": "sigir"
+  },
+  {
+    "en": "sheep",
+    "uz": "qo'y"
+  },
+  {
+    "en": "chicken",
+    "uz": "tovuq"
+  },
+  {
+    "en": "lion",
+    "uz": "arslon"
+  },
+  {
+    "en": "tiger",
+    "uz": "yo'lbars"
+  },
+  {
+    "en": "elephant",
+    "uz": "fil"
+  },
+  {
+    "en": "bear",
+    "uz": "ayiq"
+  },
+  {
+    "en": "monkey",
+    "uz": "maymun"
+  },
+  {
+    "en": "snake",
+    "uz": "ilon"
+  },
+  {
+    "en": "rabbit",
+    "uz": "quyon"
+  },
+  {
+    "en": "duck",
+    "uz": "o'rdak"
+  },
+  {
+    "en": "eagle",
+    "uz": "burgut"
+  },
+  {
+    "en": "crow",
+    "uz": "qarg'a"
+  },
+  {
+    "en": "butterfly",
+    "uz": "kapalak"
+  },
+  {
+    "en": "bee",
+    "uz": "ari"
+  },
+  {
+    "en": "ant",
+    "uz": "chumoli"
+  },
+  {
+    "en": "spider",
+    "uz": "o'rgimchak"
+  },
+  {
+    "en": "frog",
+    "uz": "baqa"
+  },
+  {
+    "en": "turtle",
+    "uz": "toshbaqa"
+  },
+  {
+    "en": "rose",
+    "uz": "atirgul"
+  },
+  {
+    "en": "tulip",
+    "uz": "lola"
+  },
+  {
+    "en": "grass",
+    "uz": "o't"
+  },
+  {
+    "en": "tree",
+    "uz": "daraxt"
+  },
+  {
+    "en": "root",
+    "uz": "ildiz"
+  },
+  {
+    "en": "branch",
+    "uz": "shox"
+  },
+  {
+    "en": "seed",
+    "uz": "urug'"
+  },
+  {
+    "en": "soil",
+    "uz": "tuproq"
+  },
+  {
+    "en": "rain",
+    "uz": "yomg'ir"
+  },
+  {
+    "en": "fog",
+    "uz": "tuman"
+  },
+  {
+    "en": "thunder",
+    "uz": "momaqaldiroq"
+  },
+  {
+    "en": "lightning",
+    "uz": "chaqmoq"
+  },
+  {
+    "en": "rainbow",
+    "uz": "kamalak"
+  },
+  {
+    "en": "shadow",
+    "uz": "soya"
+  },
+  {
+    "en": "light",
+    "uz": "yorug'lik"
+  },
+  {
+    "en": "darkness",
+    "uz": "zulmat"
+  },
+  {
+    "en": "noise",
+    "uz": "shovqin"
+  },
+  {
+    "en": "silence",
+    "uz": "sukut"
+  },
+  {
+    "en": "color",
+    "uz": "rang"
+  },
+  {
+    "en": "red",
+    "uz": "qizil"
+  },
+  {
+    "en": "blue",
+    "uz": "ko'k"
+  },
+  {
+    "en": "white",
+    "uz": "oq"
+  },
+  {
+    "en": "black",
+    "uz": "qora"
+  },
+  {
+    "en": "brown",
+    "uz": "jigarrang"
+  },
+  {
+    "en": "purple",
+    "uz": "binafsha"
+  },
+  {
+    "en": "gray",
+    "uz": "kulrang"
+  },
+  {
+    "en": "gold",
+    "uz": "oltin rang"
+  },
+  {
+    "en": "silver",
+    "uz": "kumush rang"
+  },
+  {
+    "en": "shape",
+    "uz": "shakl"
+  },
+  {
+    "en": "circle",
+    "uz": "doira"
+  },
+  {
+    "en": "square",
+    "uz": "kvadrat"
+  },
+  {
+    "en": "triangle",
+    "uz": "uchburchak"
+  },
+  {
+    "en": "rectangle",
+    "uz": "to'rtburchak"
+  },
+  {
+    "en": "line",
+    "uz": "chiziq"
+  },
+  {
+    "en": "point",
+    "uz": "nuqta"
+  },
+  {
+    "en": "angle",
+    "uz": "burchak"
+  },
+  {
+    "en": "size",
+    "uz": "hajm"
+  },
+  {
+    "en": "weight",
+    "uz": "og'irlik"
+  },
+  {
+    "en": "distance",
+    "uz": "masofa"
+  },
+  {
+    "en": "speed",
+    "uz": "tezlik"
+  },
+  {
+    "en": "direction",
+    "uz": "yo'nalish"
+  },
+  {
+    "en": "north",
+    "uz": "shimol"
+  },
+  {
+    "en": "south",
+    "uz": "janub"
+  },
+  {
+    "en": "east",
+    "uz": "sharq"
+  },
+  {
+    "en": "west",
+    "uz": "g'arb"
+  },
+  {
+    "en": "left",
+    "uz": "chap"
+  },
+  {
+    "en": "straight",
+    "uz": "to'g'ri"
+  },
+  {
+    "en": "center",
+    "uz": "markaz"
+  },
+  {
+    "en": "edge",
+    "uz": "chetki"
+  },
+  {
+    "en": "top",
+    "uz": "tepa"
+  },
+  {
+    "en": "bottom",
+    "uz": "tub"
+  },
+  {
+    "en": "side",
+    "uz": "yon"
+  },
+  {
+    "en": "front",
+    "uz": "old"
+  },
+  {
+    "en": "behind",
+    "uz": "orqasida"
+  },
+  {
+    "en": "next to",
+    "uz": "yonida"
+  },
+  {
+    "en": "opposite",
+    "uz": "qarama-qarshi"
+  },
+  {
+    "en": "problem",
+    "uz": "muammo"
+  },
+  {
+    "en": "solution",
+    "uz": "yechim"
+  },
+  {
+    "en": "idea",
+    "uz": "g'oya"
+  },
+  {
+    "en": "plan",
+    "uz": "reja"
+  },
+  {
+    "en": "project",
+    "uz": "loyiha"
+  },
+  {
+    "en": "result",
+    "uz": "natija"
+  },
+  {
+    "en": "reason",
+    "uz": "sabab"
+  },
+  {
+    "en": "example",
+    "uz": "misol"
+  },
+  {
+    "en": "fact",
+    "uz": "fakt"
+  },
+  {
+    "en": "truth",
+    "uz": "haqiqat"
+  },
+  {
+    "en": "lie",
+    "uz": "yolg'on"
+  },
+  {
+    "en": "opinion",
+    "uz": "fikr"
+  },
+  {
+    "en": "advice",
+    "uz": "maslahat"
+  },
+  {
+    "en": "choice",
+    "uz": "tanlov"
+  },
+  {
+    "en": "decision",
+    "uz": "qaror"
+  },
+  {
+    "en": "mistake",
+    "uz": "xato"
+  },
+  {
+    "en": "success",
+    "uz": "muvaffaqiyat"
+  },
+  {
+    "en": "failure",
+    "uz": "muvaffaqiyatsizlik"
+  },
+  {
+    "en": "effort",
+    "uz": "harakat"
+  },
+  {
+    "en": "progress",
+    "uz": "taraqqiyot"
+  },
+  {
+    "en": "experience",
+    "uz": "tajriba"
+  },
+  {
+    "en": "skill",
+    "uz": "ko'nikma"
+  },
+  {
+    "en": "knowledge",
+    "uz": "bilim"
+  },
+  {
+    "en": "information",
+    "uz": "ma'lumot"
+  },
+  {
+    "en": "news",
+    "uz": "yangiliklar"
+  },
+  {
+    "en": "story",
+    "uz": "hikoya"
+  },
+  {
+    "en": "poem",
+    "uz": "she'r"
+  },
+  {
+    "en": "song",
+    "uz": "qo'shiq"
+  },
+  {
+    "en": "dance",
+    "uz": "raqs"
+  },
+  {
+    "en": "art",
+    "uz": "san'at"
+  },
+  {
+    "en": "design",
+    "uz": "dizayn"
+  },
+  {
+    "en": "style",
+    "uz": "uslub"
+  },
+  {
+    "en": "fashion",
+    "uz": "moda"
+  },
+  {
+    "en": "clothes",
+    "uz": "kiyim"
+  },
+  {
+    "en": "shirt",
+    "uz": "ko'ylak"
+  },
+  {
+    "en": "trousers",
+    "uz": "shim"
+  },
+  {
+    "en": "dress",
+    "uz": "ko'ylak (ayollar)"
+  },
+  {
+    "en": "shoes",
+    "uz": "poyabzal"
+  },
+  {
+    "en": "socks",
+    "uz": "paypoq"
+  },
+  {
+    "en": "jacket",
+    "uz": "kurka"
+  },
+  {
+    "en": "coat",
+    "uz": "palto"
+  },
+  {
+    "en": "glasses",
+    "uz": "ko'zoynak"
+  },
+  {
+    "en": "bag",
+    "uz": "sumka"
+  },
+  {
+    "en": "wallet",
+    "uz": "hamyon"
+  },
+  {
+    "en": "watch",
+    "uz": "soat (bilaguzuk)"
+  },
+  {
+    "en": "ring",
+    "uz": "uzuk"
+  },
+  {
+    "en": "necklace",
+    "uz": "marjon"
+  },
+  {
+    "en": "gift",
+    "uz": "sovg'a"
+  },
+  {
+    "en": "party",
+    "uz": "ziyofat"
+  },
+  {
+    "en": "birthday",
+    "uz": "tug'ilgan kun"
+  },
+  {
+    "en": "holiday",
+    "uz": "bayram"
+  },
+  {
+    "en": "wedding",
+    "uz": "to'y"
+  },
+  {
+    "en": "invitation",
+    "uz": "taklif"
+  },
+  {
+    "en": "celebrate",
+    "uz": "nishonlamoq"
+  },
+  {
+    "en": "enjoy",
+    "uz": "zavqlanmoq"
+  },
+  {
+    "en": "relax",
+    "uz": "dam olmoq"
+  },
+  {
+    "en": "rest",
+    "uz": "hordiq chiqarmoq"
+  },
+  {
+    "en": "fun",
+    "uz": "ko'ngil ochiq"
+  },
+  {
+    "en": "adventure",
+    "uz": "sarguzasht"
+  },
+  {
+    "en": "surprise",
+    "uz": "kutilmagan hodisa"
+  },
+  {
+    "en": "memory",
+    "uz": "xotira"
+  },
+  {
+    "en": "future",
+    "uz": "kelajak"
+  },
+  {
+    "en": "past",
+    "uz": "o'tmish"
+  },
+  {
+    "en": "present",
+    "uz": "hozirgi vaqt"
+  },
+  {
+    "en": "hope",
+    "uz": "umid"
+  },
+  {
+    "en": "dream",
+    "uz": "orzu"
+  },
+  {
+    "en": "wish",
+    "uz": "tilak"
+  },
+  {
+    "en": "prayer",
+    "uz": "duo"
+  },
+  {
+    "en": "blessing",
+    "uz": "baraka"
+  },
+  {
+    "en": "happiness",
+    "uz": "baxt"
+  },
+  {
+    "en": "sadness",
+    "uz": "qayg'u"
+  },
+  {
+    "en": "anger",
+    "uz": "g'azab"
+  },
+  {
+    "en": "fear",
+    "uz": "qo'rquv"
+  },
+  {
+    "en": "courage",
+    "uz": "jasorat"
+  },
+  {
+    "en": "patience",
+    "uz": "sabr"
+  },
+  {
+    "en": "kindness",
+    "uz": "mehribonlik"
+  },
+  {
+    "en": "respect",
+    "uz": "hurmat"
+  },
+  {
+    "en": "trust",
+    "uz": "ishonch"
+  },
+  {
+    "en": "loyalty",
+    "uz": "sadoqat"
+  },
+  {
+    "en": "care",
+    "uz": "g'amxo'rlik"
+  },
+  {
+    "en": "support",
+    "uz": "qo'llab-quvvatlash"
+  },
+  {
+    "en": "share",
+    "uz": "bo'lishish"
+  },
+  {
+    "en": "cooperation",
+    "uz": "hamkorlik"
+  },
+  {
+    "en": "competition",
+    "uz": "musobaqa"
+  },
+  {
+    "en": "agreement",
+    "uz": "kelishuv"
+  },
+  {
+    "en": "disagreement",
+    "uz": "kelishmovchilik"
+  },
+  {
+    "en": "argument",
+    "uz": "bahs"
+  },
+  {
+    "en": "discussion",
+    "uz": "muhokama"
+  },
+  {
+    "en": "meeting",
+    "uz": "yig'ilish"
+  },
+  {
+    "en": "conversation",
+    "uz": "suhbat"
+  },
+  {
+    "en": "greeting",
+    "uz": "salomlashish"
+  },
+  {
+    "en": "goodbye",
+    "uz": "xayr"
+  },
+  {
+    "en": "thank you",
+    "uz": "rahmat"
+  },
+  {
+    "en": "sorry",
+    "uz": "kechirasiz"
+  },
+  {
+    "en": "please",
+    "uz": "iltimos"
+  },
+  {
+    "en": "welcome",
+    "uz": "xush kelibsiz"
+  },
+  {
+    "en": "congratulations",
+    "uz": "tabriklayman"
+  },
+  {
+    "en": "good morning",
+    "uz": "xayrli tong"
+  },
+  {
+    "en": "good night",
+    "uz": "xayrli tun"
+  },
+  {
+    "en": "how are you",
+    "uz": "qandaysiz"
+  },
+  {
+    "en": "nice to meet you",
+    "uz": "tanishganimdan xursandman"
+  },
+  {
+    "en": "see you later",
+    "uz": "keyin ko'rishamiz"
+  },
+  {
+    "en": "take care",
+    "uz": "o'zingizga qarang"
+  },
+  {
+    "en": "good luck",
+    "uz": "omad tilayman"
+  },
+  {
+    "en": "well done",
+    "uz": "barakalla"
+  },
+  {
+    "en": "of course",
+    "uz": "albatta"
+  },
+  {
+    "en": "no problem",
+    "uz": "muammo yo'q"
+  },
+  {
+    "en": "for example",
+    "uz": "masalan"
+  },
+  {
+    "en": "in fact",
+    "uz": "aslida"
+  },
+  {
+    "en": "at least",
+    "uz": "hech bo'lmaganda"
+  },
+  {
+    "en": "in addition",
+    "uz": "qo'shimcha ravishda"
+  },
+  {
+    "en": "on the other hand",
+    "uz": "boshqa tomondan"
+  },
+  {
+    "en": "as a result",
+    "uz": "natijada"
+  },
+  {
+    "en": "in conclusion",
+    "uz": "xulosa qilib aytganda"
+  },
+  {
+    "en": "for instance",
+    "uz": "misol uchun"
+  },
+  {
+    "en": "in order to",
+    "uz": "uchun"
+  },
+  {
+    "en": "such as",
+    "uz": "masalan, kabi"
+  },
+  {
+    "en": "as well as",
+    "uz": "hamda"
+  },
+  {
+    "en": "according to",
+    "uz": "ga ko'ra"
+  },
+  {
+    "en": "due to",
+    "uz": "tufayli"
+  },
+  {
+    "en": "in spite of",
+    "uz": "qaramay"
+  },
+  {
+    "en": "on behalf of",
+    "uz": "nomidan"
+  },
+  {
+    "en": "in terms of",
+    "uz": "jihatidan"
+  },
+  {
+    "en": "as long as",
+    "uz": "gacha"
+  },
+  {
+    "en": "so that",
+    "uz": "shunday qilib"
+  },
+  {
+    "en": "even though",
+    "uz": "garchi bo'lsa ham"
+  },
+  {
+    "en": "as soon as",
+    "uz": "imkon qadar tezroq"
+  },
+  {
+    "en": "whether or not",
+    "uz": "bo'ladimi yo'qmi"
+  },
+  {
+    "en": "in case",
+    "uz": "holda"
+  },
+  {
+    "en": "as if",
+    "uz": "go'yo"
+  },
+  {
+    "en": "no matter",
+    "uz": "baribir"
+  },
+  {
+    "en": "by the way",
+    "uz": "aytgancha"
+  },
+  {
+    "en": "after all",
+    "uz": "baribir"
+  },
+  {
+    "en": "first of all",
+    "uz": "avvalo"
+  },
+  {
+    "en": "most importantly",
+    "uz": "eng muhimi"
+  },
+  {
+    "en": "above all",
+    "uz": "hamma narsadan ko'ra"
+  },
+  {
+    "en": "in short",
+    "uz": "qisqacha"
+  },
+  {
+    "en": "to sum up",
+    "uz": "xulosa qilganda"
+  },
+  {
+    "en": "in other words",
+    "uz": "boshqacha aytganda"
+  },
+  {
+    "en": "generally",
+    "uz": "umuman olganda"
+  },
+  {
+    "en": "specifically",
+    "uz": "aniq"
+  },
+  {
+    "en": "partly",
+    "uz": "qisman"
+  },
+  {
+    "en": "totally",
+    "uz": "butunlay"
+  },
+  {
+    "en": "forward",
+    "uz": "oldinga"
+  },
+  {
+    "en": "backward",
+    "uz": "orqaga"
+  },
+  {
+    "en": "upward",
+    "uz": "tepaga"
+  },
+  {
+    "en": "downward",
+    "uz": "pastga"
+  },
+  {
+    "en": "inward",
+    "uz": "ichkariga"
+  },
+  {
+    "en": "outward",
+    "uz": "tashqariga"
+  },
+  {
+    "en": "everywhere",
+    "uz": "hamma joyda"
+  },
+  {
+    "en": "somewhere",
+    "uz": "biror joyda"
+  },
+  {
+    "en": "nowhere",
+    "uz": "hech qaerda"
+  },
+  {
+    "en": "anywhere",
+    "uz": "istalgan joyda"
+  },
+  {
+    "en": "whenever",
+    "uz": "qachon bo'lsa"
+  },
+  {
+    "en": "whoever",
+    "uz": "kim bo'lsa"
+  },
+  {
+    "en": "whatever",
+    "uz": "nima bo'lsa"
+  },
+  {
+    "en": "however",
+    "uz": "qanday bo'lsa"
+  },
+  {
+    "en": "wherever",
+    "uz": "qayerda bo'lsa"
+  },
+  {
+    "en": "whichever",
+    "uz": "qaysi bo'lsa"
+  },
+  {
+    "en": "otherwise",
+    "uz": "aks holda"
+  },
+  {
+    "en": "therefore",
+    "uz": "demak"
+  },
+  {
+    "en": "nevertheless",
+    "uz": "shunga qaramay"
+  },
+  {
+    "en": "furthermore",
+    "uz": "bundan tashqari"
+  },
+  {
+    "en": "consequently",
+    "uz": "natijada"
+  },
+  {
+    "en": "meanwhile",
+    "uz": "shu orada"
+  },
+  {
+    "en": "subsequently",
+    "uz": "keyinchalik"
+  },
+  {
+    "en": "previously",
+    "uz": "avval"
+  },
+  {
+    "en": "currently",
+    "uz": "hozirda"
+  },
+  {
+    "en": "recently",
+    "uz": "yaqinda"
+  },
+  {
+    "en": "shortly",
+    "uz": "tez orada"
+  },
+  {
+    "en": "eventually",
+    "uz": "oxir-oqibat"
+  },
+  {
+    "en": "initially",
+    "uz": "dastlab"
+  },
+  {
+    "en": "originally",
+    "uz": "aslan"
+  },
+  {
+    "en": "ultimately",
+    "uz": "oxir-oqibat"
+  },
+  {
+    "en": "fortunately",
+    "uz": "yaxshiyamki"
+  },
+  {
+    "en": "unfortunately",
+    "uz": "afsuski"
+  },
+  {
+    "en": "surprisingly",
+    "uz": "hayratlanarlisi"
+  },
+  {
+    "en": "obviously",
+    "uz": "aniq"
+  },
+  {
+    "en": "apparently",
+    "uz": "ko'rinishidan"
+  },
+  {
+    "en": "definitely",
+    "uz": "aniq"
+  },
+  {
+    "en": "absolutely",
+    "uz": "mutlaqo"
+  },
+  {
+    "en": "approximately",
+    "uz": "taxminan"
+  },
+  {
+    "en": "exactly",
+    "uz": "to'la"
+  },
+  {
+    "en": "roughly",
+    "uz": "taxminan"
+  },
+  {
+    "en": "entirely",
+    "uz": "to'liq"
+  },
+  {
+    "en": "partially",
+    "uz": "qisman"
+  },
+  {
+    "en": "basically",
+    "uz": "asosan"
+  },
+  {
+    "en": "normally",
+    "uz": "odatda"
+  },
+  {
+    "en": "naturally",
+    "uz": "tabiiy ravishda"
+  },
+  {
+    "en": "regularly",
+    "uz": "muntazam"
+  },
+  {
+    "en": "occasionally",
+    "uz": "vaqti-vaqti bilan"
+  },
+  {
+    "en": "frequently",
+    "uz": "tez-tez"
+  },
+  {
+    "en": "rarely",
+    "uz": "kamdan-kam"
+  },
+  {
+    "en": "hardly",
+    "uz": "zorgo"
+  },
+  {
+    "en": "barely",
+    "uz": "zo'rg'a"
+  },
+  {
+    "en": "nearly",
+    "uz": "deyarli"
+  },
+  {
+    "en": "almost",
+    "uz": "deyarli"
+  },
+  {
+    "en": "quite",
+    "uz": "ancha"
+  },
+  {
+    "en": "rather",
+    "uz": "ko'proq"
+  },
+  {
+    "en": "fairly",
+    "uz": "qisman"
+  },
+  {
+    "en": "too",
+    "uz": "haddan tashqari"
+  },
+  {
+    "en": "so",
+    "uz": "shunday qilib"
+  },
+  {
+    "en": "such",
+    "uz": "bunday"
+  },
+  {
+    "en": "enough",
+    "uz": "yetarli"
+  },
+  {
+    "en": "little",
+    "uz": "biroz"
+  },
+  {
+    "en": "much",
+    "uz": "ko'p"
+  },
+  {
+    "en": "bit",
+    "uz": "bir oz"
+  },
+  {
+    "en": "lot",
+    "uz": "ko'p"
+  },
+  {
+    "en": "whole",
+    "uz": "butun"
+  },
+  {
+    "en": "half",
+    "uz": "yarmi"
+  },
+  {
+    "en": "quarter",
+    "uz": "chorak"
+  },
+  {
+    "en": "double",
+    "uz": "ikki baravar"
+  },
+  {
+    "en": "triple",
+    "uz": "uch baravar"
+  },
+  {
+    "en": "single",
+    "uz": "yakka"
+  },
+  {
+    "en": "several",
+    "uz": "bir nechta"
+  },
+  {
+    "en": "various",
+    "uz": "turli"
+  },
+  {
+    "en": "certain",
+    "uz": "ma'lum"
+  },
+  {
+    "en": "particular",
+    "uz": "alohida"
+  },
+  {
+    "en": "general",
+    "uz": "umumiy"
+  },
+  {
+    "en": "specific",
+    "uz": "aniq"
+  },
+  {
+    "en": "main",
+    "uz": "asosiy"
+  },
+  {
+    "en": "major",
+    "uz": "yirik"
+  },
+  {
+    "en": "minor",
+    "uz": "kichik"
+  },
+  {
+    "en": "primary",
+    "uz": "birlamchi"
+  },
+  {
+    "en": "secondary",
+    "uz": "ikkinchi darajali"
+  },
+  {
+    "en": "basic",
+    "uz": "asosiy"
+  },
+  {
+    "en": "advanced",
+    "uz": "ilg'or"
+  },
+  {
+    "en": "simple",
+    "uz": "oddiy"
+  },
+  {
+    "en": "complex",
+    "uz": "murakkab"
+  },
+  {
+    "en": "clear",
+    "uz": "aniq"
+  },
+  {
+    "en": "unclear",
+    "uz": "noaniq"
+  },
+  {
+    "en": "visible",
+    "uz": "ko'rinadigan"
+  },
+  {
+    "en": "hidden",
+    "uz": "yashirin"
+  },
+  {
+    "en": "available",
+    "uz": "mavjud"
+  },
+  {
+    "en": "absent",
+    "uz": "yo'q"
+  },
+  {
+    "en": "present",
+    "uz": "mavjud"
+  },
+  {
+    "en": "missing",
+    "uz": "yo'qolgan"
+  },
+  {
+    "en": "extra",
+    "uz": "qo'shimcha"
+  },
+  {
+    "en": "additional",
+    "uz": "qo'shimcha"
+  },
+  {
+    "en": "original",
+    "uz": "original"
+  },
+  {
+    "en": "copy",
+    "uz": "nusxa"
+  },
+  {
+    "en": "real",
+    "uz": "haqiqiy"
+  },
+  {
+    "en": "fake",
+    "uz": "soxta"
+  },
+  {
+    "en": "true",
+    "uz": "to'g'ri"
+  },
+  {
+    "en": "false",
+    "uz": "noto'g'ri"
+  },
+  {
+    "en": "open",
+    "uz": "ochiq"
+  },
+  {
+    "en": "closed",
+    "uz": "yopiq"
+  },
+  {
+    "en": "full",
+    "uz": "to'la"
+  },
+  {
+    "en": "empty",
+    "uz": "bo'sh"
+  },
+  {
+    "en": "new",
+    "uz": "yangi"
+  },
+  {
+    "en": "used",
+    "uz": "ishlatilgan"
+  },
+  {
+    "en": "broken",
+    "uz": "singan"
+  },
+  {
+    "en": "fixed",
+    "uz": "tuzatilgan"
+  },
+  {
+    "en": "lost",
+    "uz": "yo'qolgan"
+  },
+  {
+    "en": "found",
+    "uz": "topilgan"
+  },
+  {
+    "en": "ready",
+    "uz": "tayyor"
+  },
+  {
+    "en": "late",
+    "uz": "kechikkan"
+  },
+  {
+    "en": "on time",
+    "uz": "o'z vaqtida"
+  },
+  {
+    "en": "early",
+    "uz": "erta"
+  },
+  {
+    "en": "late",
+    "uz": "kech"
+  },
+  {
+    "en": "cheap",
+    "uz": "arzon"
+  },
+  {
+    "en": "expensive",
+    "uz": "qimmat"
+  },
+  {
+    "en": "free",
+    "uz": "bepul"
+  },
+  {
+    "en": "paid",
+    "uz": "pullik"
+  },
+  {
+    "en": "local",
+    "uz": "mahalliy"
+  },
+  {
+    "en": "foreign",
+    "uz": "xorijiy"
+  },
+  {
+    "en": "national",
+    "uz": "milliy"
+  },
+  {
+    "en": "international",
+    "uz": "xalqaro"
+  },
+  {
+    "en": "global",
+    "uz": "global"
+  },
+  {
+    "en": "regional",
+    "uz": "mintaqaviy"
+  },
+  {
+    "en": "rural",
+    "uz": "qishloq"
+  },
+  {
+    "en": "urban",
+    "uz": "shahar"
+  },
+  {
+    "en": "public",
+    "uz": "ommaviy"
+  },
+  {
+    "en": "private",
+    "uz": "xususiy"
+  },
+  {
+    "en": "personal",
+    "uz": "shaxsiy"
+  },
+  {
+    "en": "professional",
+    "uz": "professional"
+  },
+  {
+    "en": "official",
+    "uz": "rasmiy"
+  },
+  {
+    "en": "informal",
+    "uz": "norasmiy"
+  },
+  {
+    "en": "voluntary",
+    "uz": "ixtiyoriy"
+  },
+  {
+    "en": "mandatory",
+    "uz": "majburiy"
+  },
+  {
+    "en": "legal",
+    "uz": "qonuniy"
+  },
+  {
+    "en": "illegal",
+    "uz": "noqonuniy"
+  },
+  {
+    "en": "moral",
+    "uz": "axloqiy"
+  },
+  {
+    "en": "acceptable",
+    "uz": "qabul qilinadigan"
+  },
+  {
+    "en": "unacceptable",
+    "uz": "qabul qilib bo'lmaydigan"
+  },
+  {
+    "en": "appropriate",
+    "uz": "mos"
+  },
+  {
+    "en": "inappropriate",
+    "uz": "mos emas"
+  },
+  {
+    "en": "useful",
+    "uz": "foydali"
+  },
+  {
+    "en": "useless",
+    "uz": "befoyda"
+  },
+  {
+    "en": "effective",
+    "uz": "samarali"
+  },
+  {
+    "en": "ineffective",
+    "uz": "samarasiz"
+  },
+  {
+    "en": "successful",
+    "uz": "muvaffaqiyatli"
+  },
+  {
+    "en": "unsuccessful",
+    "uz": "muvaffaqiyatsiz"
+  },
+  {
+    "en": "active",
+    "uz": "faol"
+  },
+  {
+    "en": "passive",
+    "uz": "passiv"
+  },
+  {
+    "en": "positive",
+    "uz": "ijobiy"
+  },
+  {
+    "en": "negative",
+    "uz": "salbiy"
+  },
+  {
+    "en": "direct",
+    "uz": "to'g'ridan-to'g'ri"
+  },
+  {
+    "en": "indirect",
+    "uz": "bilvosita"
+  },
+  {
+    "en": "formal",
+    "uz": "rasmiy"
+  },
+  {
+    "en": "social",
+    "uz": "ijtimoiy"
+  },
+  {
+    "en": "political",
+    "uz": "siyosiy"
+  },
+  {
+    "en": "economic",
+    "uz": "iqtisodiy"
+  },
+  {
+    "en": "educational",
+    "uz": "ta'limiy"
+  },
+  {
+    "en": "cultural",
+    "uz": "madaniy"
+  },
+  {
+    "en": "historical",
+    "uz": "tarixiy"
+  },
+  {
+    "en": "scientific",
+    "uz": "ilmiy"
+  },
+  {
+    "en": "medical",
+    "uz": "tibbiy"
+  },
+  {
+    "en": "military",
+    "uz": "harbiy"
+  },
+  {
+    "en": "religious",
+    "uz": "diniy"
+  },
+  {
+    "en": "financial",
+    "uz": "moliyaviy"
+  },
+  {
+    "en": "environmental",
+    "uz": "ekologik"
+  },
+  {
+    "en": "technical",
+    "uz": "texnik"
+  },
+  {
+    "en": "practical",
+    "uz": "amaliy"
+  },
+  {
+    "en": "theoretical",
+    "uz": "nazariy"
+  },
+  {
+    "en": "logical",
+    "uz": "mantiqiy"
+  },
+  {
+    "en": "emotional",
+    "uz": "hissiy"
+  },
+  {
+    "en": "mental",
+    "uz": "aqliy"
+  },
+  {
+    "en": "spiritual",
+    "uz": "ma'naviy"
+  },
+  {
+    "en": "material",
+    "uz": "moddiy"
+  },
+  {
+    "en": "essential",
+    "uz": "zaruriy"
+  },
+  {
+    "en": "optional",
+    "uz": "ixtiyoriy"
+  },
+  {
+    "en": "temporary",
+    "uz": "vaqtinchalik"
+  },
+  {
+    "en": "permanent",
+    "uz": "doimiy"
+  },
+  {
+    "en": "current",
+    "uz": "hozirgi"
+  },
+  {
+    "en": "future",
+    "uz": "kelajakdagi"
+  },
+  {
+    "en": "past",
+    "uz": "o'tmishdagi"
+  },
+  {
+    "en": "achieve",
+    "uz": "erishmoq"
+  },
+  {
+    "en": "announce",
+    "uz": "e'lon qilmoq"
+  },
+  {
+    "en": "approve",
+    "uz": "tasdiqlash"
+  },
+  {
+    "en": "attack",
+    "uz": "hujum qilmoq"
+  },
+  {
+    "en": "avoid",
+    "uz": "qochmoq"
+  },
+  {
+    "en": "belong",
+    "uz": "tegishli bo'lmoq"
+  },
+  {
+    "en": "borrow",
+    "uz": "qarz olmoq"
+  },
+  {
+    "en": "carry",
+    "uz": "ko'tarmoq"
+  },
+  {
+    "en": "catch",
+    "uz": "ushlash"
+  },
+  {
+    "en": "compare",
+    "uz": "taqqoslamoq"
+  },
+  {
+    "en": "connect",
+    "uz": "ulash"
+  },
+  {
+    "en": "control",
+    "uz": "nazorat qilmoq"
+  },
+  {
+    "en": "cover",
+    "uz": "qoplash"
+  },
+  {
+    "en": "create",
+    "uz": "yaratmoq"
+  },
+  {
+    "en": "define",
+    "uz": "ta'riflash"
+  },
+  {
+    "en": "deliver",
+    "uz": "yetkazib bermoq"
+  },
+  {
+    "en": "describe",
+    "uz": "tasvirlash"
+  },
+  {
+    "en": "destroy",
+    "uz": "yo'q qilmoq"
+  },
+  {
+    "en": "develop",
+    "uz": "rivojlantirmoq"
+  },
+  {
+    "en": "discover",
+    "uz": "kashf etmoq"
+  },
+  {
+    "en": "divide",
+    "uz": "bo'lmoq"
+  },
+  {
+    "en": "enter",
+    "uz": "kirmoq"
+  },
+  {
+    "en": "establish",
+    "uz": "o'rnatmoq"
+  },
+  {
+    "en": "expand",
+    "uz": "kengaytirmoq"
+  },
+  {
+    "en": "explore",
+    "uz": "o'rganmoq"
+  },
+  {
+    "en": "express",
+    "uz": "ifoda etmoq"
+  },
+  {
+    "en": "follow",
+    "uz": "ergashmoq"
+  },
+  {
+    "en": "gather",
+    "uz": "yig'moq"
+  },
+  {
+    "en": "handle",
+    "uz": "boshqarmoq"
+  },
+  {
+    "en": "identify",
+    "uz": "aniqlash"
+  },
+  {
+    "en": "imagine",
+    "uz": "tasavvur qilmoq"
+  }
+]

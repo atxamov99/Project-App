@@ -1,0 +1,162 @@
+- generic [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e3]:
+      - alert [ref=e5]:
+        - generic [ref=e7]:
+          - img [ref=e9]
+          - generic [ref=e14]:
+            - generic [ref=e15]: Upcoming maintenance
+            - generic [ref=e16]:
+              - text: We will be upgrading critical infrastructure on May 27th, 6:00 am GMT+5 (May 27th, 1:00 am UTC). Follow our
+              - link "status page" [ref=e17] [cursor=pointer]:
+                - /url: https://status.render.com/incidents/7rdmw95g2h5q
+              - text: for updates.
+        - button "Close notification" [ref=e18] [cursor=pointer]:
+          - img [ref=e19]
+      - banner [ref=e21]:
+        - generic [ref=e22]:
+          - link "Render" [ref=e24] [cursor=pointer]:
+            - /url: /
+            - img "Render" [ref=e25]
+          - button "M My Workspace" [ref=e29] [cursor=pointer]:
+            - generic [ref=e30]:
+              - generic [ref=e31]: M
+              - generic "My Workspace" [ref=e32]
+              - img [ref=e33]
+        - generic [ref=e37]:
+          - navigation [ref=e38]:
+            - list [ref=e39]:
+              - listitem [ref=e40]:
+                - button "New Web Service" [ref=e261] [cursor=pointer]:
+                  - generic [ref=e262]:
+                    - img [ref=e263]
+                    - generic [ref=e265]:
+                      - generic [ref=e266]: New Web Service
+                      - img [ref=e267]
+          - button "Search Ctrl + K" [ref=e48] [cursor=pointer]:
+            - img [ref=e50]
+            - text: Search
+            - generic [ref=e52]:
+              - img [ref=e53]
+              - generic [ref=e55]: Ctrl
+              - generic [ref=e56]: +
+              - generic [ref=e57]: K
+              - generic [ref=e58]: K
+        - generic [ref=e59]:
+          - button "New" [ref=e61] [cursor=pointer]:
+            - generic [ref=e62]:
+              - img [ref=e63]
+              - generic [ref=e65]: New
+          - button "Upgrade" [ref=e67] [cursor=pointer]:
+            - generic [ref=e68]:
+              - img [ref=e69]
+              - generic [ref=e71]: Upgrade
+          - button "Help" [ref=e73] [cursor=pointer]:
+            - img "Help" [ref=e74]
+          - button "y" [ref=e79] [cursor=pointer]:
+            - generic [ref=e81]: "y"
+      - generic [ref=e269]:
+        - generic [ref=e273]:
+          - heading "Configure and deploy your new Web Service" [level=2] [ref=e275]:
+            - generic [ref=e276]: Configure and deploy your new Web Service
+          - generic [ref=e277]:
+            - list [ref=e279]:
+              - button "Choose service" [ref=e280] [cursor=pointer]:
+                - generic [ref=e282]:
+                  - img [ref=e284]
+                  - img [ref=e287]
+                - heading "Choose service" [level=3] [ref=e290]
+                - img [ref=e292]
+              - listitem [ref=e294]:
+                - generic [ref=e296]:
+                  - img [ref=e298]
+                  - generic [ref=e301]: "2"
+                - heading "Configure" [level=3] [ref=e303]
+                - img [ref=e305]
+              - button "3 Deploy" [ref=e307] [cursor=pointer]:
+                - generic [ref=e309]:
+                  - img [ref=e312]
+                  - generic [ref=e315]: "3"
+                - heading "Deploy" [level=3] [ref=e317]
+            - link "Need help? Docs" [ref=e319] [cursor=pointer]:
+              - /url: https://render.com/docs/service-types
+              - generic [ref=e321]: Need help? Docs
+              - img [ref=e323]
+        - main [ref=e326]:
+          - generic:
+            - generic:
+              - heading [level=1]
+          - generic [ref=e327]:
+            - generic [ref=e330]: Source Code
+            - generic [ref=e331]:
+              - list [ref=e332]:
+                - listitem [ref=e333]:
+                  - tab "Git Provider" [selected] [ref=e334] [cursor=pointer]
+                - listitem [ref=e335]:
+                  - tab "Public Git Repository" [ref=e336] [cursor=pointer]
+                - listitem [ref=e337]:
+                  - tab "Existing Image" [ref=e338] [cursor=pointer]
+              - tabpanel "Git Provider" [ref=e340]:
+                - generic [ref=e342]:
+                  - generic [ref=e343]:
+                    - generic [ref=e346]:
+                      - img
+                      - textbox "Search" [active] [ref=e347]
+                    - button "Credentials (1)" [ref=e349] [cursor=pointer]:
+                      - generic [ref=e351]:
+                        - img [ref=e354]
+                        - img [ref=e358]
+                        - img [ref=e365]
+                      - generic [ref=e370]: Credentials (1)
+                      - img [ref=e371]
+                  - list [ref=e375]:
+                    - listitem [ref=e376]:
+                      - button "GitHub atxamov99 / jarvis-agent 5m ago" [ref=e377] [cursor=pointer]:
+                        - generic [ref=e378]:
+                          - img "GitHub" [ref=e380]
+                          - generic [ref=e382]: atxamov99
+                          - generic [ref=e383]: /
+                          - generic [ref=e384]: jarvis-agent
+                        - time [ref=e386]: 5m ago
+                    - listitem [ref=e387]:
+                      - button "GitHub atxamov99 / Project-App 11m ago" [ref=e388] [cursor=pointer]:
+                        - generic [ref=e389]:
+                          - img "GitHub" [ref=e391]
+                          - generic [ref=e393]: atxamov99
+                          - generic [ref=e394]: /
+                          - generic [ref=e395]: Project-App
+                        - time [ref=e397]: 11m ago
+                    - listitem [ref=e398]:
+                      - button "GitHub atxamov99 / GlobalTrialMatch 19d ago" [ref=e399] [cursor=pointer]:
+                        - generic [ref=e400]:
+                          - img "GitHub" [ref=e402]
+                          - generic [ref=e404]: atxamov99
+                          - generic [ref=e405]: /
+                          - generic [ref=e406]: GlobalTrialMatch
+                        - time [ref=e408]: 19d ago
+                    - listitem [ref=e409]:
+                      - button "GitHub XasanMhls / servicehubph Feb 2" [ref=e410] [cursor=pointer]:
+                        - generic [ref=e411]:
+                          - img "GitHub" [ref=e413]
+                          - generic [ref=e415]: XasanMhls
+                          - generic [ref=e416]: /
+                          - generic [ref=e417]: servicehubph
+                        - time [ref=e419]: Feb 2
+    - generic:
+      - generic:
+        - generic: "0 services selected:"
+        - generic:
+          - generic:
+            - button:
+              - generic:
+                - img
+              - generic: Move
+              - img
+      - generic:
+        - separator
+        - generic:
+          - generic:
+            - button:
+              - img
+  - iframe [ref=e258]:
+    

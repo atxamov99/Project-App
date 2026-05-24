@@ -1,0 +1,306 @@
+- generic [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e3]:
+      - alert [ref=e5]:
+        - generic [ref=e7]:
+          - img [ref=e9]
+          - generic [ref=e14]:
+            - generic [ref=e15]: Upcoming maintenance
+            - generic [ref=e16]:
+              - text: We will be upgrading critical infrastructure on May 27th, 6:00 am GMT+5 (May 27th, 1:00 am UTC). Follow our
+              - link "status page" [ref=e17] [cursor=pointer]:
+                - /url: https://status.render.com/incidents/7rdmw95g2h5q
+              - text: for updates.
+        - button "Close notification" [ref=e18] [cursor=pointer]:
+          - img [ref=e19]
+      - banner [ref=e21]:
+        - generic [ref=e22]:
+          - link "Render" [ref=e24] [cursor=pointer]:
+            - /url: /
+            - img "Render" [ref=e25]
+          - button "M My Workspace" [ref=e29] [cursor=pointer]:
+            - generic [ref=e30]:
+              - generic [ref=e31]: M
+              - generic "My Workspace" [ref=e32]
+              - img [ref=e33]
+        - generic [ref=e37]:
+          - navigation [ref=e38]:
+            - list [ref=e39]:
+              - listitem [ref=e40]:
+                - button "New Web Service" [ref=e261] [cursor=pointer]:
+                  - generic [ref=e262]:
+                    - img [ref=e263]
+                    - generic [ref=e265]:
+                      - generic [ref=e266]: New Web Service
+                      - img [ref=e267]
+          - button "Search Ctrl + K" [ref=e48] [cursor=pointer]:
+            - img [ref=e50]
+            - text: Search
+            - generic [ref=e52]:
+              - img [ref=e53]
+              - generic [ref=e55]: Ctrl
+              - generic [ref=e56]: +
+              - generic [ref=e57]: K
+              - generic [ref=e58]: K
+        - generic [ref=e59]:
+          - button "New" [ref=e61] [cursor=pointer]:
+            - generic [ref=e62]:
+              - img [ref=e63]
+              - generic [ref=e65]: New
+          - button "Upgrade" [ref=e67] [cursor=pointer]:
+            - generic [ref=e68]:
+              - img [ref=e69]
+              - generic [ref=e71]: Upgrade
+          - button "Help" [ref=e73] [cursor=pointer]:
+            - img "Help" [ref=e74]
+          - button "y" [ref=e79] [cursor=pointer]:
+            - generic [ref=e81]: "y"
+      - generic [ref=e269]:
+        - generic [ref=e273]:
+          - heading "Configure and deploy your new Web Service" [level=2] [ref=e275]:
+            - generic [ref=e276]: Configure and deploy your new Web Service
+          - generic [ref=e277]:
+            - list [ref=e279]:
+              - button "Choose service" [ref=e280] [cursor=pointer]:
+                - generic [ref=e282]:
+                  - img [ref=e284]
+                  - img [ref=e287]
+                - heading "Choose service" [level=3] [ref=e290]
+                - img [ref=e292]
+              - listitem [ref=e294]:
+                - generic [ref=e296]:
+                  - img [ref=e298]
+                  - generic [ref=e301]: "2"
+                - heading "Configure" [level=3] [ref=e303]
+                - img [ref=e305]
+              - button "3 Deploy" [ref=e307] [cursor=pointer]:
+                - generic [ref=e309]:
+                  - img [ref=e312]
+                  - generic [ref=e315]: "3"
+                - heading "Deploy" [level=3] [ref=e317]
+            - link "Need help? Docs" [ref=e319] [cursor=pointer]:
+              - /url: https://render.com/docs/service-types
+              - generic [ref=e321]: Need help? Docs
+              - img [ref=e323]
+        - main [ref=e326]:
+          - generic:
+            - generic:
+              - heading [level=1]
+          - generic [ref=e327]:
+            - generic [ref=e330]: Source Code
+            - generic [ref=e420]:
+              - img "GitHub" [ref=e422]
+              - link "atxamov99 / Project-App" [ref=e424] [cursor=pointer]:
+                - /url: https://github.com/atxamov99/Project-App
+                - text: atxamov99
+                - generic [ref=e425]: /
+                - text: Project-App
+              - generic [ref=e426]:
+                - separator [ref=e427]: •
+                - time [ref=e429]: 11m ago
+              - button "Edit" [ref=e431] [cursor=pointer]:
+                - img [ref=e433]
+                - text: Edit
+        - main [ref=e437]:
+          - generic:
+            - generic:
+              - heading [level=1]
+          - generic [ref=e438]:
+            - generic [ref=e439]:
+              - generic [ref=e440]:
+                - generic [ref=e442]: Name
+                - generic [ref=e443]: A unique name for your web service.
+              - textbox "Name" [active] [ref=e448]:
+                - /placeholder: example-service-name
+                - text: Project-App
+            - generic [ref=e449]:
+              - generic [ref=e450]:
+                - generic [ref=e452]: Language
+                - generic [ref=e453]:
+                  - text: Choose the
+                  - link "runtime environment" [ref=e454] [cursor=pointer]:
+                    - /url: https://render.com/docs/language-support
+                  - text: for this service.
+              - button "Language" [ref=e458] [cursor=pointer]:
+                - generic [ref=e460]: Node
+                - img [ref=e461]
+            - generic [ref=e463]:
+              - generic [ref=e464]:
+                - generic [ref=e466]: Branch
+                - generic [ref=e467]: The Git branch to build and deploy.
+              - combobox [ref=e469]:
+                - generic [ref=e472]:
+                  - img
+                  - textbox "Branch" [ref=e473]:
+                    - /placeholder: Search
+                    - text: main
+                  - button "Clear search input" [ref=e474] [cursor=pointer]:
+                    - img [ref=e475]
+            - generic [ref=e477]:
+              - generic [ref=e478]:
+                - generic [ref=e480]: Region
+                - generic [ref=e481]:
+                  - text: Your services in the same
+                  - link "region" [ref=e482] [cursor=pointer]:
+                    - /url: https://render.com/docs/regions
+                  - text: can communicate over a
+                  - link "private network." [ref=e483] [cursor=pointer]:
+                    - /url: https://render.com/docs/private-network
+              - generic [ref=e486]:
+                - generic [ref=e487]: Region Selector
+                - button "Region Selector Oregon (US West)" [ref=e489] [cursor=pointer]:
+                  - generic [ref=e493]: Oregon (US West)
+                  - img [ref=e494]
+            - generic [ref=e496]:
+              - generic [ref=e497]:
+                - generic [ref=e499]: Root DirectoryOptional
+                - generic [ref=e500]:
+                  - text: If set, Render runs commands from this directory instead of the repository root. Additionally, code changes outside of this directory do not trigger an auto-deploy. Most commonly used with a
+                  - link "monorepo." [ref=e501] [cursor=pointer]:
+                    - /url: https://render.com/docs/monorepo-support#setting-a-root-directory
+              - textbox "Root DirectoryOptional" [ref=e506]:
+                - /placeholder: e.g. src
+            - generic [ref=e696]:
+              - generic [ref=e697]:
+                - generic [ref=e699]: Build Command
+                - generic [ref=e700]: Render runs this command to build your app before each deploy.
+              - generic [ref=e704]:
+                - generic: $
+                - textbox "Build Command" [ref=e705]: yarn
+            - generic [ref=e706]:
+              - generic [ref=e707]:
+                - generic [ref=e709]: Start Command
+                - generic [ref=e710]: Render runs this command to start your app with each deploy.
+              - generic [ref=e714]:
+                - generic: $
+                - textbox "Start Command" [ref=e715]:
+                  - /placeholder: yarn start
+                  - text: yarn start
+            - generic [ref=e519]:
+              - generic [ref=e520]: Instance Type
+              - radiogroup "Instance type" [ref=e522]:
+                - generic [ref=e523]: Instance type
+                - generic [ref=e524]:
+                  - generic [ref=e526]: For hobby projects
+                  - radio "Free $0/ month 512 MB (RAM) 0.1 CPU" [ref=e529]:
+                    - button "Free $0/ month 512 MB (RAM) 0.1 CPU" [ref=e530] [cursor=pointer]:
+                      - generic [ref=e531]:
+                        - generic [ref=e532]: Free
+                        - generic [ref=e533]: $0/ month
+                      - list [ref=e534]:
+                        - listitem [ref=e535]: 512 MB (RAM)
+                        - listitem [ref=e536]: 0.1 CPU
+                - generic [ref=e537]:
+                  - generic [ref=e538]:
+                    - generic [ref=e539]: For professional use
+                    - generic [ref=e540]: "For more power and to get the most out of Render, we recommend using one of our paid instance types. All paid instances support:"
+                    - list [ref=e541]:
+                      - listitem [ref=e542]: Zero Downtime
+                      - listitem [ref=e543]: SSH Access
+                      - listitem [ref=e544]: Scaling
+                      - listitem [ref=e545]: One-off jobs
+                      - listitem [ref=e546]: Support for persistent disks
+                  - generic [ref=e547]:
+                    - generic [ref=e548]:
+                      - radio "Starter $7/ month 512 MB (RAM) 0.5 CPU" [checked] [ref=e549]:
+                        - button "Starter $7/ month 512 MB (RAM) 0.5 CPU" [ref=e550] [cursor=pointer]:
+                          - generic [ref=e551]:
+                            - generic [ref=e552]: Starter
+                            - generic [ref=e553]: $7/ month
+                          - list [ref=e554]:
+                            - listitem [ref=e555]: 512 MB (RAM)
+                            - listitem [ref=e556]: 0.5 CPU
+                      - radio "Standard $25/ month 2 GB (RAM) 1 CPU" [ref=e557]:
+                        - button "Standard $25/ month 2 GB (RAM) 1 CPU" [ref=e558] [cursor=pointer]:
+                          - generic [ref=e559]:
+                            - generic [ref=e560]: Standard
+                            - generic [ref=e561]: $25/ month
+                          - list [ref=e562]:
+                            - listitem [ref=e563]: 2 GB (RAM)
+                            - listitem [ref=e564]: 1 CPU
+                      - radio "Pro $85/ month 4 GB (RAM) 2 CPU" [ref=e565]:
+                        - button "Pro $85/ month 4 GB (RAM) 2 CPU" [ref=e566] [cursor=pointer]:
+                          - generic [ref=e567]:
+                            - generic [ref=e568]: Pro
+                            - generic [ref=e569]: $85/ month
+                          - list [ref=e570]:
+                            - listitem [ref=e571]: 4 GB (RAM)
+                            - listitem [ref=e572]: 2 CPU
+                      - radio "Pro Plus $175/ month 8 GB (RAM) 4 CPU" [ref=e573]:
+                        - button "Pro Plus $175/ month 8 GB (RAM) 4 CPU" [ref=e574] [cursor=pointer]:
+                          - generic [ref=e575]:
+                            - generic [ref=e576]: Pro Plus
+                            - generic [ref=e577]: $175/ month
+                          - list [ref=e578]:
+                            - listitem [ref=e579]: 8 GB (RAM)
+                            - listitem [ref=e580]: 4 CPU
+                      - radio "Pro Max $225/ month 16 GB (RAM) 4 CPU" [ref=e581]:
+                        - button "Pro Max $225/ month 16 GB (RAM) 4 CPU" [ref=e582] [cursor=pointer]:
+                          - generic [ref=e583]:
+                            - generic [ref=e584]: Pro Max
+                            - generic [ref=e585]: $225/ month
+                          - list [ref=e586]:
+                            - listitem [ref=e587]: 16 GB (RAM)
+                            - listitem [ref=e588]: 4 CPU
+                      - radio "Pro Ultra $450/ month 32 GB (RAM) 8 CPU" [ref=e589]:
+                        - button "Pro Ultra $450/ month 32 GB (RAM) 8 CPU" [ref=e590] [cursor=pointer]:
+                          - generic [ref=e591]:
+                            - generic [ref=e592]: Pro Ultra
+                            - generic [ref=e593]: $450/ month
+                          - list [ref=e594]:
+                            - listitem [ref=e595]: 32 GB (RAM)
+                            - listitem [ref=e596]: 8 CPU
+                    - paragraph [ref=e597]:
+                      - text: Need a
+                      - link "custom instance type" [ref=e598] [cursor=pointer]:
+                        - /url: mailto:sales@render.com
+                      - text: "? We support up to 512 GB RAM and 64 CPUs."
+            - generic [ref=e600]:
+              - generic [ref=e603]:
+                - heading "Environment Variables" [level=4] [ref=e605]
+                - generic [ref=e606]:
+                  - text: Set environment-specific config and secrets (such as API keys), then read those values from your code.
+                  - link "Learn more." [ref=e607] [cursor=pointer]:
+                    - /url: https://render.com/docs/configure-environment-variables
+              - generic [ref=e609]:
+                - generic [ref=e610]:
+                  - textbox "NAME_OF_VARIABLE" [ref=e614]
+                  - generic [ref=e615]:
+                    - generic [ref=e617]:
+                      - textbox "value" [ref=e621]
+                      - button "Generate" [ref=e622] [cursor=pointer]:
+                        - img [ref=e624]
+                        - text: Generate
+                    - button [ref=e630] [cursor=pointer]:
+                      - img [ref=e631]
+                - generic [ref=e636]:
+                  - button "Add Environment Variable" [ref=e637] [cursor=pointer]:
+                    - img [ref=e639]
+                    - text: Add Environment Variable
+                  - button "Add from .env" [ref=e641] [cursor=pointer]:
+                    - img [ref=e643]
+                    - text: Add from .env
+            - list [ref=e647]:
+              - listitem [ref=e648]:
+                - button "Advanced" [ref=e650] [cursor=pointer]:
+                  - img [ref=e651]
+                  - generic [ref=e653]: Advanced
+            - button "Deploy web service" [ref=e655] [cursor=pointer]
+    - generic:
+      - generic:
+        - generic: "0 services selected:"
+        - generic:
+          - generic:
+            - button:
+              - generic:
+                - img
+              - generic: Move
+              - img
+      - generic:
+        - separator
+        - generic:
+          - generic:
+            - button:
+              - img
+  - iframe [ref=e258]:
+    

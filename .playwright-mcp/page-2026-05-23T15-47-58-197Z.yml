@@ -1,0 +1,206 @@
+- generic [ref=e2]:
+  - generic [ref=e3]:
+    - alert [ref=e5]:
+      - generic [ref=e7]:
+        - img [ref=e9]
+        - generic [ref=e14]:
+          - generic [ref=e15]: Upcoming maintenance
+          - generic [ref=e16]:
+            - text: We will be upgrading critical infrastructure on May 27th, 6:00 am GMT+5 (May 27th, 1:00 am UTC). Follow our
+            - link "status page" [ref=e17] [cursor=pointer]:
+              - /url: https://status.render.com/incidents/7rdmw95g2h5q
+            - text: for updates.
+      - button "Close notification" [ref=e18] [cursor=pointer]:
+        - img [ref=e19]
+    - banner [ref=e21]:
+      - generic [ref=e22]:
+        - link "Render" [ref=e24] [cursor=pointer]:
+          - /url: /
+          - img "Render" [ref=e25]
+        - button "M My Workspace" [ref=e29] [cursor=pointer]:
+          - generic [ref=e30]:
+            - generic [ref=e31]: M
+            - generic "My Workspace" [ref=e32]
+            - img [ref=e33]
+      - generic [ref=e37]:
+        - navigation [ref=e38]:
+          - list [ref=e39]:
+            - listitem [ref=e40]:
+              - link "My project" [ref=e41] [cursor=pointer]:
+                - /url: /project/prj-d88snn6k1jcs73fsjei0
+                - img [ref=e42]
+                - generic [ref=e46]: My project
+              - button [ref=e49] [cursor=pointer]:
+                - img [ref=e50]
+              - text: /
+            - listitem [ref=e52]:
+              - link "Production" [ref=e53] [cursor=pointer]:
+                - /url: /project/prj-d88snn6k1jcs73fsjei0/environment/evm-d88snn6k1jcs73fsjeig
+                - img [ref=e54]
+                - generic [ref=e67]: Production
+              - button [ref=e70] [cursor=pointer]:
+                - img [ref=e71]
+              - text: /
+            - listitem [ref=e73]:
+              - link "lingvauz-api" [ref=e74] [cursor=pointer]:
+                - /url: /web/srv-d88snn5ckfvc7381fqcg
+                - img [ref=e75]
+                - generic [ref=e77]: lingvauz-api
+              - button [ref=e80] [cursor=pointer]:
+                - img [ref=e81]
+        - button "Search Ctrl + K" [ref=e84] [cursor=pointer]:
+          - img [ref=e86]
+          - text: Search
+          - generic [ref=e88]:
+            - img [ref=e89]
+            - generic [ref=e91]: Ctrl
+            - generic [ref=e92]: +
+            - generic [ref=e93]: K
+            - generic [ref=e94]: K
+      - generic [ref=e95]:
+        - button "New" [ref=e97] [cursor=pointer]:
+          - generic [ref=e98]:
+            - img [ref=e99]
+            - generic [ref=e101]: New
+        - button "Upgrade" [ref=e103] [cursor=pointer]:
+          - generic [ref=e104]:
+            - img [ref=e105]
+            - generic [ref=e107]: Upgrade
+        - button "Help" [ref=e109] [cursor=pointer]:
+          - img "Help" [ref=e110]
+        - button "y" [ref=e115] [cursor=pointer]:
+          - generic [ref=e117]: "y"
+    - generic [ref=e118]:
+      - navigation [ref=e119]:
+        - separator [ref=e120]
+        - generic [ref=e121]:
+          - generic [ref=e122]:
+            - link "Environment" [ref=e123] [cursor=pointer]:
+              - /url: /project/prj-d88snn6k1jcs73fsjei0/environment/evm-d88snn6k1jcs73fsjeig
+              - img [ref=e124]
+              - generic [ref=e126]: Environment
+            - generic [ref=e127]:
+              - img [ref=e128]
+              - generic [ref=e130]: lingvauz-api
+          - generic [ref=e131]:
+            - list [ref=e132]:
+              - listitem [ref=e133]:
+                - link "Events" [ref=e134] [cursor=pointer]:
+                  - /url: /web/srv-d88snn5ckfvc7381fqcg/events
+                  - img [ref=e135]
+                  - generic [ref=e142]: Events
+              - listitem [ref=e143]:
+                - link "Settings" [ref=e144] [cursor=pointer]:
+                  - /url: /web/srv-d88snn5ckfvc7381fqcg/settings
+                  - img [ref=e145]
+                  - generic [ref=e148]: Settings
+            - generic [ref=e149]:
+              - generic [ref=e150]: Monitor
+              - list "Monitor" [ref=e151]:
+                - listitem [ref=e152]:
+                  - link "Logs" [ref=e153] [cursor=pointer]:
+                    - /url: /web/srv-d88snn5ckfvc7381fqcg/logs
+                    - img [ref=e154]
+                    - generic [ref=e159]: Logs
+                - listitem [ref=e160]:
+                  - link "Metrics" [ref=e161] [cursor=pointer]:
+                    - /url: /web/srv-d88snn5ckfvc7381fqcg/metrics
+                    - img [ref=e162]
+                    - generic [ref=e164]: Metrics
+            - generic [ref=e165]:
+              - generic [ref=e166]: Manage
+              - list "Manage" [ref=e167]:
+                - listitem [ref=e168]:
+                  - link "Environment" [ref=e169] [cursor=pointer]:
+                    - /url: /web/srv-d88snn5ckfvc7381fqcg/env
+                    - img [ref=e170]
+                    - generic [ref=e174]: Environment
+                - listitem [ref=e175]:
+                  - link "Shell" [ref=e176] [cursor=pointer]:
+                    - /url: /web/srv-d88snn5ckfvc7381fqcg/shell
+                    - img [ref=e177]
+                    - generic [ref=e181]:
+                      - generic [ref=e182]: Shell
+                      - status [ref=e185]:
+                        - img [ref=e186]
+                - listitem [ref=e188]:
+                  - link "Scaling" [ref=e189] [cursor=pointer]:
+                    - /url: /web/srv-d88snn5ckfvc7381fqcg/scaling
+                    - img [ref=e190]
+                    - generic [ref=e195]:
+                      - generic [ref=e196]: Scaling
+                      - status [ref=e199]:
+                        - img [ref=e200]
+                - listitem [ref=e202]:
+                  - link "Previews" [ref=e203] [cursor=pointer]:
+                    - /url: /web/srv-d88snn5ckfvc7381fqcg/previews
+                    - img [ref=e204]
+                    - generic [ref=e208]: Previews
+                - listitem [ref=e209]:
+                  - link "Disk" [ref=e210] [cursor=pointer]:
+                    - /url: /web/srv-d88snn5ckfvc7381fqcg/disks
+                    - img [ref=e211]
+                    - generic [ref=e216]:
+                      - generic [ref=e217]: Disk
+                      - status [ref=e220]:
+                        - img [ref=e221]
+                - listitem [ref=e223]:
+                  - link "One-Off Jobs" [ref=e224] [cursor=pointer]:
+                    - /url: /web/srv-d88snn5ckfvc7381fqcg/jobs
+                    - img [ref=e225]
+                    - generic [ref=e231]:
+                      - generic [ref=e232]: One-Off Jobs
+                      - status [ref=e235]:
+                        - img [ref=e236]
+        - generic [ref=e238]:
+          - alert [ref=e239]:
+            - img [ref=e241]
+            - generic [ref=e245]:
+              - generic [ref=e246]:
+                - generic [ref=e247]: New plans, zero seat fees
+                - generic [ref=e248]: We're updating workspace pricing to help teams grow faster. No seat fees, more self-serve features, granular bandwidth billing, and more.
+              - link "Opt-in early" [ref=e250] [cursor=pointer]:
+                - /url: /billing/update-plan
+            - button "Close notification" [ref=e251] [cursor=pointer]:
+              - img [ref=e252]
+          - generic [ref=e254]:
+            - button "Collapse items" [expanded] [ref=e255] [cursor=pointer]:
+              - img [ref=e256]
+            - list "Footer navigation" [ref=e258]:
+              - listitem [ref=e259]:
+                - link "Changelog" [ref=e260] [cursor=pointer]:
+                  - /url: https://render.com/changelog
+                  - img [ref=e261]
+                  - generic [ref=e266]: Changelog
+              - listitem [ref=e267]:
+                - link "Invite a friend" [ref=e268] [cursor=pointer]:
+                  - /url: /invites
+                  - img [ref=e269]
+                  - generic [ref=e271]: Invite a friend
+              - listitem [ref=e272]:
+                - button "Contact support" [ref=e273] [cursor=pointer]:
+                  - img [ref=e274]
+                  - generic [ref=e278]: Contact support
+            - link "Render Status" [ref=e280] [cursor=pointer]:
+              - /url: https://status.render.com
+              - img [ref=e281]
+              - generic [ref=e283]: Render Status
+      - generic [ref=e286]:
+        - img "Loading..." [ref=e287]
+        - generic [ref=e290]: Loading...
+  - generic:
+    - generic:
+      - generic: "0 services selected:"
+      - generic:
+        - generic:
+          - button:
+            - generic:
+              - img
+            - generic: Move
+            - img
+    - generic:
+      - separator
+      - generic:
+        - generic:
+          - button:
+            - img
