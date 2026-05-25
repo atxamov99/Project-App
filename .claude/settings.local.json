@@ -38,7 +38,8 @@
       "PowerShell(& \"C:\\\\Users\\\\GIGABYTE\\\\AppData\\\\Roaming\\\\npm\\\\node_modules\\\\ngrok\\\\bin\\\\ngrok.exe\" api tunnels list)",
       "PowerShell(Invoke-WebRequest http://localhost:4040/api/tunnels -UseBasicParsing)",
       "PowerShell(Invoke-WebRequest http://localhost:8081 -UseBasicParsing -ErrorAction SilentlyContinue | Select-Object -First 2)",
-      "PowerShell(Start-Process -FilePath \"C:\\\\Users\\\\GIGABYTE\\\\Desktop\\\\Project-App\\\\start-tunnel-full.bat\" -WindowStyle Normal)"
+      "PowerShell(Start-Process -FilePath \"C:\\\\Users\\\\GIGABYTE\\\\Desktop\\\\Project-App\\\\start-tunnel-full.bat\" -WindowStyle Normal)",
+      "Bash(git commit *)"
     ]
   }
 }
