@@ -525,7 +525,7 @@ const U9L3: Ex[] = [ // Sevimli mashg\'ulotlar
   ['TRANSLATE_TEXT','Birga o\'ynaylikmi?','Shall we play together?',['Do you want to play?','Can you play?','Will you play?'],2],
   ['TRANSLATE_TEXT','Ha, albatta!','Yes, of course!',['No, thanks.','Maybe later.','I\'m not sure.'],2],
   ['TRANSLATE_TEXT','Siz qaysi jamoani qo\'llaysiz?','Which team do you support?',['Who is your favorite player?','What sport do you play?','How do you play?'],2],
-  ['MULTIPLE_CHOICE', "Exercise" o\'zbekcha...','Mashq qilish',['O\'yin o\'ynash','Sayohat qilish','Pishirish'],2],
+  ['MULTIPLE_CHOICE','"Exercise" o\'zbekcha...','Mashq qilish',['O\'yin o\'ynash','Sayohat qilish','Pishirish'],2],
   ['FILL_IN_BLANK','I play football ___ weekends.','on',['in','at','by'],2],
   ['FILL_IN_BLANK','She exercises ___ day.','every',['some','all','many'],2],
   ['BUILD_SENTENCE','Men futbol o\'ynashni yaxshi ko\'raman (inglizcha)','I love playing football',['tennis','basketball','volleyball'],2],

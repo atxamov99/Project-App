@@ -2,7 +2,7 @@ import axios from 'axios'
 import { useAuthStore } from '@/store/authStore'
 
 export const api = axios.create({
-  baseURL: process.env.EXPO_PUBLIC_API_URL ?? 'https://lingvauz-api.onrender.com/api',
+  baseURL: process.env.EXPO_PUBLIC_API_URL ?? 'https://project-app-ekjv.onrender.com/api',
   timeout: 20_000,
   headers: {
     // Bypass ngrok's free-plan browser warning page; no-op on other hosts.
