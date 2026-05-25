@@ -1,0 +1,2 @@
+ALTER TABLE "users" ADD COLUMN IF NOT EXISTS "interfaceLanguage" TEXT;
+ALTER TABLE "users" ADD COLUMN IF NOT EXISTS "targetLanguage" TEXT;

@@ -29,6 +29,7 @@ import adminExercisesRoutes from './modules/admin/content/exercises.routes'
 import adminWordsRoutes from './modules/admin/content/words.routes'
 import adminAchievementsRoutes from './modules/admin/content/achievements.routes'
 import adminStatsRoutes from './modules/admin/stats/stats.routes'
+import aiRoutes from './modules/ai/ai.routes'
 
 export function createApp() {
   const app = express()
@@ -38,7 +39,10 @@ export function createApp() {
       policy: 'same-origin-allow-popups',
     },
   }))
-  app.use(cors({ origin: env.CORS_ORIGIN, credentials: true }))
+  const allowedOrigins = env.CORS_ORIGIN === '*'
+    ? true
+    : env.CORS_ORIGIN.split(',').map((o) => o.trim())
+  app.use(cors({ origin: allowedOrigins, credentials: true }))
   app.use(express.json({ limit: '1mb' }))
   app.use(cookieParser())
   app.use(morgan(env.NODE_ENV === 'development' ? 'dev' : 'combined'))
@@ -64,6 +68,7 @@ export function createApp() {
   app.use('/api/users', usersRoutes)
   app.use('/api/billing', billingRoutes)
   app.use('/api/dictionary', dictionaryRoutes)
+  app.use('/api/ai', aiRoutes)
   app.use('/api/admin/users', adminUsersRoutes)
   app.use('/api/admin/languages', adminLanguagesRoutes)
   app.use('/api/admin/courses', adminCoursesRoutes)

@@ -56,42 +56,24 @@ export default function Learn() {
       <div className="md:grid md:grid-cols-[1fr_320px] md:gap-8 lg:gap-10">
         <div className="max-w-[600px] mx-auto md:mx-0 w-full">
           {/* Unit header */}
-          <div className="bg-primary-container text-on-primary-container rounded-3xl p-6 md:p-7 loft-shadow mb-10 md:mb-14 relative overflow-hidden">
-            <div className="absolute -right-4 -bottom-4 text-7xl opacity-20 select-none rotate-12">{unit?.icon ?? '📚'}</div>
-            <div className="flex justify-between items-start relative">
-              <div>
-                <p className="text-xs font-bold uppercase tracking-widest opacity-80 mb-1">
-                  {course.fromLanguage.flag} → {course.toLanguage.flag} {course.toLanguage.name}
-                </p>
-                <h2 className="text-2xl md:text-3xl font-extrabold">{unit?.title ?? 'No unit'}</h2>
-                {unit?.description && <p className="text-base opacity-90 mt-2">{unit.description}</p>}
+          <div className="mb-10 md:mb-12 pl-4 border-l-4 border-secondary">
+            <p className="text-xs font-medium text-on-surface-variant mb-1">
+              {course.fromLanguage.flag} → {course.toLanguage.flag} {course.toLanguage.name}
+            </p>
+            <h2 className="text-2xl md:text-3xl font-bold text-on-surface">{unit?.title ?? 'No unit'}</h2>
+            {unit?.description && <p className="text-sm text-on-surface-variant mt-1">{unit.description}</p>}
+            <div className="mt-4 flex items-center gap-3">
+              <div className="grow bg-surface-container-high h-1.5 rounded-full overflow-hidden">
+                <div className="bg-secondary h-full rounded-full transition-all" style={{ width: `${progressPct}%` }} />
               </div>
-              <button className="bg-white/20 hover:bg-white/30 transition-colors p-2 rounded-xl shrink-0" aria-label="Guide">
-                <Icon name="menu_book" />
-              </button>
-            </div>
-            <div className="mt-6 flex items-center gap-4 relative">
-              <div className="grow bg-white/20 h-3 rounded-full overflow-hidden">
-                <div className="bg-secondary-container h-full rounded-full transition-all" style={{ width: `${progressPct}%` }} />
-              </div>
-              <span className="text-xs font-bold uppercase tracking-widest tabular-nums">{progressPct}%</span>
+              <span className="text-xs font-semibold text-on-surface-variant tabular-nums">{progressPct}%</span>
             </div>
           </div>
 
           {/* Lesson path */}
-          <div className="relative flex flex-col items-center gap-12 pb-12">
-            <div className="absolute top-0 bottom-0 w-1.5 path-line left-1/2 -translate-x-1/2 z-0 opacity-40" />
+          <div className="relative flex flex-col items-center gap-10 pb-12">
+            <div className="absolute top-0 bottom-0 w-px path-line left-1/2 -translate-x-1/2 z-0 opacity-30" />
 
-            <div className="absolute -left-24 top-40 hidden xl:block select-none">
-              <div className="text-7xl drop-shadow-[0_8px_12px_rgba(160,63,46,0.25)]">🍉</div>
-              <div className="bg-white border-2 border-outline-variant rounded-2xl rounded-bl-none px-3 py-2 mt-2 max-w-[160px]">
-                <p className="text-xs text-tertiary italic">
-                  {currentLessonId
-                    ? (completedCount === 0 ? "Boshlashga tayyormisiz?" : "Keyingi darsni boshlang!")
-                    : "Hammasi tugagan!"}
-                </p>
-              </div>
-            </div>
 
             {lessons.length === 0 && (
               <p className="text-on-surface-variant text-center py-8">Bu unitda hali dars yo'q.</p>
@@ -118,57 +100,48 @@ export default function Learn() {
               )
             })}
 
-            <div className="relative z-10 mt-8 flex flex-col items-center">
-              <div className="w-32 h-32 bg-surface-container-high rounded-3xl border-2 border-dashed border-outline-variant flex items-center justify-center loft-shadow group hover:border-secondary transition-colors cursor-help">
-                <Icon name="inventory_2" className="text-outline group-hover:text-secondary transition-colors" style={{ fontSize: 48 }} />
+            <div className="relative z-10 mt-4 flex flex-col items-center opacity-40">
+              <div className="w-16 h-16 bg-surface-container rounded-full flex items-center justify-center">
+                <Icon name="inventory_2" className="text-outline" style={{ fontSize: 28 }} />
               </div>
-              <div className="mt-4 text-center">
-                <p className="text-xs font-bold uppercase tracking-widest text-secondary">Locked Chest</p>
-                <p className="text-xs text-on-surface-variant opacity-70">Finish unit to open</p>
-              </div>
+              <p className="text-[10px] text-on-surface-variant mt-2">Unit tugagandan so'ng ochiladi</p>
             </div>
           </div>
         </div>
 
         {/* Side panels (desktop) */}
-        <div className="hidden md:block space-y-4 md:sticky md:top-6 md:self-start">
-          <section className="bg-surface-container-lowest border-2 border-outline-variant/60 rounded-2xl p-5 loft-shadow">
-            <div className="flex items-center justify-between mb-3">
-              <h3 className="text-sm font-bold uppercase tracking-widest text-on-surface-variant">Kunlik vazifa</h3>
-              <Icon name="emoji_events" filled className="text-orange-500" />
+        <div className="hidden md:block space-y-3 md:sticky md:top-6 md:self-start">
+          <section className="bg-surface-container-low rounded-xl p-4">
+            <div className="flex items-center justify-between mb-2">
+              <h3 className="text-xs font-semibold uppercase tracking-wider text-on-surface-variant">Kunlik vazifa</h3>
+              <span className="text-xs font-bold text-secondary tabular-nums">{Math.min(dailyGoal, dailyXP)}/{dailyGoal} XP</span>
             </div>
-            <div className="flex items-end gap-1 mb-2">
-              <span className="text-3xl font-extrabold text-on-surface tabular-nums">{Math.min(dailyGoal, dailyXP)}</span>
-              <span className="text-sm font-bold text-on-surface-variant mb-1">/ {dailyGoal} XP</span>
-            </div>
-            <div className="bg-surface-container-high h-2 rounded-full overflow-hidden">
+            <div className="bg-surface-container h-1.5 rounded-full overflow-hidden">
               <div className="h-full bg-secondary rounded-full transition-all" style={{ width: `${Math.min(100, (dailyXP / dailyGoal) * 100)}%` }} />
             </div>
-            <p className="text-xs text-on-surface-variant mt-3">
-              {dailyXP >= dailyGoal ? "🎉 Kunlik maqsadga yetdingiz!" : "Bugun o'qib XP yig'ing — har dars +10 XP"}
+            <p className="text-xs text-on-surface-variant mt-2">
+              {dailyXP >= dailyGoal ? "Kunlik maqsadga yetdingiz!" : "Har dars +10 XP"}
             </p>
           </section>
 
-          <section className="bg-surface-container-lowest border-2 border-outline-variant/60 rounded-2xl p-5 loft-shadow">
-            <div className="flex items-center justify-between mb-3">
-              <h3 className="text-sm font-bold uppercase tracking-widest text-on-surface-variant">Liga</h3>
-              <Icon name="leaderboard" className="text-secondary" />
+          <section className="bg-surface-container-low rounded-xl p-4">
+            <div className="flex items-center justify-between mb-2">
+              <h3 className="text-xs font-semibold uppercase tracking-wider text-on-surface-variant">Liga</h3>
             </div>
             <button
               onClick={() => navigate('/leaderboard')}
-              className="w-full bg-surface-container hover:bg-surface-container-high transition-colors text-tertiary text-sm font-bold py-2 rounded-xl"
+              className="w-full text-secondary text-xs font-semibold py-1.5 hover:text-secondary/70 transition-colors text-left"
             >
               Liga jadvalini ko'rish →
             </button>
           </section>
 
-          <section className="bg-primary-fixed border-2 border-primary-fixed-dim/60 rounded-2xl p-5">
-            <div className="flex items-center gap-2 mb-2">
-              <Icon name="local_fire_department" filled className="text-orange-500" style={{ fontSize: 28 }} />
-              <span className="text-2xl font-extrabold text-on-primary-fixed tabular-nums">{streak}</span>
-              <span className="text-xs font-bold uppercase tracking-widest text-on-primary-fixed-variant">kun streak</span>
+          <section className="bg-surface-container-low rounded-xl p-4">
+            <div className="flex items-center gap-2">
+              <span className="text-base">🔥</span>
+              <span className="text-lg font-bold text-on-surface tabular-nums">{streak}</span>
+              <span className="text-xs text-on-surface-variant">kun streak</span>
             </div>
-            <p className="text-xs text-on-primary-fixed-variant">Streak'ni uzmaslik uchun bugun 1 ta dars yetarli.</p>
           </section>
         </div>
       </div>
@@ -182,12 +155,12 @@ function LessonNode({ status, icon, offset, title, exerciseCount, onClick }) {
       <div className="relative z-10" style={{ transform: `translateX(${offset}px)` }}>
         <button
           onClick={onClick}
-          className="w-20 h-20 bg-secondary rounded-full flex items-center justify-center border-4 border-surface-container-highest loft-shadow hover:scale-105 active:scale-95 transition-transform"
+          className="w-16 h-16 bg-secondary rounded-full flex items-center justify-center hover:scale-105 active:scale-95 transition-transform"
         >
-          <Icon name="check" filled className="text-white" style={{ fontSize: 32 }} />
+          <Icon name="check" filled className="text-white" style={{ fontSize: 26 }} />
         </button>
-        <div className="absolute -bottom-7 left-1/2 -translate-x-1/2 whitespace-nowrap">
-          <span className="text-xs font-semibold text-on-surface-variant">{title}</span>
+        <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 whitespace-nowrap">
+          <span className="text-[10px] font-medium text-on-surface-variant">{title}</span>
         </div>
       </div>
     )
@@ -199,17 +172,17 @@ function LessonNode({ status, icon, offset, title, exerciseCount, onClick }) {
         <div className="relative">
           <button
             onClick={onClick}
-            className="w-24 h-24 rounded-full border-8 border-secondary-container bg-white flex items-center justify-center loft-shadow ring-8 ring-primary-container/5 hover:scale-105 active:scale-95 transition-transform"
+            className="w-20 h-20 rounded-full border-4 border-secondary bg-surface-container-lowest flex items-center justify-center hover:scale-105 active:scale-95 transition-transform"
           >
-            <Icon name={icon} className="text-primary" style={{ fontSize: 36 }} />
+            <Icon name={icon} className="text-secondary" style={{ fontSize: 30 }} />
           </button>
-          <div className="absolute -top-12 left-1/2 -translate-x-1/2 bg-secondary text-white px-6 py-2 rounded-xl text-xs font-bold uppercase tracking-widest shadow-lg animate-bounce">
+          <div className="absolute -top-10 left-1/2 -translate-x-1/2 bg-secondary text-white px-4 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-widest animate-bounce">
             Boshlash
-            <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-3 h-3 bg-secondary rotate-45" />
+            <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2.5 h-2.5 bg-secondary rotate-45" />
           </div>
-          <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 whitespace-nowrap text-center">
-            <span className="text-xs font-bold text-primary block">{title}</span>
-            {exerciseCount > 0 && <span className="text-[10px] text-on-surface-variant">{exerciseCount} mashq</span>}
+          <div className="absolute -bottom-7 left-1/2 -translate-x-1/2 whitespace-nowrap text-center">
+            <span className="text-[10px] font-semibold text-secondary block">{title}</span>
+            {exerciseCount > 0 && <span className="text-[9px] text-on-surface-variant">{exerciseCount} mashq</span>}
           </div>
         </div>
       </div>
@@ -217,12 +190,12 @@ function LessonNode({ status, icon, offset, title, exerciseCount, onClick }) {
   }
 
   return (
-    <div className="relative z-10 opacity-60 grayscale-[0.5]" style={{ transform: `translateX(${offset}px)` }}>
-      <div className="w-20 h-20 bg-surface-container-highest rounded-full flex items-center justify-center border-4 border-outline-variant loft-shadow">
-        <Icon name={icon} className="text-outline" style={{ fontSize: 32 }} />
+    <div className="relative z-10 opacity-40" style={{ transform: `translateX(${offset}px)` }}>
+      <div className="w-16 h-16 bg-surface-container rounded-full flex items-center justify-center">
+        <Icon name={icon} className="text-outline" style={{ fontSize: 24 }} />
       </div>
-      <div className="absolute -bottom-7 left-1/2 -translate-x-1/2 whitespace-nowrap">
-        <span className="text-xs font-semibold text-on-surface-variant">{title}</span>
+      <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 whitespace-nowrap">
+        <span className="text-[10px] font-medium text-on-surface-variant">{title}</span>
       </div>
     </div>
   )

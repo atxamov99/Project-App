@@ -68,6 +68,13 @@ export const api = {
     unfollow:  (userId) => request(`/friends/unfollow/${userId}`, { method: 'DELETE', auth: true }),
     search:    (q) => request('/friends/search', { auth: true, params: { q } }),
   },
+
+  ai: {
+    translate:        (body) => request('/ai/translate',         { method: 'POST', body, auth: true }),
+    explain:          (body) => request('/ai/explain',           { method: 'POST', body, auth: true }),
+    chat:             (body) => request('/ai/chat',              { method: 'POST', body, auth: true }),
+    generateExercise: (body) => request('/ai/generate-exercise', { method: 'POST', body, auth: true }),
+  },
 }
 
 const adminGet    = (path, params) => request(path, { auth: true, params })

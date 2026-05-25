@@ -1,0 +1,7 @@
+t=2026-05-23T22:14:28+0500 lvl=info msg="open config file" path=C:\\Users\\GIGABYTE\\Desktop\\Project-App\\ngrok.yml err=nil
+t=2026-05-23T22:14:28+0500 lvl=info msg="FIPS 140 mode" enabled=false
+t=2026-05-23T22:14:28+0500 lvl=info msg="starting web service" obj=web addr=127.0.0.1:4040 allow_hosts=[]
+t=2026-05-23T22:14:29+0500 lvl=info msg="update available" obj=updater
+t=2026-05-23T22:14:31+0500 lvl=info msg="client session established" obj=tunnels.session
+t=2026-05-23T22:14:31+0500 lvl=info msg="tunnel session started" obj=tunnels.session
+t=2026-05-23T22:14:31+0500 lvl=info msg="started tunnel" obj=tunnels name=backend addr=http://localhost:3001 url=https://seclusion-watch-deception.ngrok-free.dev

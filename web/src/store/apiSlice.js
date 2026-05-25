@@ -89,6 +89,13 @@ export const apiSlice = createApi({
     translateText: builder.query({
       query: ({ q, from = 'uz', to = 'en' }) => ({ url: '/dictionary/translate', params: { q, from, to } }),
     }),
+    aiTranslate: builder.mutation({
+      query: ({ text, from = 'auto', to = 'en' }) => ({
+        url: '/ai/translate',
+        method: 'POST',
+        body: { text, from, to },
+      }),
+    }),
     getDictLanguages: builder.query({
       query: () => '/dictionary/languages',
     }),
@@ -329,6 +336,7 @@ export const {
   useReviewWordMutation,
   useBrowseWordsQuery,
   useLazyTranslateTextQuery,
+  useAiTranslateMutation,
   useGetDictLanguagesQuery,
   useGetLeagueQuery,
   useGetStreakQuery,

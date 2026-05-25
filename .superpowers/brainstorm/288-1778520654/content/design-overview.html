@@ -1,0 +1,81 @@
+<h2>Mobile App Design Overview</h2>
+<p class="subtitle">Hybrid Design System Approach</p>
+
+<div class="section">
+  <h3>🏗️ Architecture</h3>
+  <p>Preserve existing strong foundations:</p>
+  <ul>
+    <li>State management: Zustand stores (authStore, lessonStore)</li>
+    <li>Data fetching: TanStack Query + Axios</li>
+    <li>Authentication: JWT-based with refresh tokens</li>
+    <li>Navigation: Expo Router v5</li>
+    <li>Animations: React Native Reanimated v3</li>
+  </ul>
+</div>
+
+<div class="section">
+  <h3>🎨 Design System</h3>
+  <p>Extract from Figma:</p>
+  <ul>
+    <li>Color palette: Primary (#58CC02), Secondary, Success, Warning, Error</li>
+    <li>Typography: Heading, body, label styles</li>
+    <li>Spacing: 4px grid system</li>
+    <li>Border radius: 8px-16px based on element importance</li>
+    <li>Shadows: Subtle elevation for cards and buttons</li>
+  </ul>
+</div>
+
+<div class="section">
+  <h3>⚙️ Component Strategy</h3>
+  <p>Gradual replacement approach:</p>
+  <ol>
+    <li>Create reusable UI components matching Figma exactly</li>
+    <li>Start with high-impact screens: Lesson, Exercise components</li>
+    <li>Progress to navigation and layout components</li>
+    <li>Finish with utility and helper components</li>
+    <li>Each component includes:</li>
+    <ul>
+      <li>Pixel-perfect Figma styling</li>
+      <li>Frenter-optimized animations</li>
+      <li>Accessibility features</li>
+      <li>Performance optimizations</li>
+    </ul>
+  </ol>
+</div>
+
+<div class="section">
+  <h3>🎬 Animation System</h3>
+  <p>Enhanced Reanimated implementation:</p>
+  <ul>
+    <li>Screen transitions: Shared element animations</li>
+    <li>Exercise feedback: Celebration animations on correct answers</li>
+    <li>Micro-interactions: Button presses, input focus</li>
+    <li>Loading states: Skeleton loaders with pulse effects</li>
+    <li>Performance: Worklet-based animations for 60fps</li>
+  </ul>
+</div>
+
+<div class="section">
+  <h3>🧩 3D Models & Interactive Elements</h3>
+  <p>Selective integration:</p>
+  <ul>
+    <li>Vocabulary lessons: Interactive 3D object manipulation</li>
+    <li>Culture lessons: 3D artifact exploration</li>
+    <li>Science/Tech lessons: Technical model visualization</li>
+    <li>Library: Expo Three.js or React Native Three Fiber</li>
+    <li>Fallback: 2D illustrations for devices with limited capabilities</li>
+  </ul>
+</div>
+
+<div class="section">
+  <h3>📱 Language Learning Features</h3>
+  <p>Complete implementation:</p>
+  <ul>
+    <li>All 8 exercise types from Figma</li>
+    <li>Progress tracking: XP, levels, streaks, lives</li>
+    <li>Spaced repetition system for vocabulary</li>
+    <li>Achievement system with gem rewards</li>
+    <li>Offline capability with local caching</li>
+    <li>Audio pronunciation with speech recognition</li>
+  </ul>
+</div>

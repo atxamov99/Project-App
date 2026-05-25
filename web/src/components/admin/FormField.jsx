@@ -35,18 +35,17 @@ export function FormTextarea({ value, onChange, placeholder, rows = 3, ...rest }
   )
 }
 
-export function FormSelect({ value, onChange, options, placeholder = 'Tanlang…', ...rest }) {
+import Dropdown from '../shared/Dropdown'
+
+export function FormSelect({ value, onChange, options, placeholder = 'Tanlang…', disabled }) {
   return (
-    <select
+    <Dropdown
       value={value ?? ''}
-      onChange={(e) => onChange(e.target.value)}
-      className="w-full bg-surface-container-low border-2 border-outline-variant rounded-lg px-3 py-2 text-sm text-on-surface outline-none focus:border-secondary"
-      {...rest}
-    >
-      <option value="">{placeholder}</option>
-      {options.map((opt) => (
-        <option key={opt.value} value={opt.value}>{opt.label}</option>
-      ))}
-    </select>
+      onChange={onChange}
+      options={options}
+      placeholder={placeholder}
+      disabled={disabled}
+      size="md"
+    />
   )
 }

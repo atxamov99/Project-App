@@ -34,7 +34,7 @@ export default function AppShell() {
         <TopAppBar user={user} />
       </div>
       <SideNav user={user} />
-      <main className="md:ml-64 lg:ml-72 pb-24 md:pb-8">
+      <main className="md:ml-60 lg:ml-64 pb-24 md:pb-8">
         <Outlet context={{ user }} />
       </main>
       <BottomNav />

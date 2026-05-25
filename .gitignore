@@ -1,0 +1,11 @@
+node_modules/
+.env
+.env.local
+*.log
+.DS_Store
+dist/
+.expo/
+ios/
+android/
+.claude/
+.playwright-mcp/

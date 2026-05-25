@@ -29,6 +29,8 @@ model User {
   streakFreezes Int       @default(0)
   isPremium     Boolean   @default(false)
   premiumUntil  DateTime?
+  interfaceLanguage String?
+  targetLanguage    String?
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
