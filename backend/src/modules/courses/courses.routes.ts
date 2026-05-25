@@ -5,6 +5,7 @@ import * as controller from './courses.controller'
 const router = Router()
 
 router.get('/', controller.list)
+router.get('/current', requireAuth, controller.current)
 router.get('/:id', requireAuth, controller.get)
 router.post('/:id/enroll', requireAuth, controller.enroll)
 

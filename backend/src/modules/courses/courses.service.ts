@@ -1,6 +1,60 @@
 import { prisma } from '../../config/db'
 import { AppError } from '../../middleware/error'
 
+type LessonStatus = 'locked' | 'available' | 'completed' | 'current'
+
+export async function getCurrentCourse(userId: string) {
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+    select: { targetLanguage: true },
+  })
+  if (!user) throw new AppError(404, 'Foydalanuvchi topilmadi')
+
+  const where = user.targetLanguage
+    ? { isActive: true, toLanguage: { code: user.targetLanguage } }
+    : { isActive: true }
+
+  const course = await prisma.course.findFirst({
+    where,
+    include: {
+      fromLanguage: true,
+      toLanguage: true,
+      units: {
+        orderBy: { order: 'asc' },
+        include: {
+          lessons: {
+            orderBy: { order: 'asc' },
+            select: { id: true, order: true, type: true, xpReward: true },
+          },
+        },
+      },
+    },
+    orderBy: { createdAt: 'asc' },
+  })
+  if (!course) throw new AppError(404, 'Kurs topilmadi')
+
+  const lessonIds = course.units.flatMap((u) => u.lessons.map((l) => l.id))
+  const results = await prisma.lessonResult.findMany({
+    where: { userId, lessonId: { in: lessonIds } },
+    select: { lessonId: true },
+  })
+  const completed = new Set(results.map((r) => r.lessonId))
+
+  let foundCurrent = false
+  const units = course.units.map((u) => ({
+    ...u,
+    lessons: u.lessons.map((l) => {
+      let status: LessonStatus
+      if (completed.has(l.id)) status = 'completed'
+      else if (!foundCurrent) { status = 'current'; foundCurrent = true }
+      else status = 'locked'
+      return { id: l.id, order: l.order, type: l.type, status }
+    }),
+  }))
+
+  return { ...course, units }
+}
+
 export async function listCourses() {
   return prisma.course.findMany({
     where: { isActive: true },
