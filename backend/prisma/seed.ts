@@ -1,11 +1,11 @@
 import { PrismaClient } from '@prisma/client'
-import { PrismaBetterSqlite3 } from '@prisma/adapter-better-sqlite3'
+import { PrismaPg } from '@prisma/adapter-pg'
 import 'dotenv/config'
 import { UZ_EN_BASICS } from './content/uz-en-basics'
 import { COMMON_WORDS } from './words-seed'
 
 const prisma = new PrismaClient({
-  adapter: new PrismaBetterSqlite3({ url: process.env.DATABASE_URL! }),
+  adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL! }),
 })
 
 async function main() {
@@ -44,8 +44,6 @@ async function main() {
     { name: 'Diamond',  order: 10, color: '#B9F2FF', icon: '💎' },
   ]
   for (const l of leagues) {
-    // Avval order bo'yicha mavjud yozuvni topib, nomi/ikon/rangini yangilaymiz
-    // (eski seed'lar boshqa ID formatida saqlangan bo'lishi mumkin)
     const existing = await prisma.league.findFirst({ where: { order: l.order } })
     if (existing) {
       await prisma.league.update({
@@ -81,7 +79,6 @@ async function main() {
     create: { fromLanguageId: uz.id, toLanguageId: en.id },
   })
 
-  // Unit 1: The Basics
   const existingUnit = await prisma.unit.findFirst({
     where: { courseId: uzEn.id, order: 1 },
   })
@@ -115,9 +112,8 @@ async function main() {
     })
     if (!existingLesson) lessonsCreated++
 
-    // Mavjud lesson'da mashqlar borligini tekshiramiz
     const linkedExisting = await prisma.lessonExercise.count({ where: { lessonId: lesson.id } })
-    if (linkedExisting > 0) continue // bu darsda mashqlar bor — qayta qo'ymaymiz
+    if (linkedExisting > 0) continue
 
     for (let idx = 0; idx < lessonSeed.exercises.length; idx++) {
       const ex = lessonSeed.exercises[idx]
@@ -139,7 +135,6 @@ async function main() {
         data: { lessonId: lesson.id, exerciseId: exercise.id, order: idx + 1 },
       })
 
-      // So'zlar (vocabulary)
       for (const w of ex.words ?? []) {
         const word = await prisma.word.upsert({
           where: { id: `${en.code}-${w.text.toLowerCase()}` },
