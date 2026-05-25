@@ -79,6 +79,20 @@ export default function Home() {
             >
               Hisobim bor
             </Link>
+            <a
+              href={import.meta.env.VITE_APK_URL || '#'}
+              onClick={(e) => {
+                if (!import.meta.env.VITE_APK_URL) {
+                  e.preventDefault()
+                  alert("APK hali tayyor emas. EAS build tugagach yuklanadi.")
+                }
+              }}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-tertiary text-white px-7 py-4 rounded-2xl font-bold text-sm uppercase tracking-widest paper-lift inline-flex items-center gap-2"
+            >
+              <Icon name="android" filled /> Android APK
+            </a>
           </div>
           <div className="flex flex-wrap gap-5 text-sm font-semibold text-on-surface-variant">
             <span>✅ Bepul</span>

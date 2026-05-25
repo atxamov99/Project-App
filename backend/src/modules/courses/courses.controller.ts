@@ -6,6 +6,11 @@ export const list: RequestHandler = async (_req, res) => {
   res.json({ courses })
 }
 
+export const current: RequestHandler = async (req, res) => {
+  const data = await service.getCurrentCourse(req.userId!)
+  res.json(data)
+}
+
 export const get: RequestHandler = async (req, res) => {
   const data = await service.getCourse(req.params.id, req.userId)
   res.json(data)
